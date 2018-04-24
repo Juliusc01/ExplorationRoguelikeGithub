@@ -16,8 +16,10 @@ class PlayState extends FlxState {
 	private var _map:FlxOgmoLoader;
 	private var _mWalls:FlxTilemap;
 	private var _grpResources:FlxTypedGroup<Resource>;
+	private var _HUD:HUD;
+	
 	override public function create():Void {
-		_map = new FlxOgmoLoader(AssetPaths.tut001__oel);
+		_map = new FlxOgmoLoader(AssetPaths.tut001a__oel);
 		_mWalls = _map.loadTilemap(AssetPaths.tiles__png, 16, 16, "walls");
 		_mWalls.follow();
 		_mWalls.setTileProperties(1, FlxObject.NONE);
@@ -28,7 +30,8 @@ class PlayState extends FlxState {
 		_player = new Player();
 		_map.loadEntities(placeEntities, "entities");
 		add(_player);
-		FlxG.camera.follow(_player, TOPDOWN, 1);
+		_HUD = new HUD(60);
+		add(_HUD);
 		super.create();
 	}
 
