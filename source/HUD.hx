@@ -32,9 +32,9 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		// Top Bar of UI
 		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, 32, FlxColor.BLACK);
 		_sprBackground.drawRect(0, 31, FlxG.width - 1, 0, FlxColor.WHITE);
-		_txtWood = new FlxText(24, 2, 48, Std.string(_woodAmt) + " / " + Std.string(_woodMax), 8);
+		_txtWood = new FlxText(60, 2, 48, Std.string(_woodAmt) + " / " + Std.string(_woodMax), 8);
 		_txtWood.setBorderStyle(SHADOW, FlxColor.GRAY, 1, 1);
-		_sprWood = new FlxSprite(4, 2, AssetPaths.wood__png);
+		_sprWood = new FlxSprite(40, 2, AssetPaths.wood__png);
 		_timer = Time;
 		_txtTimer = new FlxText(0, 0, 0);
 
