@@ -52,19 +52,6 @@ class PlayState extends FlxState {
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
 	}
 	
-	/*private function placeEntities(entityName:String, entityData:Xml):Void {
-		var x:Int = Std.parseInt(entityData.get("x"));
-		var y:Int = Std.parseInt(entityData.get("y"));
-		if (entityName == "player") {
-			_player.x = x;
-			_player.y = y;
-		} else if (entityName == "resource") {
-			_grpResources.add(new Resource(x, y, Std.parseInt(entityData.get("type"))));
-		} else if (entityName == "door") {
-			_grpDoors.add(new Door(x, y, Std.parseInt(entityData.get("direction"))));
-		}
-	}*/
-	
 	private function playerTouchResource(P:Player, R:Resource):Void {
 		if (P.alive && P.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
 			R.killByPlayer(P);
@@ -88,21 +75,21 @@ class PlayState extends FlxState {
 		}
 	}
 	
-	private function switchToRoom(outGoingDir:Int) {
+	private function switchToRoom(outgoingDir:Direction) {
 		remove(_currentRoom);
 		//remove(_player);
-		switch(outGoingDir) { //TODO: enums
-			case 0: // right
+		switch(outgoingDir) { //TODO: enums
+			case Direction.EAST: // right
 				_currentRoomCol++;
-			case 1: // down
+			case Direction.SOUTH: // down
 				_currentRoomRow++;
-			case 2: // left
+			case Direction.WEST: // left
 				_currentRoomCol--;
-			case 3: // up
+			case Direction.NORTH: // up
 				_currentRoomRow--;
 		}
 		_currentRoom = _rooms[_currentRoomRow][_currentRoomCol];
-		trace("switching to room " + _currentRoomRow + ", " + _currentRoomCol + " by moving in direction: " + outGoingDir);
+		trace("switching to room " + _currentRoomRow + ", " + _currentRoomCol + " by moving in direction: " + outgoingDir);
 		add(_currentRoom);
 		//add(_player);
 		_player.x = _player.y = 100; //TODO: use the outgoing direction to determine where to place player

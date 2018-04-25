@@ -9,12 +9,12 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Door extends FlxSprite 
 {
-	public var direction:Int; //TODO: figure out enums
+	public var direction:Direction; //TODO: figure out enums
 	
-	public function new(X:Float=0, Y:Float=0, Direction:Int) 
+	public function new(X:Float=0, Y:Float=0, dir:Direction) 
 	{
 		super(X, Y);
-		this.direction = Direction;
+		this.direction = dir;
 		trace("made door with direction:" + direction);
 	}
 	

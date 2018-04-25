@@ -44,3 +44,9 @@ class Resource extends FlxSprite {
 		
 	}
 }
+
+enum ResourceType {
+	WOOD;
+	FOOD;
+	STONE;
+}

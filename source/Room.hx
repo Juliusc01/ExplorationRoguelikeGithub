@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup;
@@ -54,9 +55,29 @@ class Room extends FlxGroup
 		var y:Int = Std.parseInt(entityData.get("y"));
 		if (entityName == "resource") {
 			grpResources.add(new Resource(x, y, Std.parseInt(entityData.get("type"))));
-		} else if (entityName == "door") {
-			grpDoors.add(new Door(x, y, Std.parseInt(entityData.get("direction"))));
+		} else if (StringTools.endsWith(entityName, "door")) {
+			grpDoors.add(new Door(x, y, convertDoorTypeToEnum(entityName)));
 		}
 	}
 	
+	/**
+	 * Simple function to take in the entity name of a door and return
+	 * an enum of the direction. Simpler to use different entity types
+	 * for each direction of door (more clear in level editor, can more
+	 * easily prevent placing doors incorrectly).
+	 */
+	private function convertDoorTypeToEnum(doorName:String):Direction {
+		if (doorName == "w_door") {
+			return Direction.WEST;
+		} else if (doorName == "s_door") {
+			return Direction.SOUTH;
+		} else if (doorName == "e_door") {
+			return Direction.EAST;
+		} else if (doorName == "n_door") {
+			return Direction.NORTH;
+		} else {
+			FlxG.log.error("Found door entity name of: " + doorName);
+			return null;
+		}
+	}
 }
