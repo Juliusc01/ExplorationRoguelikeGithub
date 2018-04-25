@@ -14,6 +14,8 @@ import flixel.util.FlxColor;
 class Player extends FlxSprite {
 
 	public var speed:Float = 150;
+	public var canUseDoors:Bool = true;
+	
 	public function new(?X:Float=0, ?Y:Float=0) {
 		super(X, Y);
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
@@ -31,6 +33,26 @@ class Player extends FlxSprite {
 	{
 		movement();
 		super.update(elapsed);
+		
+		// Check if we are in a non-door range, if so, ensure
+		// door use is turned back on. Using .25 tiles of padding so they must move at
+		// least 4 pixels away from the door before it re-activates.
+		if (x > Constants.TILE_WIDTH * 1.25 && x < FlxG.width - Constants.TILE_WIDTH * 1.25 - width
+			&& y > Constants.TILE_WIDTH * 3.25 && y < FlxG.height - height - 3.25 * Constants.TILE_WIDTH) {
+				canUseDoors = true;
+				trace("can use doors:" + x + ", " + y);
+			}
+		if (x < 0) {
+			x = 0;
+		} else if (x > FlxG.width - width) {
+			x = FlxG.width - width;
+		}
+		
+		if (y < 0) {
+			y = 0;
+		} else if (y > FlxG.height - height - 2 * Constants.TILE_HEIGHT) {
+			y = FlxG.height - height - 2 * Constants.TILE_HEIGHT;
+		}
 	}
 	
 	private function movement():Void {

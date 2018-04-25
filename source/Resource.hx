@@ -20,6 +20,7 @@ class Resource extends FlxSprite {
 		height = 16;
 		offset.x = 0;
 		offset.y = 0;
+		set_immovable(true);
 	}
 	
 	public function killByPlayer(player:Player)
@@ -43,10 +44,4 @@ class Resource extends FlxSprite {
 		FlxTween.tween(this, { alpha: 0, y: y - 15 }, 0.75);
 		
 	}
-}
-
-enum ResourceType {
-	WOOD;
-	FOOD;
-	STONE;
 }

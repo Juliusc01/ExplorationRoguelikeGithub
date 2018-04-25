@@ -1,7 +1,6 @@
 package;
 
 import flixel.FlxSprite;
-import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * ...
@@ -9,7 +8,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Door extends FlxSprite 
 {
-	public var direction:Direction; //TODO: figure out enums
+	public var direction:Direction;
 	
 	public function new(X:Float=0, Y:Float=0, dir:Direction) 
 	{

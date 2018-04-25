@@ -33,6 +33,7 @@ class Room extends FlxGroup
 		tilemap = _map.loadTilemap(AssetPaths.tiles__png, 16, 16, "walls");
 		//tilemap.follow();
 		tilemap.setTileProperties(1, FlxObject.NONE);
+		tilemap.setTileProperties(3, FlxObject.NONE);
 		tilemap.setTileProperties(2, FlxObject.ANY);
 		add(tilemap);
 		grpResources = new FlxTypedGroup<Resource>();
