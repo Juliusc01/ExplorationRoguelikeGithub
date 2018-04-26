@@ -5,16 +5,16 @@
   <BackgroundColor A="255" R="125" G="160" B="255" />
   <GridColor A="255" R="255" G="240" B="90" />
   <LevelDefaultSize>
-    <Width>336</Width>
-    <Height>304</Height>
+    <Width>352</Width>
+    <Height>320</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>336</Width>
-    <Height>304</Height>
+    <Width>352</Width>
+    <Height>320</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>336</Width>
-    <Height>304</Height>
+    <Width>352</Width>
+    <Height>320</Height>
   </LevelMaximumSize>
   <Filename>C:\Users\Julius\Documents\ExplorationRoguelike\assets\data\RoguelikeMap.oep</Filename>
   <AngleMode>Degrees</AngleMode>
@@ -116,7 +116,7 @@
     <EntityDefinition Name="e_door" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
         <Width>16</Width>
-        <Height>16</Height>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -130,7 +130,7 @@
     </EntityDefinition>
     <EntityDefinition Name="s_door" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
+        <Width>32</Width>
         <Height>16</Height>
       </Size>
       <Origin>
@@ -146,7 +146,7 @@
     <EntityDefinition Name="w_door" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
         <Width>16</Width>
-        <Height>16</Height>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -160,7 +160,7 @@
     </EntityDefinition>
     <EntityDefinition Name="n_door" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
+        <Width>32</Width>
         <Height>16</Height>
       </Size>
       <Origin>
