@@ -14,7 +14,6 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState {
 	private var _player:Player;
-	//private var _mWalls:FlxTilemap;
 	private var _grpResources:FlxTypedGroup<Resource>;
 	private var _grpDoors:FlxTypedGroup<Door>;
 	private var _HUD:HUD;

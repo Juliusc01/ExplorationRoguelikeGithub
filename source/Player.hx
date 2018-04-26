@@ -37,11 +37,17 @@ class Player extends FlxSprite {
 		// Check if we are in a non-door range, if so, ensure
 		// door use is turned back on. Using .25 tiles of padding so they must move at
 		// least 4 pixels away from the door before it re-activates.
-		if (x > Constants.TILE_WIDTH * 1.25 && x < FlxG.width - Constants.TILE_WIDTH * 1.25 - width
-			&& y > Constants.TILE_WIDTH * 3.25 && y < FlxG.height - height - 3.25 * Constants.TILE_WIDTH) {
+		if (!canUseDoors) {
+			// TODO: add these as constants for the room bounds?
+			var xMin = Constants.TILE_WIDTH * 1.25;
+			var xMax = FlxG.width - width - Constants.TILE_WIDTH * 1.25;
+			var yMin = Constants.TILE_HEIGHT * 3.25;
+			var yMax = FlxG.height - height - 3.25 * Constants.TILE_HEIGHT;
+			if (x > xMin && x < xMax && y > yMin && y < yMax) {
 				canUseDoors = true;
 				trace("can use doors:" + x + ", " + y);
 			}
+		}
 		if (x < 0) {
 			x = 0;
 		} else if (x > FlxG.width - width) {
