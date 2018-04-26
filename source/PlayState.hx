@@ -72,9 +72,23 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 		FlxG.collide(_player, _currentRoom.tilemap);
 		timer -= elapsed;
+		//Dummy level ending code
+		if (timer <= 50) {
+			endLevel();
+		}
 		//FlxG.collide(_player, _currentRoom.grpResources);
 		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
+	}
+	
+	//Test end level function
+	private function endLevel():Void {
+		timer = 60;
+		remove(_currentRoom);
+		_currentRoomCol++;
+		_currentRoom = _rooms[_currentRoomRow][_currentRoomCol];
+		//trace("switching to room " + _currentRoomRow + ", " + _currentRoomCol + " by moving in direction: " + outgoingDir);
+		add(_currentRoom);
 	}
 	
 	private function playerTouchResource(P:Player, R:Resource):Void {

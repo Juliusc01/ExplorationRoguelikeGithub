@@ -42,8 +42,20 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
-		urls.push ("assets/images/images-go-here.txt");
+		urls.push ("assets/data/tut001a.oel");
 		types.push (lime.Assets.AssetType.TEXT);
+		
+		
+		urls.push ("assets/data/tut001b.oel");
+		types.push (lime.Assets.AssetType.TEXT);
+		
+		
+		urls.push ("assets/data/tut001c.oel");
+		types.push (lime.Assets.AssetType.TEXT);
+		
+		
+		urls.push ("assets/images/Item_00.png");
+		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
 		urls.push ("assets/images/player.png");
@@ -55,6 +67,10 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/images/tiles.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/wood.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -151,7 +167,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "14",
+			build: "24",
 			company: "Julius Christenson",
 			file: "ExplorationRoguelike",
 			fps: 60,
