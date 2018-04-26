@@ -15,6 +15,7 @@ class Player extends FlxSprite {
 
 	public var speed:Float = 150;
 	public var canUseDoors:Bool = true;
+	public var isInSwamp:Bool = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0) {
 		super(X, Y);
@@ -32,6 +33,10 @@ class Player extends FlxSprite {
 	override public function update(elapsed:Float):Void 
 	{
 		movement();
+		// After moving, set swamp to be false, this will
+		// be updated back to true by the collision callback
+		// if they are still in the swamp during next update.
+		isInSwamp = false;
 		super.update(elapsed);
 		
 		// Check if we are in a non-door range, if so, ensure
@@ -102,7 +107,11 @@ class Player extends FlxSprite {
 				mA = 0;
 				facing = FlxObject.RIGHT;
 			}
-			velocity.set(speed, 0);
+			if (isInSwamp) {
+				velocity.set(speed / 2, 0);
+			} else {
+				velocity.set(speed, 0);
+			}
 			velocity.rotate(FlxPoint.weak(0, 0), mA);
 			if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
 				switch (facing) {

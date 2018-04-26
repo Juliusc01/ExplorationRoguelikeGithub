@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
+import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 
 /**
@@ -34,6 +35,7 @@ class Room extends FlxGroup
 		//tilemap.follow();
 		tilemap.setTileProperties(1, FlxObject.NONE);
 		tilemap.setTileProperties(3, FlxObject.NONE);
+		tilemap.setTileProperties(4, FlxObject.NONE, swampCollide);
 		tilemap.setTileProperties(2, FlxObject.ANY);
 		add(tilemap);
 		grpResources = new FlxTypedGroup<Resource>();
@@ -80,5 +82,15 @@ class Room extends FlxGroup
 			FlxG.log.error("Found door entity name of: " + doorName);
 			return null;
 		}
+	}
+	
+	/**
+	 * Callback fn assigned to when the player collides with any
+	 * tile of type 4 (swamp). Simply sets a flag in the player
+	 * to remember they are currently in the swamp.
+	 */
+	private function swampCollide(tile:FlxObject, player:FlxObject):Void {
+		trace("collided with swamp");
+		cast (player, Player).isInSwamp = true;
 	}
 }
