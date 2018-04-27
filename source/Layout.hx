@@ -111,67 +111,6 @@ class Layout
 		return this._yAdjust;
 	}
 	
-	private function fillRoomShapesArray():Void {
-		var minX:Int = FlxMath.MAX_VALUE_INT;
-		var maxX:Int = FlxMath.MIN_VALUE_INT;
-		var minY = FlxMath.MAX_VALUE_INT;
-		var maxY:Int = FlxMath.MIN_VALUE_INT;
-		
-		var keys:Iterator<String> = _map.keys();
-		while (keys.hasNext()) {
-			var posStr:String = keys.next();
-			var pos:Position = Position.asPosition(posStr);
-			minX = FlxMath.minInt(minX, pos.x);
-			minY = FlxMath.minInt(minY, pos.y);
-			maxX = FlxMath.maxInt(maxX, pos.x);
-			maxY = FlxMath.maxInt(maxY, pos.y);
-			if (!_map.get(posStr).exists) {
-				trace("ERROR THIS ROOM DOESNT EXIST!!!!");
-			}
-			
-		}
-		trace(_map);
-		
-		_xAdjust = 0 - minX;
-		_yAdjust = 0 - minY;
-		_width = maxX + _xAdjust + 1;
-		_height = maxY + _yAdjust + 1;
-		
-		trace("Layout size is: " + _width + ", " + _height);
-		trace("x adjust: " + _xAdjust + ", yAdjust: " + _yAdjust);
-		trace("max x is: " + maxX + ", max y is: " + maxY);
-		_roomShapes = new Array<Array<String>>();
-		// Iterate through the layout cells again, this time adding them to arrays
-		for (i in 0..._height) {
-			_roomShapes[i] = new Array<String>();
-			for (j in 0..._width) {
-				_roomShapes[i].push("");
-			}
-		}
-		
-		trace(_roomShapes);
-		keys = _map.keys();
-		while (keys.hasNext()) {
-			var posStr:String = keys.next();
-			var pos:Position = Position.asPosition(posStr);
-			var cell:LayoutCell = _map.get(posStr);
-			trace("placing: " + (pos.y + _yAdjust) + " y and " + (pos.x + _xAdjust) + " x...");
-			_roomShapes[pos.y + _yAdjust][pos.x + _xAdjust] = cell.getShape(); 
-		}
-		
-		trace("finished shaping layout:");
-		for (i in 0..._height) {
-			trace(_roomShapes[i]);
-		}
-	}
-	
-	private function chooseRoomForShape(shape:String):String {
-		// TODO: randomly select a number to append to the file path
-		// so we can choose a room of the correct shape at random
-		var roomNum = 0;
-		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
-	}
-	
 	/**
 	 * Randomly select a (position, direction to position) value
 	 * from the set of options.
@@ -209,7 +148,7 @@ class Layout
 		// Add position candidates of new map locations reachable from newly added tile.
 		addPositionsToConsider(nextCell);
 		
-		updateNeighborCells(newLocation.x, newLocation.y);
+		updateNeighborCells(nextCell, newLocation.x, newLocation.y);
 		trace("added room:" + newLocation);
 	}
 	
@@ -286,7 +225,129 @@ class Layout
 		}
 	}
 	
-	private function updateNeighborCells(x:Int, y:Int) {
-		//TODO: possibly connect to other cells already on map
+	/**
+	 * Given the position of a newly added tile, randomly choose whether to
+	 * connect the new tile to its existing neighbor tiles with some small
+	 * probability (to prevent the structure of the map from simply being 4 structures
+	 * that branch out from the home tile).
+	 */
+	private function updateNeighborCells(newTile:LayoutCell, x:Int, y:Int):Void {
+		// TODO: refactor this, it is redundant and awful
+		var neighborX;
+		var neighborY;
+		var neighbor:LayoutCell = null;
+		// Chance to connect new tile to its east neighbor
+		if (!(newTile.hasE)) {
+			neighborX = x + 1;
+			neighborY = y;
+			neighbor = _map.get(new Position(neighborX, neighborY).toString());
+			// If the neighbor tile exists, connect it with 25% chance.
+			if (neighbor != null) {
+				if (FlxG.random.bool(25)) {
+					newTile.hasE = true;
+					neighbor.hasW = true;
+				}
+			}
+		}
+		// Chance to connect new tile to its west neighbor
+		if (!(newTile.hasW)) {
+			neighborX = x - 1;
+			neighborY = y;
+			neighbor = _map.get(new Position(neighborX, neighborY).toString());
+			// If the neighbor tile exists, connect it with 25% chance.
+			if (neighbor != null) {
+				if (FlxG.random.bool(25)) {
+					newTile.hasW = true;
+					neighbor.hasE = true;
+				}
+			}
+		}
+		// Chance to connect new tile to its south neighbor
+		if (!(newTile.hasS)) {
+			neighborX = x;
+			neighborY = y + 1;
+			neighbor = _map.get(new Position(neighborX, neighborY).toString());
+			// If the neighbor tile exists, connect it with 25% chance.
+			if (neighbor != null) {
+				if (FlxG.random.bool(25)) {
+					newTile.hasS = true;
+					neighbor.hasN = true;
+				}
+			}
+		}
+		// Chance to connect new tile to its north neighbor
+		if (!(newTile.hasN)) {
+			neighborX = x;
+			neighborY = y - 1;
+			neighbor = _map.get(new Position(neighborX, neighborY).toString());
+			// If the neighbor tile exists, connect it with 25% chance.
+			if (neighbor != null) {
+				if (FlxG.random.bool(25)) {
+					newTile.hasN = true;
+					neighbor.hasS = true;
+				}
+			}
+		}
+	}
+		
+	private function fillRoomShapesArray():Void {
+		var minX:Int = FlxMath.MAX_VALUE_INT;
+		var maxX:Int = FlxMath.MIN_VALUE_INT;
+		var minY = FlxMath.MAX_VALUE_INT;
+		var maxY:Int = FlxMath.MIN_VALUE_INT;
+		
+		var keys:Iterator<String> = _map.keys();
+		while (keys.hasNext()) {
+			var posStr:String = keys.next();
+			var pos:Position = Position.asPosition(posStr);
+			minX = FlxMath.minInt(minX, pos.x);
+			minY = FlxMath.minInt(minY, pos.y);
+			maxX = FlxMath.maxInt(maxX, pos.x);
+			maxY = FlxMath.maxInt(maxY, pos.y);
+			if (!_map.get(posStr).exists) {
+				trace("ERROR THIS ROOM DOESNT EXIST!!!!");
+			}
+			
+		}
+		trace(_map);
+		
+		_xAdjust = 0 - minX;
+		_yAdjust = 0 - minY;
+		_width = maxX + _xAdjust + 1;
+		_height = maxY + _yAdjust + 1;
+		
+		trace("Layout size is: " + _width + ", " + _height);
+		trace("x adjust: " + _xAdjust + ", yAdjust: " + _yAdjust);
+		trace("max x is: " + maxX + ", max y is: " + maxY);
+		_roomShapes = new Array<Array<String>>();
+		// Iterate through the layout cells again, this time adding them to arrays
+		for (i in 0..._height) {
+			_roomShapes[i] = new Array<String>();
+			for (j in 0..._width) {
+				_roomShapes[i].push("");
+			}
+		}
+		
+		trace(_roomShapes);
+		keys = _map.keys();
+		while (keys.hasNext()) {
+			var posStr:String = keys.next();
+			var pos:Position = Position.asPosition(posStr);
+			var cell:LayoutCell = _map.get(posStr);
+			trace("placing: " + (pos.y + _yAdjust) + " y and " + (pos.x + _xAdjust) + " x...");
+			_roomShapes[pos.y + _yAdjust][pos.x + _xAdjust] = cell.getShape(); 
+		}
+		
+		trace("finished shaping layout:");
+		for (i in 0..._height) {
+			trace(_roomShapes[i]);
+		}
+	}
+	
+	private function chooseRoomForShape(shape:String):String {
+		// TODO: randomly select a number to append to the file path
+		// so we can choose a room of the correct shape at random
+		var roomNum = 0;
+		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
 	}
 }
