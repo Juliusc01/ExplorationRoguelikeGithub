@@ -223,9 +223,6 @@ class Layout
 		if (cell == null) {
 			cell = new LayoutCell(position.x, position.y);
 			_map.set(position.toString(), cell);
-			trace("cell at: " + cell.x + ", " + cell.y + " was null when adding");
-		} else {
-			trace("cell at: " + cell.x + ", " + cell.y + " was NOT NULL");
 		}
 		return cell;
 	}

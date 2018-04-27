@@ -16,11 +16,18 @@ class HUD extends FlxTypedGroup<FlxSprite>
 {
 	
 	private var _sprBackground:FlxSprite;
+	
+	private var _txtTimer:FlxText;
+
 	private var _txtWood:FlxText;
 	private var _sprWood:FlxSprite;
-	private var _txtTimer:FlxText;
-	private var _woodAmt:Int;
 	private var _woodMax:Int;
+	
+	private var _txtFood:FlxText;
+	private var _sprFood:FlxSprite;
+	private var _foodMax:Int;
+	
+
 	
 	// Reference to the PlayState of our current
 	// level, so we can update values.
@@ -30,22 +37,30 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	{
 		super();
 		_ps = ps;
-		_woodAmt = 0;
 		_woodMax = GameData.currentLevel.woodReq;
+		_foodMax = GameData.currentLevel.foodReq;
 
 		// Top Bar of UI
+		// TODO: figure out spacing rules for these
 		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, 32, FlxColor.BLACK);
 		_sprBackground.drawRect(0, 31, FlxG.width - 1, 0, FlxColor.WHITE);
-		_txtWood = new FlxText(60, 2, 48, Std.string(_woodAmt) + "/" + Std.string(_woodMax), 8);
-		_txtWood.setBorderStyle(SHADOW, FlxColor.GRAY, 1, 1);
-		_sprWood = new FlxSprite(40, 2, AssetPaths.wood__png);
-		_txtTimer = new FlxText(0, 0, 0);
-
-		
 		add(_sprBackground);
+		_txtTimer = new FlxText(0, 0, 0);
+		_txtTimer.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);
+		add(_txtTimer);
+		
+		_txtWood = new FlxText(40, Constants.TILE_HEIGHT - 2, Constants.TILE_WIDTH * 3, _ps.currentWood + " / " + Std.string(_woodMax));
+		_txtWood.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);
+		_sprWood = new FlxSprite(40, 0, AssetPaths.wood__png);
 		add(_txtWood);
 		add(_sprWood);
-		add(_txtTimer);
+		
+		_txtFood = new FlxText(80, Constants.TILE_HEIGHT - 2, Constants.TILE_WIDTH * 3);
+		_txtFood.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);
+		_sprFood = new FlxSprite(80, 0, AssetPaths.food__png);
+		add(_txtFood);
+		add(_sprFood);
+		
 		forEach(function(spr:FlxSprite)
 		{
 			spr.scrollFactor.set(0, 0);
@@ -56,7 +71,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	{
 		super.update(elapsed);
 		_txtTimer.text = FlxStringUtil.formatTime(_ps.timer);
-		_woodAmt = _ps.currentWood;
-		_txtWood.text = _woodAmt + "/" + _woodMax;
+		_txtWood.text = _ps.currentWood + " / " + _woodMax;
+		_txtFood.text = _ps.currentFood + " / " + _foodMax;
 	}
 }
