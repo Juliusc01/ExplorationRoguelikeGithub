@@ -1,8 +1,13 @@
 package;
 import flixel.FlxG;
 import flixel.math.FlxMath;
-import haxe.ds.IntMap;
-import js.html.ProcessingInstruction;
+
+// Simple type to hold a position and direction.
+typedef PosCandidate = {
+	var x:Int;
+	var y:Int;
+	var fromDir:Direction;
+}
 
 /**
  * The Layout class is responsible for both generating
@@ -12,17 +17,20 @@ import js.html.ProcessingInstruction;
  * number of rooms. It also exposes the API for which
  * room the player is currently in.
  * @author Alex Vrhel
- */
-
-typedef PosCandidate = {
-	var x:Int;
-	var y:Int;
-	var fromDir:Direction;
-}
-	
+ */	
 class Layout 
 {
+	// Map of position string -> layout cell object
+	// used in generating the layout. Needed to use String
+	// because custom types (like Position) use pointer equality,
+	// so we serialize them as strings to store in the map.
 	private var _map:Map<String, LayoutCell>;
+	
+	// Array of all spots being considered for the next room
+	// to be added to the layout during generation. Includes
+	// which direction they would be added "from", so we know
+	// how to connect that new tile to the rest of the
+	// generated layout.
 	private var _nextRoomPossibilities:Array<PosCandidate>;
 	
 	// Width and Height of the generated layout
@@ -32,6 +40,10 @@ class Layout
 	// Offset of the home tile within the generated layout
 	private var _xAdjust:Int;
 	private var _yAdjust:Int;
+	
+	// Array of room shapes, where a room shape
+	// is given by the string "WSEN" or some subset
+	// of those characters, indicating the exits of the room.
 	private var _roomShapes:Array<Array<String>>;
 	
 	public function new(rooms:Int) 
@@ -58,6 +70,48 @@ class Layout
 		// At this point, we have made a map with the correct number
 		// of rooms. Now, we need to normalize the x/y values so they all end
 		// up non-negative and put them into arrays accordingly.
+		fillRoomShapesArray();
+	}
+	
+	public function generateRooms():Array<Array<Room>> {
+		// Init the 2d array of rooms to be the proper size.
+		var rooms:Array<Array<Room>> = new Array<Array<Room>>();
+		for (i in 0..._height) {
+			rooms[i] = new Array<Room>();
+			for (j in 0..._width) {
+				rooms[i].push(null);
+			}
+		}
+		
+		// Fill in each spot of the room array
+		// with a room of the corresponding shape if a room
+		// should exist in that location.
+		for (i in 0..._height) {
+			for (j in 0..._width) {
+				var shape:String = _roomShapes[i][j];
+				if (shape != "") {
+					var isHome:Bool = false;
+					if (j == _xAdjust && i == _yAdjust) {
+						isHome = true;
+					}
+					var roomPath:String = chooseRoomForShape(shape);
+					var currRoom:Room = new Room(roomPath, isHome);
+					rooms[i][j] = currRoom;
+				}
+			}
+		}
+		return rooms;
+	}
+	
+	public function getStartX():Int {
+		return this._xAdjust;
+	}
+	
+	public function getStartY():Int {
+		return this._yAdjust;
+	}
+	
+	private function fillRoomShapesArray():Void {
 		var minX:Int = FlxMath.MAX_VALUE_INT;
 		var maxX:Int = FlxMath.MIN_VALUE_INT;
 		var minY = FlxMath.MAX_VALUE_INT;
@@ -109,41 +163,6 @@ class Layout
 		for (i in 0..._height) {
 			trace(_roomShapes[i]);
 		}
-	}
-	
-	public function generateRooms():Array<Array<Room>> {
-		// Init the 2d array of rooms to be the proper size.
-		var rooms:Array<Array<Room>> = new Array<Array<Room>>();
-		for (i in 0..._height) {
-			rooms[i] = new Array<Room>();
-			for (j in 0..._width) {
-				rooms[i].push(null);
-			}
-		}
-		
-		for (i in 0..._height) {
-			for (j in 0..._width) {
-				var shape:String = _roomShapes[i][j];
-				if (shape != "") {
-					var isHome:Bool = false;
-					if (j == _xAdjust && i == _yAdjust) {
-						isHome = true;
-					}
-					var roomPath:String = chooseRoomForShape(shape);
-					var currRoom:Room = new Room(roomPath, isHome);
-					rooms[i][j] = currRoom;
-				}
-			}
-		}
-		return rooms;
-	}
-	
-	public function getStartX():Int {
-		return this._xAdjust;
-	}
-	
-	public function getStartY():Int {
-		return this._yAdjust;
 	}
 	
 	private function chooseRoomForShape(shape:String):String {
