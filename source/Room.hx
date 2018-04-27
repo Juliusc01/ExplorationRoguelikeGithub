@@ -25,7 +25,7 @@ class Room extends FlxGroup
 	
 	private var _map:FlxOgmoLoader;
 	
-	public function new(roomId:Int, path:String, isHome:Bool) 
+	public function new(path:String, isHome:Bool) 
 	{
 		super(0);
 		trace("creating room from: " + path);

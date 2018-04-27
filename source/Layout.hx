@@ -5,7 +5,12 @@ import haxe.ds.IntMap;
 import js.html.ProcessingInstruction;
 
 /**
- * ...
+ * The Layout class is responsible for both generating
+ * and maintaining the map for each level. It is given
+ * a number of rooms on initialization, which it uses
+ * to randomly generate a floorplan involving that exact
+ * number of rooms. It also exposes the API for which
+ * room the player is currently in.
  * @author Alex Vrhel
  */
 
@@ -104,6 +109,48 @@ class Layout
 		for (i in 0..._height) {
 			trace(_roomShapes[i]);
 		}
+	}
+	
+	public function generateRooms():Array<Array<Room>> {
+		// Init the 2d array of rooms to be the proper size.
+		var rooms:Array<Array<Room>> = new Array<Array<Room>>();
+		for (i in 0..._height) {
+			rooms[i] = new Array<Room>();
+			for (j in 0..._width) {
+				rooms[i].push(null);
+			}
+		}
+		
+		for (i in 0..._height) {
+			for (j in 0..._width) {
+				var shape:String = _roomShapes[i][j];
+				if (shape != "") {
+					var isHome:Bool = false;
+					if (j == _xAdjust && i == _yAdjust) {
+						var isHome = true;
+					}
+					var roomPath:String = chooseRoomForShape(shape);
+					var currRoom:Room = new Room(roomPath, isHome);
+					rooms[i][j] = currRoom;
+				}
+			}
+		}
+		return rooms;
+	}
+	
+	public function getStartX():Int {
+		return this._xAdjust;
+	}
+	
+	public function getStartY():Int {
+		return this._yAdjust;
+	}
+	
+	private function chooseRoomForShape(shape:String):String {
+		// TODO: randomly select a number to append to the file path
+		// so we can choose a room of the correct shape at random
+		var roomNum = 0;
+		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
 	}
 	
 	/**

@@ -48,8 +48,9 @@ class PlayState extends FlxState {
 		currentStone = 0;
 		
 		var layout = new Layout(25);
-		_rooms = new Array<Array<Room>>();
-		var room0 = new Room(0, AssetPaths.tut001a__oel, true);
+		_rooms = layout.generateRooms();
+		
+		/*var room0 = new Room(0, AssetPaths.tut001a__oel, true);
 		var room1 = new Room(1, AssetPaths.tut001b__oel, false);
 		var room2 = new Room(2, AssetPaths.tut001c__oel, false);
 		_rooms[0] = new Array<Room>();
@@ -57,9 +58,10 @@ class PlayState extends FlxState {
 		_rooms[0][1] = room1;
 		_rooms[1] = new Array<Room>();
 		_rooms[1][0] = room2;
-		_currentRoom = room0;
-		_currentRoomRow = 0;
-		_currentRoomCol = 0;
+		_currentRoom = room0;*/
+		_currentRoomRow = layout.getStartY();
+		_currentRoomCol = layout.getStartX();
+		_currentRoom = _rooms[_currentRoomRow][_currentRoomCol];
 		
 		add(_currentRoom);
 		_player = new Player(FlxG.width / 2, FlxG.height / 2);
