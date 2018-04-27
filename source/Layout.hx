@@ -127,7 +127,7 @@ class Layout
 				if (shape != "") {
 					var isHome:Bool = false;
 					if (j == _xAdjust && i == _yAdjust) {
-						var isHome = true;
+						isHome = true;
 					}
 					var roomPath:String = chooseRoomForShape(shape);
 					var currRoom:Room = new Room(roomPath, isHome);
