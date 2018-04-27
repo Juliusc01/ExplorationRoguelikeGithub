@@ -19,5 +19,5 @@ class GameData
 	
 	// TODO: somewhere cleaner to hold the level data for each one,
 	// or is putting them all globally available here fine?
-	public static var level0 = new LevelData(0, 60, 1, 1, 1, 0, 0);
+	public static var level0 = new LevelData(0, 60, -1, 1, 0, 0);
 }

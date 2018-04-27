@@ -12,17 +12,19 @@ class LevelData
 {
 	public var levelNum:Int;
 	public var timeLimit:Float;
-	public var width:Int;
-	public var height:Int;
+	//public var width:Int;
+	//public var height:Int;
+	public var numRooms:Int;
 	public var woodReq:Int;
 	public var foodReq:Int;
 	public var stoneReq:Int;
 	
-	public function new(num:Int, time:Int, w:Int, h:Int, wood:Int, ?food:Int = 0, ?stone:Int = 0) {
+	public function new(num:Int, time:Int, numRooms:Int, wood:Int, ?food:Int = 0, ?stone:Int = 0) {
 		this.levelNum = num;
 		this.timeLimit = time;
-		this.width = w;
-		this.height = h;
+		//this.width = w;
+		//this.height = h;
+		this.numRooms = numRooms;
 		this.woodReq = wood;
 		this.foodReq = food;
 		this.stoneReq = stone;

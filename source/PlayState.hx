@@ -47,6 +47,7 @@ class PlayState extends FlxState {
 		currentFood = 0;
 		currentStone = 0;
 		
+		var layout = new Layout(25);
 		_rooms = new Array<Array<Room>>();
 		var room0 = new Room(0, AssetPaths.tut001a__oel, true);
 		var room1 = new Room(1, AssetPaths.tut001b__oel, false);
