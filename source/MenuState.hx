@@ -20,6 +20,7 @@ class MenuState extends FlxState {
 			_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
 			_btnPlay.screenCenter();
 			add(_btnPlay);
+			makePowerUps();
 		} else if (GameData.currentMenuState == 1) {
 			_winText = new FlxText(140, 140, 0, "You won this level, click to continue!");
 			add(_winText);
@@ -56,5 +57,9 @@ class MenuState extends FlxState {
 		GameData.currentLevel = null;
 		GameData.currentMenuState = 0;
 		FlxG.switchState(new MenuState());
+	}
+	
+	private function makePowerUps() {
+		GameData.powerUps = [new PowerUp(0, 0, "test", "testName", "testEffect", "item_00.png")];
 	}
 }

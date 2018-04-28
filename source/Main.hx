@@ -13,4 +13,5 @@ class Main extends Sprite {
 		super();
 		addChild(new FlxGame(352, 320, MenuState));
 	}
+	
 }

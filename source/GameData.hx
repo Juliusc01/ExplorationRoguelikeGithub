@@ -16,6 +16,7 @@ class GameData
 	
 	public static var currentPlayState:PlayState = null;
 	public static var currentMenuState:Int = 0;
+	public static var powerUps:Array<PowerUp> = null;
 	
 	// TODO: somewhere cleaner to hold the level data for each one,
 	// or is putting them all globally available here fine?
@@ -25,4 +26,5 @@ class GameData
 	public static var level0 = new LevelData(3, 60, -1, 5, 0, 0);
 	public static var level1 = new LevelData(3, 60, -1, 10, 0, 0);
 	public static var levels:Array<LevelData> = [tut0, tut1, tut2, level0, level1];
+	
 }
