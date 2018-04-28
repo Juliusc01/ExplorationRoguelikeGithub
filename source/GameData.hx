@@ -19,7 +19,10 @@ class GameData
 	
 	// TODO: somewhere cleaner to hold the level data for each one,
 	// or is putting them all globally available here fine?
-	public static var level0 = new LevelData(0, 10, -1, 1, 0, 0);
-	public static var level1 = new LevelData(1, 20, -1, 2, 0, 0);
-	public static var levels:Array<LevelData> = [level0, level1];
+	public static var tut0 = new LevelData(0, 60, -1, 1, 0, 0);
+	public static var tut1 = new LevelData(1, 60, -1, 1, 0, 0);
+	public static var tut2 = new LevelData(2, 60, -1, 1, 0, 0);
+	public static var level0 = new LevelData(3, 60, -1, 5, 0, 0);
+	public static var level1 = new LevelData(3, 60, -1, 10, 0, 0);
+	public static var levels:Array<LevelData> = [tut0, tut1, tut2, level0, level1];
 }
