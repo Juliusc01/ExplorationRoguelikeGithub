@@ -1,7 +1,9 @@
 package;
 
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
@@ -22,6 +24,7 @@ class Room extends FlxGroup
 	public var tilemap:FlxTilemap;
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
+	public var myHouse:House;
 	
 	private var _map:FlxOgmoLoader;
 	
@@ -41,13 +44,16 @@ class Room extends FlxGroup
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
 		_map.loadEntities(placeEntities, "entities");
-		
+		myHouse = null;
 		add(grpResources);
 		add(grpDoors);
 		
 		if (isHome) {
 			// TODO: Add instruction text embedded on floor for home tile
 			add(new FlxText(150, 150, 100, "Instructions here"));
+			myHouse = new House(50, 50);
+			add(myHouse);
+			
 		}
 		
 
