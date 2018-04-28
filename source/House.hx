@@ -18,6 +18,7 @@ class House extends FlxSprite
 		loadGraphic(AssetPaths.house__png, false, w, h);
 		setSize(w, h);
 		trace("house size is: " + width + ", " + height);
+		centerOffsets();
 		set_immovable(true);
 
 	}

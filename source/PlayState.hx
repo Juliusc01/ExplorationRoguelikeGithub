@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 
 /**
@@ -62,15 +63,29 @@ class PlayState extends FlxState {
 		if (timer <= 0) {
 			loseLevel();
 		}
-		FlxG.collide(_player, _currentRoom.myHouse);
+		
 		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
+		if (_currentRoom.isHome) {
+			FlxG.collide(_player, _currentRoom.myHouse);
+			if (FlxMath.isDistanceWithin(_player, _currentRoom.myHouse, 48, true)) {
+				if (FlxG.keys.pressed.SPACE && currentFood >= GameData.currentLevel.foodReq
+					&& currentWood >= GameData.currentLevel.woodReq && currentStone >= GameData.currentLevel.stoneReq) {
+					winLevel();
+				}
+			}
+		}
+
 	}
 	
 	//Test end level function
 
 	private function loseLevel():Void {
 		FlxG.switchState(new LoseState());
+	}
+	
+	private function winLevel():Void {
+		FlxG.switchState(new MenuState());
 	}
 	
 	private function playerTouchResource(P:Player, R:Resource):Void {
