@@ -14,7 +14,7 @@ class LoseState extends FlxState {
 	private var _loseText:FlxText;
 	
 	override public function create():Void {
-		_loseText = new FlxText(160, 160, 0, "You lose this level, restart?");
+		_loseText = new FlxText(140, 140, 0, "You lose this level, restart?");
 		add(_loseText);
 		_btnRestart = new FlxButton(0, 0, "Restart", clickRestart);
 		_btnRestart.screenCenter();

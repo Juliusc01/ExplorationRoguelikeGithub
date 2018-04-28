@@ -85,6 +85,10 @@ class PlayState extends FlxState {
 	}
 	
 	private function winLevel():Void {
+		GameData.currentMenuState = 1;
+		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
+			GameData.currentMenuState = 2;
+		}
 		FlxG.switchState(new MenuState());
 	}
 	

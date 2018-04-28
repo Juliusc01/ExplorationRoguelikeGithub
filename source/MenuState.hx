@@ -12,6 +12,7 @@ import flixel.ui.FlxButton;
 class MenuState extends FlxState {
 	private var _btnPlay:FlxButton;
 	private var _winText:FlxText;
+	private var _btnRestart:FlxButton;
 	
 	override public function create():Void {
 		
@@ -20,11 +21,17 @@ class MenuState extends FlxState {
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(160, 160, 0, "You won this level, click to continue!");
+			_winText = new FlxText(140, 140, 0, "You won this level, click to continue!");
 			add(_winText);
 			_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
 			_btnPlay.screenCenter();
 			add(_btnPlay);
+		} else if (GameData.currentMenuState == 2) {
+			_winText = new FlxText(140, 140, 0, "You won the game, restart?");
+			add(_winText);
+			_btnRestart = new FlxButton(0, 0, "Restart", clickRestart);
+			_btnRestart.screenCenter();
+			add(_btnRestart);
 		}
 		
 		super.create();
@@ -43,5 +50,11 @@ class MenuState extends FlxState {
 		}
 		
 		FlxG.switchState(new PlayState());
+	}
+	
+	private function clickRestart():Void {
+		GameData.currentLevel = null;
+		GameData.currentMenuState = 0;
+		FlxG.switchState(new MenuState());
 	}
 }
