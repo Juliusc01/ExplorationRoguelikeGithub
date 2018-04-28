@@ -38,21 +38,24 @@ class Layout
 	private var _height:Int;
 	
 	// Offset of the home tile within the generated layout
-	private var _xAdjust:Int;
-	private var _yAdjust:Int;
+	private var _currentRoomCol:Int;
+	private var _currentRoomRow:Int;
 	
-	// Array of room shapes, where a room shape
-	// is given by the string "WSEN" or some subset
-	// of those characters, indicating the exits of the room.
-	private var _roomShapes:Array<Array<String>>;
+	// Array of rooms, will be filled out by the
+	// end of the constructor call.
+	private var _rooms:Array<Array<Room>>;
 	
-	public function new(rooms:Int) 
+	public function new(numRooms:Int) 
 	{
+		// TODO: enable this once implemented
+		if (false && GameData.currentLevel.levelNum <= 2) {
+			_rooms = generateSpecialRooms(GameData.currentLevel.levelNum);
+		}
 		// Generate layout by doing the following:
 		// Maintain a map of (x,y) -> LayoutCell
 		_map = new Map<String, LayoutCell>();
 		_nextRoomPossibilities = new Array<PosCandidate>();
-		var roomsLeft:Int = rooms;
+		var roomsLeft:Int = numRooms;
 
 		
 		// Add starting room to the final map, ensuring it exists.
@@ -66,49 +69,42 @@ class Layout
 			var nextRoom:PosCandidate = chooseNextRoom();
 			addLocationToFinalMap(nextRoom);
 			roomsLeft--;
-		}		
-		// At this point, we have made a map with the correct number
-		// of rooms. Now, we need to normalize the x/y values so they all end
-		// up non-negative and put them into arrays accordingly.
-		fillRoomShapesArray();
-	}
-	
-	public function generateRooms():Array<Array<Room>> {
-		// Init the 2d array of rooms to be the proper size.
-		var rooms:Array<Array<Room>> = new Array<Array<Room>>();
-		for (i in 0..._height) {
-			rooms[i] = new Array<Room>();
-			for (j in 0..._width) {
-				rooms[i].push(null);
-			}
 		}
 		
-		// Fill in each spot of the room array
-		// with a room of the corresponding shape if a room
-		// should exist in that location.
-		for (i in 0..._height) {
-			for (j in 0..._width) {
-				var shape:String = _roomShapes[i][j];
-				if (shape != "") {
-					var isHome:Bool = false;
-					if (j == _xAdjust && i == _yAdjust) {
-						isHome = true;
-					}
-					var roomPath:String = chooseRoomForShape(shape);
-					var currRoom:Room = new Room(roomPath, isHome);
-					rooms[i][j] = currRoom;
-				}
-			}
+		// Array of room shapes, where a room shape
+		// is given by the string "WSEN" or some subset
+		// of those characters, indicating the exits of the room.
+		var roomShapes:Array<Array<String>> = fillRoomShapesArray();
+		
+		_rooms = generateRooms(roomShapes);
+		
+		// Free up the memory of the data structures only used during
+		// layout generation.
+		_map = null;
+		_nextRoomPossibilities = null;
+	}
+	
+	public function getCurrentRoom():Room {
+		return _rooms[_currentRoomRow][_currentRoomCol];
+	}
+	
+	/**
+	 * Change the current room by shifting in the direction
+	 * given, returning the new room that was set to be
+	 * the current room.
+	 */
+	public function changeRoom(dir:Direction):Room {
+		switch (dir) {
+			case Direction.EAST:
+				_currentRoomCol++;
+			case Direction.SOUTH:
+				_currentRoomRow++;
+			case Direction.WEST:
+				_currentRoomCol--;
+			case Direction.NORTH:
+				_currentRoomRow--;
 		}
-		return rooms;
-	}
-	
-	public function getStartX():Int {
-		return this._xAdjust;
-	}
-	
-	public function getStartY():Int {
-		return this._yAdjust;
+		return getCurrentRoom();
 	}
 	
 	/**
@@ -135,6 +131,11 @@ class Layout
 		return retVal;
 	}
 	
+	/**
+	 * Main work of the loop for generating rooms. Takes the position
+	 * that was randomly chosen and performs all the work of adding it
+	 * to the layout that is being generated.
+	 */
 	private function addLocationToFinalMap(newLocation:PosCandidate):Void {
 		// Get the layout cell corresponding to the new tile.
 		var nextCell:LayoutCell = getWithoutNull(new Position(newLocation.x, newLocation.y));
@@ -148,6 +149,7 @@ class Layout
 		// Add position candidates of new map locations reachable from newly added tile.
 		addPositionsToConsider(nextCell);
 		
+		// Update the neighbors that may already exist around this new room.
 		updateNeighborCells(nextCell, newLocation.x, newLocation.y);
 		trace("added room:" + newLocation);
 	}
@@ -290,7 +292,7 @@ class Layout
 		}
 	}
 		
-	private function fillRoomShapesArray():Void {
+	private function fillRoomShapesArray():Array<Array<String>> {
 		var minX:Int = FlxMath.MAX_VALUE_INT;
 		var maxX:Int = FlxMath.MIN_VALUE_INT;
 		var minY = FlxMath.MAX_VALUE_INT;
@@ -311,37 +313,70 @@ class Layout
 		}
 		trace(_map);
 		
-		_xAdjust = 0 - minX;
-		_yAdjust = 0 - minY;
-		_width = maxX + _xAdjust + 1;
-		_height = maxY + _yAdjust + 1;
+		var xAdjust = 0 - minX;
+		var yAdjust = 0 - minY;
+		_currentRoomCol = xAdjust;
+		_currentRoomRow = yAdjust;
+		_width = maxX + xAdjust + 1;
+		_height = maxY + yAdjust + 1;
 		
 		trace("Layout size is: " + _width + ", " + _height);
-		trace("x adjust: " + _xAdjust + ", yAdjust: " + _yAdjust);
+		trace("x adjust: " + xAdjust + ", yAdjust: " + yAdjust);
 		trace("max x is: " + maxX + ", max y is: " + maxY);
-		_roomShapes = new Array<Array<String>>();
+		var roomShapes = new Array<Array<String>>();
 		// Iterate through the layout cells again, this time adding them to arrays
 		for (i in 0..._height) {
-			_roomShapes[i] = new Array<String>();
+			roomShapes[i] = new Array<String>();
 			for (j in 0..._width) {
-				_roomShapes[i].push("");
+				roomShapes[i].push("");
 			}
 		}
 		
-		trace(_roomShapes);
+		trace(roomShapes);
 		keys = _map.keys();
 		while (keys.hasNext()) {
 			var posStr:String = keys.next();
 			var pos:Position = Position.asPosition(posStr);
 			var cell:LayoutCell = _map.get(posStr);
-			trace("placing: " + (pos.y + _yAdjust) + " y and " + (pos.x + _xAdjust) + " x...");
-			_roomShapes[pos.y + _yAdjust][pos.x + _xAdjust] = cell.getShape(); 
+			trace("placing: " + (pos.y + yAdjust) + " y and " + (pos.x + xAdjust) + " x...");
+			roomShapes[pos.y + yAdjust][pos.x + xAdjust] = cell.getShape(); 
 		}
 		
 		trace("finished shaping layout:");
 		for (i in 0..._height) {
-			trace(_roomShapes[i]);
+			trace(roomShapes[i]);
 		}
+		return roomShapes;
+	}
+	
+	private function generateRooms(roomShapes:Array<Array<String>>):Array<Array<Room>> {
+		// Init the 2d array of rooms to be the proper size.
+		var rooms:Array<Array<Room>> = new Array<Array<Room>>();
+		for (i in 0..._height) {
+			rooms[i] = new Array<Room>();
+			for (j in 0..._width) {
+				rooms[i].push(null);
+			}
+		}
+		
+		// Fill in each spot of the room array
+		// with a room of the corresponding shape if a room
+		// should exist in that location.
+		for (i in 0..._height) {
+			for (j in 0..._width) {
+				var shape:String = roomShapes[i][j];
+				if (shape != "") {
+					var isHome:Bool = false;
+					if (j == _currentRoomCol && i == _currentRoomRow) {
+						isHome = true;
+					}
+					var roomPath:String = chooseRoomForShape(shape);
+					var currRoom:Room = new Room(roomPath, isHome);
+					rooms[i][j] = currRoom;
+				}
+			}
+		}
+		return rooms;
 	}
 	
 	private function chooseRoomForShape(shape:String):String {
@@ -349,5 +384,10 @@ class Layout
 		// so we can choose a room of the correct shape at random
 		var roomNum = 0;
 		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
+	}
+	
+	// TODO: implement this.
+	private function generateSpecialRooms(levelNum:Int):Array<Array<Room>> {
+		return null;
 	}
 }
