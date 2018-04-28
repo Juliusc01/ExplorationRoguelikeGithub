@@ -25,6 +25,7 @@ class Room extends FlxGroup
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
 	public var myHouse:House;
+	public var isHome:Bool = false;
 	
 	private var _map:FlxOgmoLoader;
 	
@@ -49,6 +50,7 @@ class Room extends FlxGroup
 		add(grpDoors);
 		
 		if (isHome) {
+			this.isHome = isHome;
 			// TODO: Add instruction text embedded on floor for home tile
 			add(new FlxText(150, 150, 100, "Instructions here"));
 			myHouse = new House(50, 50);
