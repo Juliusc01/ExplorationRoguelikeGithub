@@ -60,6 +60,6 @@ class MenuState extends FlxState {
 	}
 	
 	private function makePowerUps() {
-		GameData.powerUps = [new PowerUp(0, 0, "test", "testName", "testEffect", "item_00.png")];
+		GameData.powerUps = [new PowerUp(0, 0, "000", "testName", "testEffect", "item_00.png")];
 	}
 }

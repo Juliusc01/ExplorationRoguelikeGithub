@@ -66,6 +66,7 @@ class PlayState extends FlxState {
 		
 		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
+		FlxG.overlap(_player, _currentRoom.myPowerUp, playerTouchPowerUp);
 		if (_currentRoom.isHome) {
 			FlxG.collide(_player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(_player, _currentRoom.myHouse, 48, true)) {
@@ -90,6 +91,18 @@ class PlayState extends FlxState {
 			GameData.currentMenuState = 2;
 		}
 		FlxG.switchState(new MenuState());
+	}
+	
+	private function playerTouchPowerUp(P:Player, PU:PowerUp):Void {
+		if (P.alive && P.exists && PU.alive && PU.exists) {
+			trace("powerupwalkedon");
+			for (currPowerUp in GameData.powerUps) {
+				if (currPowerUp.powerUpID == PU.powerUpID) {
+					currPowerUp.isActive = true;
+				}
+			}
+			PU.kill();
+		}
 	}
 	
 	private function playerTouchResource(P:Player, R:Resource):Void {

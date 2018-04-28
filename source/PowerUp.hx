@@ -32,4 +32,10 @@ class PowerUp extends FlxSprite
 
 	}
 	
+	public function changeXY(X:Float, Y:Float) {
+		trace("changing x and y to be " + X + Y);
+		this.x = X;
+		this.y = Y;
+	}
+	
 }
