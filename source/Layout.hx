@@ -48,8 +48,10 @@ class Layout
 	public function new(numRooms:Int) 
 	{
 		// TODO: enable this once implemented
-		if (false && GameData.currentLevel.levelNum <= 2) {
+		if (GameData.currentLevel.levelNum <= 2) {
+			trace("generating level for number: " + GameData.currentLevel.levelNum);
 			_rooms = generateSpecialRooms(GameData.currentLevel.levelNum);
+			return;
 		}
 		// Generate layout by doing the following:
 		// Maintain a map of (x,y) -> LayoutCell
@@ -386,8 +388,32 @@ class Layout
 		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
 	}
 	
-	// TODO: implement this.
+	/**
+	 * Generate a special layout for the given level number.
+	 * Used for the first few levels which have pre-fabricated layouts.
+	 */
 	private function generateSpecialRooms(levelNum:Int):Array<Array<Room>> {
+		var array:Array<Array<Room>>;
+		switch(levelNum) {
+			case 0:
+				_width = _height = 1;
+				_currentRoomRow = _currentRoomCol = 0;
+				array = [[new Room(AssetPaths.level_0__oel, true)]];
+				return array;
+			case 1:
+				_width = 1;
+				_height = 2;
+				_currentRoomRow = _currentRoomCol = 0;
+				array = new Array<Array<Room>>();
+				array[0] = [new Room(AssetPaths.level_1A__oel, true)];
+				array[1] = [new Room(AssetPaths.level_1B__oel, false)];
+			case 2:
+				_width = 2;
+				_height = 1;
+				_currentRoomRow = _currentRoomCol = 0;
+				array = new Array<Array<Room>>();
+				array[0] = [new Room(AssetPaths.level_2A__oel, true), new Room(AssetPaths.level_2B__oel, false)];
+		}
 		return null;
 	}
 }

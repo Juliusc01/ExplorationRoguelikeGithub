@@ -81,8 +81,8 @@
     </EntityDefinition>
     <EntityDefinition Name="resource" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>32</Width>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
