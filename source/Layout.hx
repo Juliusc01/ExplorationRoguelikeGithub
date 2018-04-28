@@ -407,12 +407,14 @@ class Layout
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_1A__oel, true)];
 				array[1] = [new Room(AssetPaths.level_1B__oel, false)];
+				return array;
 			case 2:
 				_width = 2;
 				_height = 1;
 				_currentRoomRow = _currentRoomCol = 0;
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_2A__oel, true), new Room(AssetPaths.level_2B__oel, false)];
+				return array;
 		}
 		return null;
 	}
