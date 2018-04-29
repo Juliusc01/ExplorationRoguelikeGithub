@@ -96,6 +96,7 @@ class Layout
 	 * the current room.
 	 */
 	public function changeRoom(dir:Direction):Room {
+		_rooms[_currentRoomRow][_currentRoomCol].resetRoom();
 		switch (dir) {
 			case Direction.EAST:
 				_currentRoomCol++;

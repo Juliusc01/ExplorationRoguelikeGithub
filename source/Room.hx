@@ -25,6 +25,8 @@ class Room extends FlxGroup
 	public var tilemap:FlxTilemap;
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
+	public var grpEnemies:FlxTypedGroup<Enemy>;
+	public var allEnemiesDead:Bool;
 	public var myHouse:House;
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
@@ -46,6 +48,8 @@ class Room extends FlxGroup
 		add(tilemap);
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
+		grpEnemies = new FlxTypedGroup<Enemy>();
+		allEnemiesDead = false;
 		myPowerUp = null;
 		_map.loadEntities(placeEntities, "entities");
 		myHouse = null;
@@ -54,6 +58,7 @@ class Room extends FlxGroup
 			trace(""+myPowerUp.imagePath);
 			add(myPowerUp);
 		}
+		add(grpEnemies);
 		add(grpResources);
 		add(grpDoors);
 		
@@ -65,11 +70,32 @@ class Room extends FlxGroup
 			add(myHouse);
 		}
 		
-		
-		
 
 	}
 	
+	public function hasKilledAllEnemies() {
+		if (grpEnemies.getFirstExisting() == null) {
+			this.allEnemiesDead = true;
+			trace("all enemies dead");
+		}
+	}
+
+	public function resetRoom():Void {
+		if (!allEnemiesDead) {
+			remove(grpEnemies);
+			grpEnemies = new FlxTypedGroup<Enemy>();
+			_map.loadEntities(placeEnemies, "entities");
+			add(grpEnemies);
+		}
+	}
+	
+	private function placeEnemies(entityName:String, entityData:Xml):Void {
+		var x:Int = Std.parseInt(entityData.get("x"));
+		var y:Int = Std.parseInt(entityData.get("y"));
+		if (entityName == "enemy") {
+			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
+		}
+	}
 	private function placeEntities(entityName:String, entityData:Xml):Void {
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
@@ -93,6 +119,8 @@ class Room extends FlxGroup
 			}
 			myPowerUp.changeXY(x, y);
 			trace(myPowerUp.toString() +"");
+		} else if (entityName == "enemy") {
+			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
 		}
 	}
 	
