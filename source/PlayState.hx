@@ -45,7 +45,7 @@ class PlayState extends FlxState {
 		currentFood = 0;
 		currentStone = 0;
 		
-		_layout = new Layout(25);		
+		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
 		
 		add(_currentRoom);

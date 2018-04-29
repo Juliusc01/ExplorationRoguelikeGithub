@@ -17,6 +17,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	private var _sprBackground:FlxSprite;
 	
+	private var _sprTimer:FlxSprite;
 	private var _txtTimer:FlxText;
 
 	private var _txtWood:FlxText;
@@ -45,9 +46,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, 32, FlxColor.BLACK);
 		_sprBackground.drawRect(0, 31, FlxG.width - 1, 0, FlxColor.WHITE);
 		add(_sprBackground);
-		_txtTimer = new FlxText(0, 0, 0);
+		_txtTimer = new FlxText(2, Constants.TILE_HEIGHT - 2, 0);
 		_txtTimer.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);
+		_sprTimer = new FlxSprite(2, 0, AssetPaths.time__png);
 		add(_txtTimer);
+		add(_sprTimer);
 		
 		_txtWood = new FlxText(40, Constants.TILE_HEIGHT - 2, Constants.TILE_WIDTH * 3, _ps.currentWood + " / " + Std.string(_woodMax));
 		_txtWood.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);

@@ -15,6 +15,7 @@ class Resource extends FlxSprite {
 	public function new(?X:Float=0, ?Y:Float=0, RType:Int) {
 		super(X, Y);
 		type = RType;
+		trace("making resource of type: " + RType);
 		loadGraphic("assets/images/resource" + type + ".png", false, 0, 0);
 		width = 16;
 		height = 16;
