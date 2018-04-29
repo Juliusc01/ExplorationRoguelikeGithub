@@ -25,6 +25,8 @@ class Room extends FlxGroup
 	public var tilemap:FlxTilemap;
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
+	public var grpEnemies:FlxTypedGroup<Enemy>;
+	public var allEnemiesDead:Bool;
 	public var myHouse:House;
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
@@ -65,9 +67,14 @@ class Room extends FlxGroup
 		
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
+		grpEnemies = new FlxTypedGroup<Enemy>();
+		allEnemiesDead = false;
 		myPowerUp = null;
+		myHouse = null;
 		
 		_map.loadEntities(placeEntities, "entities");
+
+		add(grpEnemies);
 		add(grpDoors);
 		
 		myHouse = null;
@@ -78,7 +85,7 @@ class Room extends FlxGroup
 			add(myHouse);
 		}
 	}
-		
+
 	/**
 	 * To be called after all of the room-generation
 	 * code is finished. Inits the room with its currently
@@ -104,6 +111,30 @@ class Room extends FlxGroup
 		_resList.push(resType);
 	}
 	
+	public function hasKilledAllEnemies() {
+		if (grpEnemies.getFirstExisting() == null) {
+			this.allEnemiesDead = true;
+			trace("all enemies dead");
+		}
+	}
+
+	public function resetRoom():Void {
+		if (!allEnemiesDead) {
+			remove(grpEnemies);
+			grpEnemies = new FlxTypedGroup<Enemy>();
+			_map.loadEntities(placeEnemies, "entities");
+			add(grpEnemies);
+		}
+	}
+	
+	private function placeEnemies(entityName:String, entityData:Xml):Void {
+		var x:Int = Std.parseInt(entityData.get("x"));
+		var y:Int = Std.parseInt(entityData.get("y"));
+		if (entityName == "enemy") {
+			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
+		}
+	}
+
 	/**
 	 * First pass of entity placement. Place the entities
 	 * that we know will exist in the room, and set fields
@@ -118,8 +149,9 @@ class Room extends FlxGroup
 			//grpResources.add(new Resource(x, y, Std.parseInt(entityData.get("type"))));
 		} else if (StringTools.endsWith(entityName, "door")) {
 			grpDoors.add(new Door(x, y, convertDoorTypeToEnum(entityName)));
+		} else if (entityName == "enemy") {
+			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
 		}
-		
 	}
 	
 	private function finalizeEntities(entityName:String, entityData:Xml):Void {

@@ -63,10 +63,12 @@ class PlayState extends FlxState {
 		if (timer <= 0) {
 			loseLevel();
 		}
+		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
 		
 		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
 		FlxG.overlap(_player, _currentRoom.myPowerUp, playerTouchPowerUp);
+		FlxG.overlap(_player, _currentRoom.grpEnemies, playerTouchEnemy);
 		if (_currentRoom.isHome) {
 			FlxG.collide(_player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(_player, _currentRoom.myHouse, 48, true)) {
@@ -105,6 +107,13 @@ class PlayState extends FlxState {
 		}
 	}
 	
+	private function playerTouchEnemy(P:Player, E:Enemy):Void {
+		if (P.alive && P.exists && E.alive && E.exists && FlxG.keys.pressed.SPACE) {
+			E.kill();
+			_currentRoom.hasKilledAllEnemies();
+		}
+	}
+	
 	private function playerTouchResource(P:Player, R:Resource):Void {
 		if (P.alive && P.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
 			R.killByPlayer(P);
@@ -127,6 +136,15 @@ class PlayState extends FlxState {
 			_player.canUseDoors = false;
 			trace ("can't use doors");
 			switchToRoom(D.direction);
+		}
+	}
+	
+	private function checkEnemyVision(e:Enemy):Void {
+		if (_currentRoom.tilemap.ray(e.getMidpoint(), _player.getMidpoint())) {
+			e.seesPlayer = true;
+			e.playerPos.copyFrom(_player.getMidpoint());
+		} else {
+			e.seesPlayer = false;
 		}
 	}
 	

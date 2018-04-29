@@ -16,6 +16,8 @@ class Player extends FlxSprite {
 	public var speed:Float = 150;
 	public var canUseDoors:Bool = true;
 	public var isInSwamp:Bool = false;
+	public var isInSwing:Bool = false;
+	public var framesSwung:Int = 0;
 	
 	public function new(?X:Float=0, ?Y:Float=0) {
 		super(X, Y);
@@ -32,7 +34,24 @@ class Player extends FlxSprite {
 	
 	override public function update(elapsed:Float):Void 
 	{
-		movement();
+		
+		if (!isInSwing) {
+			isInSwing = swing();
+			speed = 150;
+			if (!isInSwing) {
+				movement();
+			}
+		} else {
+			framesSwung--;
+			if (framesSwung <= 0) {
+				loadGraphic(AssetPaths.player__png, true, 16, 16);
+				animation.add("lr", [3, 4, 3, 5], 6, false);
+				animation.add("u", [6, 7, 6, 8], 6, false);
+				animation.add("d", [0, 1, 0, 2], 6, false);
+				isInSwing = false;
+			}
+		}
+		
 		// After moving, set swamp to be false, this will
 		// be updated back to true by the collision callback
 		// if they are still in the swamp during next update.
@@ -65,17 +84,45 @@ class Player extends FlxSprite {
 			y = FlxG.height - height - 2 * Constants.TILE_HEIGHT;
 		}
 	}
+
+	private function swing():Bool {
+		var _space:Bool = FlxG.keys.anyJustPressed([SPACE]);
+		if (_space) {
+			framesSwung = 40;
+			this.isInSwing = true;
+			switch (facing) {
+					case FlxObject.LEFT:
+						loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
+						animation.add("lsword", [0,1,0], 6, false);
+						animation.play("lsword");
+					case FlxObject.RIGHT:
+						loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
+						animation.add("rsword", [0,1,0], 6, false);
+						animation.play("rsword");
+					case FlxObject.UP:
+						loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
+						animation.add("usword", [0,1,0], 6, false);
+						animation.play("usword");
+					case FlxObject.DOWN:
+						loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
+						animation.add("dsword", [2,3,2], 6, false);
+						animation.play("dsword");
+				}
+		}
+		return _space;
+	}
 	
 	private function movement():Void {
 		var _up:Bool = false;
 		var _down:Bool = false;
 		var _left:Bool = false;
 		var _right:Bool = false;
+		var _swing:Bool = false;
 		_up = FlxG.keys.anyPressed([UP, W]);
 		_down = FlxG.keys.anyPressed([DOWN, S]);
 		_left = FlxG.keys.anyPressed([LEFT, A]);
 		_right = FlxG.keys.anyPressed([RIGHT, D]);
-		
+		_swing = FlxG.keys.anyPressed([SPACE]);
 		if (_up && _down) {
 			_up = _down = false;
 		}
