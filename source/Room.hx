@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -151,6 +150,8 @@ class Room extends FlxGroup
 			grpDoors.add(new Door(x, y, convertDoorTypeToEnum(entityName)));
 		} else if (entityName == "enemy") {
 			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
+		} else if (entityName == "powerup") {
+			this.hasPowerUp = true;
 		}
 	}
 	
