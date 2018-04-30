@@ -28,6 +28,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprFood:FlxSprite;
 	private var _foodMax:Int;
 	
+	private var _txtStone:FlxText;
+	private var _sprStone:FlxSprite;
+	private var _stoneMax:Int;
+	
 
 	
 	// Reference to the PlayState of our current
@@ -40,6 +44,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_ps = ps;
 		_woodMax = GameData.currentLevel.woodReq;
 		_foodMax = GameData.currentLevel.foodReq;
+		_stoneMax = GameData.currentLevel.stoneReq;
 
 		// Top Bar of UI
 		// TODO: figure out spacing rules for these
@@ -64,6 +69,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		add(_txtFood);
 		add(_sprFood);
 		
+		_txtStone = new FlxText(120, Constants.TILE_HEIGHT - 2, Constants.TILE_WIDTH * 3);
+		_txtStone.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, 12);
+		_sprStone = new FlxSprite(120, 0, AssetPaths.stone__png);
+		add(_txtStone);
+		add(_sprStone);
+		
 		forEach(function(spr:FlxSprite)
 		{
 			spr.scrollFactor.set(0, 0);
@@ -76,5 +87,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_txtTimer.text = FlxStringUtil.formatTime(_ps.timer);
 		_txtWood.text = _ps.currentWood + " / " + _woodMax;
 		_txtFood.text = _ps.currentFood + " / " + _foodMax;
+		_txtStone.text = _ps.currentStone + " / " + _stoneMax;
 	}
 }

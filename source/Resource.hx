@@ -48,7 +48,7 @@ class Resource extends FlxSprite {
 			case 1:
 				loadGraphic(AssetPaths.food__png);
 			case 2:
-				//loadGraphic(AssetPaths.stone__png);
+				loadGraphic(AssetPaths.stone__png);
 		}
 		this.angle = 0;
 		this.alpha = 1;
