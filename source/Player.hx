@@ -4,8 +4,10 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
+import flixel.math.FlxVelocity;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
+using flixel.util.FlxSpriteUtil;
 
 /**
  * ...
@@ -17,10 +19,16 @@ class Player extends FlxSprite {
 	public var canUseDoors:Bool = true;
 	public var isInSwamp:Bool = false;
 	public var isInSwing:Bool = false;
+	public var framesTillMovement:Int = 0;
 	public var framesSwung:Int = 0;
+	public var hp:Int;
+	private var _sword:Sword;
+	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
-	public function new(?X:Float=0, ?Y:Float=0) {
+	public function new(?X:Float=0, ?Y:Float=0, S:Sword) {
 		super(X, Y);
+		hp = 100;
+		_sword = S;
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
@@ -28,22 +36,26 @@ class Player extends FlxSprite {
 		animation.add("u", [6, 7, 6, 8], 6, false);
 		animation.add("d", [0, 1, 0, 2], 6, false);
 		drag.x = drag.y = 1600;
-		setSize(8, 10);
-		offset.set(4, 4);
+		setSize(16, 16);
+		//setSize(8, 10);
+		//offset.set(4, 4);
 	}
 	
-	override public function update(elapsed:Float):Void 
-	{
-		
+	override public function update(elapsed:Float):Void {
+		_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
+		if (framesTillMovement > 0) {
+			framesTillMovement--;
+		}
 		if (!isInSwing) {
 			isInSwing = swing();
 			speed = 150;
-			if (!isInSwing) {
+			if (!isInSwing && framesTillMovement == 0) {
 				movement();
 			}
 		} else {
 			framesSwung--;
 			if (framesSwung <= 0) {
+				_sword.kill();
 				loadGraphic(AssetPaths.player__png, true, 16, 16);
 				animation.add("lr", [3, 4, 3, 5], 6, false);
 				animation.add("u", [6, 7, 6, 8], 6, false);
@@ -84,30 +96,46 @@ class Player extends FlxSprite {
 			y = FlxG.height - height - 2 * Constants.TILE_HEIGHT;
 		}
 	}
-
+	
+	public function hurtByEnemy(E:Enemy) {
+		if(!isFlickering()) {
+			var enemyDamage = E.damage;
+			hp -= enemyDamage;
+			FlxVelocity.moveTowardsPoint(this, E.getMidpoint(), -400);
+			flicker(1.33333333333);
+			framesTillMovement = 20;
+		}
+	}
+	
 	private function swing():Bool {
 		var _space:Bool = FlxG.keys.anyJustPressed([SPACE]);
 		if (_space) {
 			framesSwung = 40;
 			this.isInSwing = true;
 			switch (facing) {
-					case FlxObject.LEFT:
-						loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
-						animation.add("lsword", [0,1,0], 6, false);
-						animation.play("lsword");
-					case FlxObject.RIGHT:
-						loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
-						animation.add("rsword", [0,1,0], 6, false);
-						animation.play("rsword");
-					case FlxObject.UP:
-						loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
-						animation.add("usword", [0,1,0], 6, false);
-						animation.play("usword");
-					case FlxObject.DOWN:
-						loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
-						animation.add("dsword", [2,3,2], 6, false);
-						animation.play("dsword");
-				}
+				case FlxObject.LEFT:
+					relativeSwordPosition = [-16, 0];
+					/*loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
+					animation.add("lsword", [0,1,0], 6, false);
+					animation.play("lsword");*/
+				case FlxObject.RIGHT:
+					relativeSwordPosition = [16, 0];
+					/*loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
+					animation.add("rsword", [0,1,0], 6, false);
+					animation.play("rsword");*/
+				case FlxObject.UP:
+					relativeSwordPosition = [0, -16];
+					/*loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
+					animation.add("usword", [0,1,0], 6, false);
+					animation.play("usword");*/
+				case FlxObject.DOWN:
+					relativeSwordPosition = [0, 16];
+					/*loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
+					animation.add("dsword", [2,3,2], 6, false);
+					animation.play("dsword");*/
+			}
+			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
+			_sword.revive();
 		}
 		return _space;
 	}
