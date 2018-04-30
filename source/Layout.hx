@@ -506,10 +506,10 @@ class Layout
 	
 	private function selectResource(needed:Array<Int>, totalNeeded:Int, numSpots:Int):Int {
 		var woodRange:Float = needed[0] / (totalNeeded * 1.0);
-		var foodRange:Float = (needed[1] / (totalNeeded * 1.0)) + woodRange;
+		var foodRange:Float = (needed[1] / (totalNeeded * 1.0));
 		//var stoneRange:Float = (needed[2] / (total * 1.0)) + foodRange;
 		var numExtraSpots:Float = (1.0) * numSpots - totalNeeded;
-		var blankChance:Float = numExtraSpots / numSpots; // TODO: try half of this value? And increase blank chance sooner ALSO FIX POWERUPS
+		var blankChance:Float = numExtraSpots / (numSpots * 2); // TODO: try half of this value? And increase blank chance sooner ALSO FIX POWERUPS
 		trace("generating with totalNeeded: " + totalNeeded + ", numSpots: " + numSpots + ", blank chance: " + blankChance);
 		return selectExtraResource([woodRange, foodRange], blankChance);
 	}
@@ -519,10 +519,10 @@ class Layout
 		if (choice <= blank) {
 			return -1;
 		}
-		
+		trace ("choice is: " + choice + ", needed array is: " + needed);
 		if (choice <= needed[0]) {
 			return 0;
-		} else if (choice <= needed[1]) {
+		} else if (choice <= needed[0] + needed[1]) {
 			return 1;
 		} else {
 			return 2;
