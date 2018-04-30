@@ -144,6 +144,8 @@ class Room extends FlxGroup
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
 		if (entityName == "resource") {
+			// TODO: check for overlap on home here and prevent the resource from counting/being generated
+			// if it does.
 			this.numResources++;
 			//grpResources.add(new Resource(x, y, Std.parseInt(entityData.get("type"))));
 		} else if (StringTools.endsWith(entityName, "door")) {

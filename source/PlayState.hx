@@ -137,7 +137,11 @@ class PlayState extends FlxState {
 	private function addResource(res:Resource, amount:Int):Void {
 		switch (res.type) {
 			case 0: // Wood, TODO: use Enums here
-				addWood(amount);
+				currentWood += amount;
+			case 1: // Food
+				currentFood += amount;
+			case 2: // Stone
+				currentStone += amount;
 			default:
 				trace("resource type was: " + res.type);
 		}
@@ -176,10 +180,5 @@ class PlayState extends FlxState {
 		}
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
-	}
-	
-	private function addWood(amount:Int):Void {
-		currentWood += amount;
-		trace("Added " + amount + ", now have : " + currentWood);
 	}
 }
