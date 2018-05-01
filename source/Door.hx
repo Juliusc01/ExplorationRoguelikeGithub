@@ -14,8 +14,8 @@ class Door extends FlxSprite
 	{
 		super(X, Y);
 		this.direction = dir;
-		var w:Int = Constants.TILE_WIDTH;
-		var h:Int = Constants.TILE_HEIGHT;
+		var w:Int = Const.TILE_WIDTH;
+		var h:Int = Const.TILE_HEIGHT;
 		trace("made door with direction:" + direction);
 		if (dir == Direction.WEST || dir == Direction.EAST) {
 			h *= 2;

@@ -159,11 +159,11 @@ class PlayState extends FlxState {
 			case Direction.EAST: 
 				_player.x = 0;
 			case Direction.SOUTH: 
-				_player.y = Constants.TILE_HEIGHT * 3;
+				_player.y = Const.TILE_HEIGHT * 3;
 			case Direction.WEST: // left
-				_player.x = FlxG.width - Constants.TILE_WIDTH;
+				_player.x = FlxG.width - Const.TILE_WIDTH;
 			case Direction.NORTH: // up
-				_player.y = FlxG.height - 3 * Constants.TILE_WIDTH;
+				_player.y = FlxG.height - 3 * Const.TILE_WIDTH;
 		}
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
