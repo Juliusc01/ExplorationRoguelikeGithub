@@ -26,5 +26,4 @@ class GameData
 	public static var level0 = new LevelData(3, 60, 5, 5, 1, 2);
 	public static var level1 = new LevelData(4, 60, 8, 10, 3, 0);
 	public static var levels:Array<LevelData> = [tut0, tut1, tut2, level0, level1];
-	
 }

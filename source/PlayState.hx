@@ -21,6 +21,8 @@ class PlayState extends FlxState {
 	private var _currentRoom:Room;
 	private var _layout:Layout;
 	
+	
+	public var sword:Sword;
 	// State of the current level, can be referenced
 	// by other components such as the HUD that need access.
 	public var currentWood:Int;
@@ -49,10 +51,13 @@ class PlayState extends FlxState {
 		_currentRoom = _layout.getCurrentRoom();
 		
 		add(_currentRoom);
-		_player = new Player(FlxG.width / 2, FlxG.height / 2);
+		sword = new Sword(0, 0);
+		_player = new Player(FlxG.width / 2, FlxG.height / 2, sword);
 		_HUD = new HUD(this);
+		sword.kill();
 		add(_HUD);
 		add(_player);
+		add(sword);
 		super.create();
 	}
 
@@ -60,15 +65,17 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 		FlxG.collide(_player, _currentRoom.tilemap);
 		timer -= elapsed;
-		if (timer <= 0) {
+		if (timer <= 0 || _player.hp <= 0) {
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
+		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
 		
 		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
 		FlxG.overlap(_player, _currentRoom.myPowerUp, playerTouchPowerUp);
-		FlxG.overlap(_player, _currentRoom.grpEnemies, playerTouchEnemy);
+		FlxG.collide(_player, _currentRoom.grpEnemies, playerTouchEnemy);
+		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
 		if (_currentRoom.isHome) {
 			FlxG.collide(_player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(_player, _currentRoom.myHouse, 48, true)) {
@@ -108,7 +115,13 @@ class PlayState extends FlxState {
 	}
 	
 	private function playerTouchEnemy(P:Player, E:Enemy):Void {
-		if (P.alive && P.exists && E.alive && E.exists && FlxG.keys.pressed.SPACE) {
+		if (P.alive && P.exists && E.alive && E.exists) {
+			P.hurtByEnemy(E);
+		}
+	}
+	
+	private function swordTouchEnemy(S:Sword , E:Enemy):Void {
+		if (S.alive && S.exists && E.alive && E.exists) {
 			E.kill();
 			_currentRoom.hasKilledAllEnemies();
 		}
@@ -144,7 +157,7 @@ class PlayState extends FlxState {
 	}
 	
 	private function checkEnemyVision(e:Enemy):Void {
-		if (_currentRoom.tilemap.ray(e.getMidpoint(), _player.getMidpoint())) {
+		if (_currentRoom.tilemap.ray(e.getMidpoint(), _player.getMidpoint())) { //&& _player.framesInvuln == 0) {
 			e.seesPlayer = true;
 			e.playerPos.copyFrom(_player.getMidpoint());
 		} else {

@@ -14,15 +14,17 @@ using flixel.util.FlxSpriteUtil;
  * @author Julius Christenson
  */
 class Enemy extends FlxSprite {
-    public var speed:Float = 140;
+    public var speed:Float = 80;
     public var etype(default, null):Int;
 	private var _brain:FSM;
 	public var seesPlayer:Bool = false;
 	public var playerPos(default, null):FlxPoint;
+	public var damage:Int;
 	
     public function new(X:Float=0, Y:Float=0, EType:Int) {
         super(X, Y);
         etype = EType;
+		damage = 10;
         loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
         setFacingFlip(FlxObject.LEFT, false, false);
         setFacingFlip(FlxObject.RIGHT, true, false);
