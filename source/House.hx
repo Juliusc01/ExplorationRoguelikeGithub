@@ -13,8 +13,8 @@ class House extends FlxSprite
 	public function new(X:Float=0, Y:Float=0) 
 	{
 		super(X, Y);
-		var w:Int = Const.TILE_WIDTH * 3;
-		var h:Int = Const.TILE_HEIGHT * 3;
+		var w:Int = Const.HOUSE_WIDTH;
+		var h:Int = Const.HOUSE_HEIGHT;
 		loadGraphic(AssetPaths.house__png, false, w, h);
 		setSize(w, h);
 		trace("house size is: " + width + ", " + height);

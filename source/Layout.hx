@@ -380,7 +380,7 @@ class Layout
 				if (shape != "") {
 					var distance = FlxMath.absInt(i - _currentRoomRow) +
 							FlxMath.absInt(j - _currentRoomCol);
-					var roomPath:String = chooseRoomForShape(shape);
+					var roomPath:String = chooseRoomForShape(shape, distance);
 					var currRoom:Room = new Room(roomPath, distance);
 					rooms[i][j] = currRoom;
 				}
@@ -389,10 +389,13 @@ class Layout
 		return rooms;
 	}
 	
-	private function chooseRoomForShape(shape:String):String {
-		// TODO: randomly select a number to append to the file path
-		// so we can choose a room of the correct shape at random
+	private function chooseRoomForShape(shape:String, distFromHome:Int):String {
 		var roomNum = 0;
+		if (distFromHome > 0) {
+			// TODO: randomly select a number to append to the file path
+			// so we can choose a room of the correct shape at random.
+			// only do this for the case where the current room is NOT the home room.
+		}
 		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
 	}
 	

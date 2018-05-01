@@ -11,7 +11,7 @@ import openfl.display.Sprite;
 class Main extends Sprite {
 	public function new() {
 		super();
-		addChild(new FlxGame(352, 320, MenuState));
+		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
 		makePowerUps();
 	}
 	

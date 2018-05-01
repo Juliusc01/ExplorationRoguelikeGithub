@@ -77,8 +77,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 		
 		// Generate the background of the top UI bar.
-		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, Const.UI_TOP_HEIGHT, FlxColor.WHITE);
-		_sprBackground.drawRect(1, 1, FlxG.width - 2, Const.UI_TOP_HEIGHT - 2, FlxColor.BLACK);
+		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, FlxColor.WHITE);
+		_sprBackground.drawRect(1, 1, FlxG.width - 2, WIDGET_HEIGHT - 2, FlxColor.BLACK);
 		add(_sprBackground);
 		
 		var nextX = 0;

@@ -79,8 +79,9 @@ class Room extends FlxGroup
 		myHouse = null;
 		if (isHome) {
 			// TODO: Add instruction text embedded on floor for home tile
-			add(new FlxText(150, 150, 100, "Instructions here"));
-			myHouse = new House(50, 50);
+			add(new FlxSprite(Const.HOUSE_X - 24, Const.HOUSE_Y + Const.HOUSE_HEIGHT + Const.TILE_HEIGHT, AssetPaths.instruction_move__png));
+			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
+			trace("House location is: " + Const.HOUSE_X + ", " + Const.HOUSE_Y);
 			add(myHouse);
 		}
 	}
