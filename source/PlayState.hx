@@ -138,6 +138,7 @@ class PlayState extends FlxState {
 		switch (res.type) {
 			case 0: // Wood, TODO: use Enums here
 				currentWood += amount;
+				_HUD.flashWood();
 			case 1: // Food
 				currentFood += amount;
 			case 2: // Stone

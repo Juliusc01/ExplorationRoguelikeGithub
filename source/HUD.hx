@@ -4,6 +4,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxStringUtil;
 using flixel.util.FlxSpriteUtil;
@@ -34,6 +36,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _txtWood:FlxText;
 	private var _sprWood:FlxSprite;
 	private var _woodMax:Int;
+	private var _woodTween:FlxTween;
 	
 	private var _bgFood:FlxSprite;
 	private var _txtFood:FlxText;
@@ -44,6 +47,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _txtStone:FlxText;
 	private var _sprStone:FlxSprite;
 	private var _stoneMax:Int;
+	
+	private var _toRemove:FlxSprite;
 	
 	// Reference to the PlayState of our current
 	// level, so we can update values.
@@ -139,8 +144,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		});
 	}
 	
-	override public function update(elapsed:Float):Void 
-	{
+	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		_txtTimer.text = FlxStringUtil.formatTime(_ps.timer);
 		_txtWood.text = _ps.currentWood + " / " + _woodMax;
@@ -150,6 +154,20 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_txtStone != null) {
 			_txtStone.text = _ps.currentStone + " / " + _stoneMax;
 		}
+	}
+	
+	public function flashWood():Void {
+		if (_woodTween == null) {
+			_toRemove = _bgWood.drawRect(_bgWood.x, _bgWood.y, WIDGET_WIDTH, WIDGET_HEIGHT, FlxColor.TRANSPARENT);
+			_woodTween = FlxTween.color(_toRemove, 0.5, FlxColor.TRANSPARENT, FlxColor.GREEN, {type: FlxTween.PERSIST, onComplete: resetWoodColor });
+		} else {
+			_woodTween.start();
+		}
+	}
+	
+	private function resetWoodColor(_):Void {
+		//_bgWood.color = FlxColor.WHITE;
+		FlxTween.color(_toRemove, 0.5, FlxColor.GREEN, FlxColor.TRANSPARENT);
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
