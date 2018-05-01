@@ -5,6 +5,8 @@ import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 /**
@@ -41,6 +43,8 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		trace(GameData.currentLevel);
+		fadeIn();
+		trace(FlxG.camera);
 		
 		timer = GameData.currentLevel.timeLimit;
 		currentWood = 0;
@@ -167,7 +171,7 @@ class PlayState extends FlxState {
 	}
 	
 	private function switchToRoom(outgoingDir:Direction) {
-		FlxG.camera.fade(FlxColor.BLACK, 0.25, true, true); //TODO: this doesn't work right now?
+		fadeIn();
 		remove(_currentRoom);
 		switch(outgoingDir) { 
 			case Direction.EAST: 
@@ -181,5 +185,10 @@ class PlayState extends FlxState {
 		}
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
+	}
+	
+	private function fadeIn():Void {
+		FlxG.camera.alpha = 0;
+		FlxTween.tween(FlxG.camera, {alpha: 1}, 0.35, { ease:FlxEase.quadInOut });
 	}
 }
