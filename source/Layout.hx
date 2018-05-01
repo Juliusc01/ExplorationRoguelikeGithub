@@ -478,7 +478,7 @@ class Layout
 			origRatios.push(neededRes[i] / (totalNeeded * 1.0));
 		}
 		
-		var blankChance:Float = 0.05;
+		var blankChance:Float = 0.1;
 		trace("Needed resources: " + neededRes);
 		trace("Original ratios: " + origRatios);
 		while (rooms.length > 0) {
@@ -507,9 +507,8 @@ class Layout
 	private function selectResource(needed:Array<Int>, totalNeeded:Int, numSpots:Int):Int {
 		var woodRange:Float = needed[0] / (totalNeeded * 1.0);
 		var foodRange:Float = (needed[1] / (totalNeeded * 1.0));
-		//var stoneRange:Float = (needed[2] / (total * 1.0)) + foodRange;
 		var numExtraSpots:Float = (1.0) * numSpots - totalNeeded;
-		var blankChance:Float = numExtraSpots / (numSpots * 2); // TODO: try half of this value? And increase blank chance sooner ALSO FIX POWERUPS
+		var blankChance:Float = numExtraSpots / (numSpots);
 		trace("generating with totalNeeded: " + totalNeeded + ", numSpots: " + numSpots + ", blank chance: " + blankChance);
 		return selectExtraResource([woodRange, foodRange], blankChance);
 	}
