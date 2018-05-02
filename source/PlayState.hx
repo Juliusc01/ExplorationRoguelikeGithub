@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
@@ -15,7 +16,7 @@ import flixel.util.FlxColor;
  */
 
 class PlayState extends FlxState {
-	private var _player:Player;
+	public var player:Player;
 	private var _grpResources:FlxTypedGroup<Resource>;
 	private var _grpDoors:FlxTypedGroup<Door>;
 	private var _HUD:HUD;
@@ -43,8 +44,6 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		trace(GameData.currentLevel);
-		fadeIn();
-		trace(FlxG.camera);
 		
 		timer = GameData.currentLevel.timeLimit;
 		currentWood = 0;
@@ -54,35 +53,41 @@ class PlayState extends FlxState {
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
 		
+		//_levelStartScreen = makeLevelStart();
+		
 		add(_currentRoom);
 		sword = new Sword(0, 0);
-		_player = new Player(FlxG.width / 2, FlxG.height / 2, sword);
+		player = new Player(FlxG.width / 2, FlxG.height / 2, sword);
 		_HUD = new HUD(this);
 		sword.kill();
 		add(_HUD);
-		add(_player);
+		add(player);
 		add(sword);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		FlxG.collide(_player, _currentRoom.tilemap);
+		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
-		if (timer <= 0 || _player.hp <= 0) {
+		
+		if (FlxG.keys.pressed.X) {
+			player.hp--;
+		}
+		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
 		
-		FlxG.overlap(_player, _currentRoom.grpResources, playerTouchResource);
-		FlxG.overlap(_player, _currentRoom.grpDoors, playerTouchDoor);
-		FlxG.overlap(_player, _currentRoom.myPowerUp, playerTouchPowerUp);
-		FlxG.collide(_player, _currentRoom.grpEnemies, playerTouchEnemy);
+		FlxG.overlap(player, _currentRoom.grpResources, playerTouchResource);
+		FlxG.overlap(player, _currentRoom.grpDoors, playerTouchDoor);
+		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
+		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
 		if (_currentRoom.isHome) {
-			FlxG.collide(_player, _currentRoom.myHouse);
-			if (FlxMath.isDistanceWithin(_player, _currentRoom.myHouse, 48, true)) {
+			FlxG.collide(player, _currentRoom.myHouse);
+			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
 				if (FlxG.keys.pressed.SPACE && currentFood >= GameData.currentLevel.foodReq
 					&& currentWood >= GameData.currentLevel.woodReq && currentStone >= GameData.currentLevel.stoneReq) {
 					winLevel();
@@ -90,6 +95,12 @@ class PlayState extends FlxState {
 			}
 		}
 
+	}
+	
+	private function makeLevelStart():FlxSprite {
+		//var bg = new FlxSprite(TILE_WIDTH * 4, TILE_HEIGHT * 5).makeGraphic(TILE_WIDTH * 14, TILE_HEIGHT * 10, FlxColor.BLACK);
+		//bg.add
+		return null;
 	}
 	
 	//Test end level function
@@ -155,16 +166,16 @@ class PlayState extends FlxState {
 	private function playerTouchDoor(P:Player, D:Door):Void {
 		if (P.alive && P.exists && P.canUseDoors && D.alive && D.exists) {
 			trace ("Triggered door touch!");
-			_player.canUseDoors = false;
+			player.canUseDoors = false;
 			trace ("can't use doors");
 			switchToRoom(D.direction);
 		}
 	}
 	
 	private function checkEnemyVision(e:Enemy):Void {
-		if (_currentRoom.tilemap.ray(e.getMidpoint(), _player.getMidpoint())) { //&& _player.framesInvuln == 0) {
+		if (_currentRoom.tilemap.ray(e.getMidpoint(), player.getMidpoint())) { //&& _player.framesInvuln == 0) {
 			e.seesPlayer = true;
-			e.playerPos.copyFrom(_player.getMidpoint());
+			e.playerPos.copyFrom(player.getMidpoint());
 		} else {
 			e.seesPlayer = false;
 		}
@@ -175,13 +186,13 @@ class PlayState extends FlxState {
 		remove(_currentRoom);
 		switch(outgoingDir) { 
 			case Direction.EAST: 
-				_player.x = 0;
+				player.x = 0;
 			case Direction.SOUTH: 
-				_player.y = Const.TILE_HEIGHT * 3;
+				player.y = Const.TILE_HEIGHT * 3;
 			case Direction.WEST: // left
-				_player.x = FlxG.width - Const.TILE_WIDTH;
+				player.x = FlxG.width - Const.TILE_WIDTH;
 			case Direction.NORTH: // up
-				_player.y = FlxG.height - 3 * Const.TILE_WIDTH;
+				player.y = FlxG.height - 3 * Const.TILE_WIDTH;
 		}
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
