@@ -26,7 +26,7 @@ class Player extends FlxSprite {
 	public var damage:Int;
 	public var knockback:Int;
 	public var swingNumber:Int;
-	public var invulnFrames:Int;
+	public var invulnFrames:Float;
 	private var _sword:Sword;
 	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
@@ -35,6 +35,7 @@ class Player extends FlxSprite {
 		hp = 100;
 		knockback = 200;
 		damage = 10;
+		invulnFrames = 80;
 		swingNumber = 0;
 		_sword = S;
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
