@@ -110,29 +110,29 @@ class Player extends FlxSprite {
 	private function swing():Bool {
 		var _space:Bool = FlxG.keys.anyJustPressed([SPACE]);
 		if (_space) {
-			framesSwung = 40;
+			framesSwung = 39;
 			this.isInSwing = true;
 			switch (facing) {
 				case FlxObject.LEFT:
 					relativeSwordPosition = [-16, 0];
-					/*loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
-					animation.add("lsword", [0,1,0], 6, false);
-					animation.play("lsword");*/
+					_sword.loadGraphic(AssetPaths.sword_l__png, true, 16, 16);
+					_sword.animation.add("lsword", [2,1,0], 13, false);
+					_sword.animation.play("lsword");
 				case FlxObject.RIGHT:
 					relativeSwordPosition = [16, 0];
-					/*loadGraphic(AssetPaths.player_sword_lr__png, true, 32, 16);
-					animation.add("rsword", [0,1,0], 6, false);
-					animation.play("rsword");*/
+					_sword.loadGraphic(AssetPaths.sword_r__png, true, 16, 16);
+					_sword.animation.add("rsword", [2,1,0], 13, false);
+					_sword.animation.play("rsword");
 				case FlxObject.UP:
 					relativeSwordPosition = [0, -16];
-					/*loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
-					animation.add("usword", [0,1,0], 6, false);
-					animation.play("usword");*/
+					_sword.loadGraphic(AssetPaths.sword_u__png, true, 16, 16);
+					_sword.animation.add("usword", [2,1,0], 13, false);
+					_sword.animation.play("usword");
 				case FlxObject.DOWN:
 					relativeSwordPosition = [0, 16];
-					/*loadGraphic(AssetPaths.player_sword_ud__png, true, 16, 32);
-					animation.add("dsword", [2,3,2], 6, false);
-					animation.play("dsword");*/
+					_sword.loadGraphic(AssetPaths.sword_d__png, true, 16, 16);
+					_sword.animation.add("dsword", [0,1,2], 13, false);
+					_sword.animation.play("dsword");
 			}
 			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
 			_sword.revive();

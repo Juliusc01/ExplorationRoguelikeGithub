@@ -14,7 +14,7 @@ class Sword extends FlxSprite {
 	
 	public function new(?X:Float=0, ?Y:Float=0) {
 		super(X, Y);
-		loadGraphic(AssetPaths.item_00__png, true, 16, 16);
+		loadGraphic(AssetPaths.sword_l__png, true, 16, 16);
 		width = 16;
 		height = 16;
 		offset.x = 0;
