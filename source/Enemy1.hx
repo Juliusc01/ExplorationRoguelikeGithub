@@ -13,7 +13,7 @@ using flixel.util.FlxSpriteUtil;
  * ...
  * @author Julius Christenson
  */
-class Enemy0 extends Enemy {
+class Enemy1 extends Enemy {
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
 		super(X, Y, EType);
 		setFacingFlip(FlxObject.LEFT, false, false);
@@ -27,9 +27,9 @@ class Enemy0 extends Enemy {
         offset.x = 4;
         offset.y = 2;
 		speed = 80;
-		damage = 10;
-		knockback = 400;
-		hp = 20;
+		damage = 0;
+		knockback = 0;
+		hp = 1;
 		_brain = new FSM(idle);
 
 	}
@@ -47,9 +47,7 @@ class Enemy0 extends Enemy {
 		if (!seesPlayer) {
 			_brain.activeState = idle;
 		} else {
-			if (framesTillMovement == 0) {
-				FlxVelocity.moveTowardsPoint(this, playerPos, Std.int(speed));				
-			}
+			FlxVelocity.moveTowardsPoint(this, playerPos, -1*Std.int(speed));
 		}
 	}
 	
@@ -87,4 +85,7 @@ class Enemy0 extends Enemy {
 		super.update(elapsed);
 	}
 	
+	override public function damagePlayer(P:Player):Void {
+		return;
+	}
 }

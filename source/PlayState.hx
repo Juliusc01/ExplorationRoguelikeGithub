@@ -96,15 +96,15 @@ class PlayState extends FlxState {
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
 		
+		FlxG.collide(player, _currentRoom.grpResources);
 		hasEnoughWood = currentWood >= GameData.currentLevel.woodReq;
 		hasEnoughFood = currentFood >= GameData.currentLevel.foodReq;
 		hasEnoughStone = currentStone >= GameData.currentLevel.stoneReq;
-		
-		FlxG.overlap(player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(player, _currentRoom.grpDoors, playerTouchDoor);
 		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
+		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
@@ -174,15 +174,15 @@ class PlayState extends FlxState {
 	}
 	
 	private function swordTouchEnemy(S:Sword , E:Enemy):Void {
-		if (S.alive && S.exists && E.alive && E.exists) {
-			E.kill();
+		if (S.alive && S.exists && E.alive && E.exists && player.swingNumber != E.lastPlayerSwingNumber) {
+			E.hurtByPlayer(player);
 			_currentRoom.hasKilledAllEnemies();
 		}
 	}
 	
-	private function playerTouchResource(P:Player, R:Resource):Void {
-		if (P.alive && P.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
-			R.killByPlayer(P);
+	private function swordTouchResource(S:Sword, R:Resource):Void {
+		if (S.alive && S.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
+			R.killByPlayer();
 			addResource(R, 1);
 		}
 	}
