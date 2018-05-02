@@ -123,6 +123,7 @@ class PlayState extends FlxState {
 			for (currPowerUp in GameData.powerUps) {
 				if (currPowerUp.powerUpID == PU.powerUpID) {
 					currPowerUp.isActive = true;
+					_HUD.showPowerUp(currPowerUp);
 				}
 			}
 			PU.kill();

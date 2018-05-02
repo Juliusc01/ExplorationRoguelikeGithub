@@ -9,6 +9,7 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxStringUtil;
+import flixel.util.FlxTimer;
 using flixel.util.FlxSpriteUtil;
 
 /**
@@ -30,6 +31,13 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	public static var BORDER_COLOR(default, never):FlxColor = FlxColor.WHITE;
 	public static var BG_COLOR(default, never):FlxColor = FlxColor.BLACK;
+	
+	public static var POPUP_WIDTH(default, never):Int = 250;
+	public static var POPUP_HEIGHT(default, never):Int = 32;
+	public static var POPUP_X(default, never):Float = (Const.GAME_WIDTH - POPUP_WIDTH) / 2;
+	public static var POPUP_Y(default, never):Float = (Const.GAME_HEIGHT - POPUP_HEIGHT) / 2 + 85;
+	
+	public static var FONT(default, never):String = "assets/data/expressway_rg.ttf";
 	
 	private var _sprBackground:FlxSprite;
 	
@@ -60,6 +68,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _stoneMax:Int;
 	
 	private var _toRemove:FlxSprite;
+	
+	private var _bgPowerUp:FlxSprite;
+	private var _sprPowerUp:FlxSprite;
+	private var _titlePowerUp:FlxText;
+	private var _txtPowerUp:FlxText;
 	
 	// Reference to the PlayState of our current
 	// level, so we can update values.
@@ -161,6 +174,21 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			this._txtStone = null;
 		}
 		
+		// Add the powerup tooltip to the UI and make it invisible at first.
+		_bgPowerUp = new FlxSprite(POPUP_X, POPUP_Y).makeGraphic(POPUP_WIDTH, POPUP_HEIGHT, BORDER_COLOR);
+		_bgPowerUp.drawRect(1, 1, POPUP_WIDTH - 2, POPUP_HEIGHT - 2, BG_COLOR);
+		_sprPowerUp = new FlxSprite(POPUP_X + 4, POPUP_Y + (POPUP_HEIGHT - Const.TILE_HEIGHT) / 2);
+		_titlePowerUp = new FlxText(POPUP_X + 21, POPUP_Y, POPUP_WIDTH - 22);
+		_titlePowerUp.setFormat(FONT, FONT_SIZE - 1, FlxColor.YELLOW, CENTER);
+		_txtPowerUp = new FlxText(POPUP_X + 25, POPUP_Y + 15, POPUP_WIDTH - 26);
+		_txtPowerUp.setFormat(FONT, FONT_SIZE - 3, FlxColor.WHITE, CENTER);
+		trace("x,y: " + POPUP_X + ", " + POPUP_Y);
+		add(_bgPowerUp);
+		add(_sprPowerUp);
+		add(_titlePowerUp);
+		add(_txtPowerUp);
+		hidePowerUp(null);
+		
 		forEach(function(spr:FlxSprite)
 		{
 			spr.scrollFactor.set(0, 0);
@@ -185,17 +213,43 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 	}
 	
+	/**
+	 * Shows popup for powerup when it is picked up by the player.
+	 */
+	public function showPowerUp(pu:PowerUp):Void {
+		_sprPowerUp.loadGraphic("assets/images/" + pu.imagePath);
+		_titlePowerUp.text = pu.name;
+		_txtPowerUp.text = pu.effect;
+		
+		_bgPowerUp.alpha = 1;
+		_sprPowerUp.alpha = 1;
+		_titlePowerUp.alpha = 1;
+		_txtPowerUp.alpha = 1;
+		
+		// Hide the popup after 3 seconds.
+		// TODO: polish this by using a tween to fade out instead.
+		new FlxTimer().start(3, hidePowerUp, 1);
+	}
+	
+	// Hides the popup showing which powerup was just collected
+	// by the player.
+	private function hidePowerUp(_):Void {
+		_sprPowerUp.alpha = 0;
+		_bgPowerUp.alpha = 0;
+		_titlePowerUp.alpha = 0;
+		_txtPowerUp.alpha = 0;
+	}
+	
 	public function flashWood():Void {
 		if (_woodTween == null) {
-			_toRemove = _bgWood.drawRect(_bgWood.x, _bgWood.y, WIDGET_WIDTH, WIDGET_HEIGHT, FlxColor.TRANSPARENT);
-			_woodTween = FlxTween.color(_toRemove, 0.5, FlxColor.TRANSPARENT, FlxColor.GREEN, {type: FlxTween.PERSIST, onComplete: resetWoodColor });
+			_woodTween = FlxTween.color(_bgWood, 0.5, BORDER_COLOR, FlxColor.GREEN, {type: FlxTween.PERSIST, onComplete: resetWoodColor });
 		} else {
 			_woodTween.start();
 		}
 	}
 	
 	private function resetWoodColor(_):Void {
-		FlxTween.color(_toRemove, 0.5, FlxColor.GREEN, FlxColor.TRANSPARENT);
+		FlxTween.color(_bgWood, 0.5, FlxColor.GREEN, BORDER_COLOR);
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
@@ -206,7 +260,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	private function makeWidgetText(widgetX:Int, txtWidth:Int):FlxText {
 		var txt = new FlxText(widgetX + 1, TEXT_Y, txtWidth);
-		txt.setFormat(AssetPaths.RobotoCondensed_Regular__ttf, FONT_SIZE, BORDER_COLOR, CENTER);
+		txt.setFormat(FONT, FONT_SIZE, BORDER_COLOR, CENTER);
 		return txt;
 	}
 	
