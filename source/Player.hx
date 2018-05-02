@@ -23,12 +23,19 @@ class Player extends FlxSprite {
 	public var framesTillMovement:Int = 0;
 	public var framesSwung:Int = 0;
 	public var hp:Int;
+	public var damage:Int;
+	public var knockback:Int;
+	public var swingNumber:Int;
+	public var invulnFrames:Int;
 	private var _sword:Sword;
 	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
 	public function new(?X:Float=0, ?Y:Float=0, S:Sword) {
 		super(X, Y);
 		hp = 100;
+		knockback = 200;
+		damage = 10;
+		swingNumber = 0;
 		_sword = S;
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
 		setFacingFlip(FlxObject.LEFT, false, false);
@@ -53,6 +60,7 @@ class Player extends FlxSprite {
 		}
 		if (!isInSwing) {
 			isInSwing = swing();
+			swingNumber++;
 			speed = 150;
 			if (!isInSwing && framesTillMovement == 0) {
 				movement();
@@ -104,11 +112,7 @@ class Player extends FlxSprite {
 	
 	public function hurtByEnemy(E:Enemy) {
 		if(!isFlickering()) {
-			var enemyDamage = E.damage;
-			hp -= enemyDamage;
-			FlxVelocity.moveTowardsPoint(this, E.getMidpoint(), -400);
-			flicker(1.33333333333);
-			framesTillMovement = 20;
+			E.damagePlayer(this);
 		}
 	}
 	

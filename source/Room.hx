@@ -10,6 +10,7 @@ import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 import Enemy0;
+import Enemy1;
 /**
  * A room encapsulates all of the data that is specific to one room of the map.
  * This includes all entities (resources, doors) and tilemaps for this room.
@@ -25,6 +26,7 @@ class Room extends FlxGroup
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
 	public var grpEnemies:FlxTypedGroup<Enemy>;
+	private var myEnemies:List<Array<Int>>;
 	public var allEnemiesDead:Bool;
 	public var myHouse:House;
 	public var myPowerUp:PowerUp;
@@ -67,6 +69,7 @@ class Room extends FlxGroup
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
 		grpEnemies = new FlxTypedGroup<Enemy>();
+		myEnemies = new List<Array<Int>>();
 		allEnemiesDead = false;
 		myPowerUp = null;
 		myHouse = null;
@@ -121,8 +124,13 @@ class Room extends FlxGroup
 	public function resetRoom():Void {
 		if (!allEnemiesDead) {
 			remove(grpEnemies);
-			grpEnemies = new FlxTypedGroup<Enemy>();
-			_map.loadEntities(placeEnemies, "entities");
+			grpEnemies.clear();
+			var myItr = myEnemies.iterator();
+			while (myItr.hasNext()) {
+				var enemyVar = myItr.next();
+				var realEnemy = Type.createInstance(Type.resolveClass("Enemy"+enemyVar[2]), [enemyVar[0], enemyVar[1], enemyVar[2]]);
+				grpEnemies.add(realEnemy);
+			}
 			add(grpEnemies);
 		}
 	}
@@ -139,8 +147,8 @@ class Room extends FlxGroup
 				myEnemyEtype = GameData.enemies[Std.parseInt(entityData.get("Etype"))];
 			}
 			var realEnemy = Type.createInstance(Type.resolveClass("Enemy"+myEnemyEtype), [x, y, myEnemyEtype]);
-			
 			grpEnemies.add(realEnemy);
+			myEnemies.push([x, y, myEnemyEtype]);
 		}
 	}
 
