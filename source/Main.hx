@@ -18,9 +18,10 @@ class Main extends Sprite {
 	private function makePowerUps() {
 		GameData.powerUps = [new PowerUp("000", "Shiny Armor", "Longer protection after being hit", "000_armor.png")];
 		GameData.powerUps.push(new PowerUp("001", "Strangely Familiar Sword", "Damage Increased", "001_sword.png"));
-		GameData.powerUps.push(new PowerUp("002", "Lucky Axe", "Chance of Extra Wood from Trees", "002_axe.png"));
+		GameData.powerUps.push(new PowerUp("002", "Lucky Axe", "Chance of extra wood from trees", "002_axe.png"));
 		GameData.powerUps.push(new PowerUp("003", "Reflective Shield", "Reflect some damage back to enemies", "003_shield.png"));
 		GameData.powerUps.push(new PowerUp("004", "Little Light of Mine", "Extra time before nightfall", "004_candle.png"));
+		GameData.powerUps.push(new PowerUp("005", "Foraging Gloves", "Chance of extra food from bushes", "005_gloves.png"));
 		GameData.activePowerUps = new Array<PowerUp>();
 	}
 	

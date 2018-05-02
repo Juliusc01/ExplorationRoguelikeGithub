@@ -130,8 +130,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_nextPowerUpX = 16;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
 		trace(BOTTOM_BAR_Y + " is the y coord");
-		for (i in 0...GameData.powerUps.length) {
-			addPowerUpToHUD(GameData.powerUps[i]);
+		for (i in 0...GameData.activePowerUps.length) {
+			addPowerUpToHUD(GameData.activePowerUps[i]);
 		}
 		
 		var nextX = 0;
