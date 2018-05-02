@@ -30,7 +30,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	public static var FONT_SIZE(default, never):Int = 13;
 	
 	public static var BORDER_COLOR(default, never):FlxColor = FlxColor.WHITE;
-	public static var BG_COLOR(default, never):FlxColor = FlxColor.BLACK;
+	public static var BG_COLOR(default, never):FlxColor = FlxColor.GRAY;
 	
 	public static var POPUP_WIDTH(default, never):Int = 250;
 	public static var POPUP_HEIGHT(default, never):Int = 32;
@@ -59,18 +59,21 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprWood:FlxSprite;
 	private var _woodMax:Int;
 	private var _woodTween:FlxTween;
+	private var _doneWithWood:Bool;
 	
 	private var _bgFood:FlxSprite;
 	private var _txtFood:FlxText;
 	private var _sprFood:FlxSprite;
 	private var _foodMax:Int;
 	private var _foodTween:FlxTween;
+	private var _doneWithFood:Bool;
 	
 	private var _bgStone:FlxSprite;
 	private var _txtStone:FlxText;
 	private var _sprStone:FlxSprite;
 	private var _stoneMax:Int;
 	private var _stoneTween:FlxTween;
+	private var _doneWithStone:Bool;
 	
 	private var _toRemove:FlxSprite;
 	
@@ -127,8 +130,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_nextPowerUpX = 16;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
 		trace(BOTTOM_BAR_Y + " is the y coord");
-		for (i in 0...GameData.activePowerUps.length) {
-			addPowerUpToHUD(GameData.activePowerUps[i]);
+		for (i in 0...GameData.powerUps.length) {
+			addPowerUpToHUD(GameData.powerUps[i]);
 		}
 		
 		var nextX = 0;
@@ -277,42 +280,60 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	}
 	
 	public function flashWood():Void {
-		if (_woodTween == null) {
-			_woodTween = FlxTween.color(_txtWood, 0.3, BORDER_COLOR, FlxColor.GREEN,
-					{type: FlxTween.PERSIST, onComplete: resetWoodColor, ease: FlxEase.quadIn });
-		} else {
-			_woodTween.start();
+		if (!_doneWithWood) {
+			if (_woodTween == null) {
+				_woodTween = FlxTween.color(_txtWood, 0.3, BORDER_COLOR, FlxColor.GREEN,
+						{type: FlxTween.PERSIST, onComplete: resetWoodColor, ease: FlxEase.quadIn });
+			} else {
+				_woodTween.start();
+			}
 		}
 	}
 	
 	private function resetWoodColor(_):Void {
-		FlxTween.color(_txtWood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		if (_ps.hasEnoughWood) {
+			_doneWithWood = true;
+		} else {
+			FlxTween.color(_txtWood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		}
 	}
 	
 	public function flashFood():Void {
-		if (_foodTween == null) {
-			_foodTween = FlxTween.color(_txtFood, 0.3, BORDER_COLOR, FlxColor.GREEN,
-					{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
-		} else {
-			_foodTween.start();
+		if (!_doneWithFood) {
+			if (_foodTween == null) {
+				_foodTween = FlxTween.color(_txtFood, 0.3, BORDER_COLOR, FlxColor.GREEN,
+						{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
+			} else {
+				_foodTween.start();
+			}
 		}
 	}
 	
 	private function resetFoodColor(_):Void {
-		FlxTween.color(_txtFood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		if (_ps.hasEnoughFood) {
+			_doneWithFood = true;
+		} else {
+			FlxTween.color(_txtFood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		}
 	}
 	
 	public function flashStone():Void {
-		if (_stoneTween == null) {
-			_stoneTween = FlxTween.color(_txtStone, 0.3, BORDER_COLOR, FlxColor.GREEN,
-					{type: FlxTween.PERSIST, onComplete: resetStoneColor, ease: FlxEase.quadIn });
-		} else {
-			_stoneTween.start();
+		if (!_doneWithStone) {
+			if (_stoneTween == null) {
+				_stoneTween = FlxTween.color(_txtStone, 0.3, BORDER_COLOR, FlxColor.GREEN,
+						{type: FlxTween.PERSIST, onComplete: resetStoneColor, ease: FlxEase.quadIn });
+			} else {
+				_stoneTween.start();
+			}
 		}
 	}
 	
 	private function resetStoneColor(_):Void {
-		FlxTween.color(_txtStone, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		if (_ps.hasEnoughStone) {
+			_doneWithStone = true;
+		} else {
+			FlxTween.color(_txtStone, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+		}
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {

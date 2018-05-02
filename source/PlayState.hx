@@ -1,14 +1,11 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 
 /**
  * ...
@@ -34,7 +31,9 @@ class PlayState extends FlxState {
 	public var timer:Float;
 	public var isEnding:Bool;
 	public var hasWon:Bool;
-	public var hasEnoughResources:Bool;
+	public var hasEnoughWood:Bool;
+	public var hasEnoughFood:Bool;
+	public var hasEnoughStone:Bool;
 	
 	private var _inStart:Bool;
 	private var _levelStartScreen:LevelStartScreen;
@@ -69,6 +68,7 @@ class PlayState extends FlxState {
 		add(player);
 		add(sword);
 		addLevelStartScreen();
+		applyActivePowerUps();
 		super.create();
 	}
 
@@ -81,6 +81,7 @@ class PlayState extends FlxState {
 			}
 			return;
 		}
+		
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
@@ -88,11 +89,16 @@ class PlayState extends FlxState {
 		if (FlxG.keys.pressed.X) {
 			player.hp--;
 		}
+		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
+		
+		hasEnoughWood = currentWood >= GameData.currentLevel.woodReq;
+		hasEnoughFood = currentFood >= GameData.currentLevel.foodReq;
+		hasEnoughStone = currentStone >= GameData.currentLevel.stoneReq;
 		
 		FlxG.overlap(player, _currentRoom.grpResources, playerTouchResource);
 		FlxG.overlap(player, _currentRoom.grpDoors, playerTouchDoor);
@@ -102,8 +108,7 @@ class PlayState extends FlxState {
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
-				if (FlxG.keys.pressed.SPACE && currentFood >= GameData.currentLevel.foodReq
-					&& currentWood >= GameData.currentLevel.woodReq && currentStone >= GameData.currentLevel.stoneReq) {
+				if (FlxG.keys.pressed.SPACE && hasEnoughWood && hasEnoughFood && hasEnoughStone) {
 					winLevel();
 				}
 			}
@@ -155,6 +160,7 @@ class PlayState extends FlxState {
 					currPowerUp.isActive = true;
 					_HUD.showPowerUp(currPowerUp);
 					GameData.activePowerUps.push(currPowerUp);
+					applyPowerUp(currPowerUp);
 				}
 			}
 			PU.kill();
@@ -240,5 +246,29 @@ class PlayState extends FlxState {
 	
 	private function endCameraFade(_):Void {
 		_inCameraFade = false;
+	}
+	
+	private function applyActivePowerUps():Void {
+		// TODO: apply powerups here.
+		for (i in 0...GameData.activePowerUps.length) {
+			applyPowerUp(GameData.activePowerUps[i]);
+		}
+	}
+	
+	private function applyPowerUp(pu:PowerUp):Void {
+		switch (pu.powerUpID) {
+			case "000":
+				trace("applying 000: ARMOR");
+			case "001":
+				trace("applying 001: SWORD");
+			case "002":
+				trace("applying 002: AXE");
+			case "003":
+				trace("applying 003: SHIELD");
+			case "004":
+				trace("applying 004: CANDLE");
+				timer += 20;
+				GameData.currentLevel.timeLimit += 20;
+		}
 	}
 }

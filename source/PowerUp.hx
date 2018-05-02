@@ -14,13 +14,13 @@ class PowerUp extends FlxSprite
 	public var imagePath:String;
 	public var isActive:Bool;
 	
-	public function new(X:Float=0, Y:Float=0, powerUpID:String, name:String, effect:String, imagePath:String) 
+	public function new(powerUpID:String, name:String, effect:String, imagePath:String) 
 	{
-		super(X, Y);
+		super(0, 0);
 		this.powerUpID = powerUpID;
 		this.name = name;
 		this.effect = effect;
-		this.imagePath = "assets/images/" + imagePath;
+		this.imagePath = "assets/images/items/" + imagePath;
 		this.isActive = false;
 		
 		var w:Int = Const.TILE_WIDTH;
