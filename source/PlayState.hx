@@ -1,14 +1,11 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 
 /**
  * ...
@@ -34,10 +31,15 @@ class PlayState extends FlxState {
 	public var timer:Float;
 	public var isEnding:Bool;
 	public var hasWon:Bool;
-	public var hasEnoughResources:Bool;
+	public var hasEnoughWood:Bool;
+	public var hasEnoughFood:Bool;
+	public var hasEnoughStone:Bool;
 	
 	private var _inStart:Bool;
 	private var _levelStartScreen:LevelStartScreen;
+	
+	private var _inCameraFade:Bool;
+	private var _cameraAlpha:Float;
 	
 	/*
 	public var currentCoins:Int;
@@ -55,6 +57,7 @@ class PlayState extends FlxState {
 		
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
+		_cameraAlpha = 1;
 			
 		add(_currentRoom);
 		sword = new Sword(0, 0);
@@ -65,6 +68,7 @@ class PlayState extends FlxState {
 		add(player);
 		add(sword);
 		addLevelStartScreen();
+		applyActivePowerUps();
 		super.create();
 	}
 
@@ -77,6 +81,7 @@ class PlayState extends FlxState {
 			}
 			return;
 		}
+		
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
@@ -84,6 +89,7 @@ class PlayState extends FlxState {
 		if (FlxG.keys.pressed.X) {
 			player.hp--;
 		}
+		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
 		}
@@ -91,6 +97,9 @@ class PlayState extends FlxState {
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
 		
 		FlxG.collide(player, _currentRoom.grpResources);
+		hasEnoughWood = currentWood >= GameData.currentLevel.woodReq;
+		hasEnoughFood = currentFood >= GameData.currentLevel.foodReq;
+		hasEnoughStone = currentStone >= GameData.currentLevel.stoneReq;
 		FlxG.overlap(player, _currentRoom.grpDoors, playerTouchDoor);
 		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
@@ -99,21 +108,21 @@ class PlayState extends FlxState {
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
-				if (FlxG.keys.pressed.SPACE && currentFood >= GameData.currentLevel.foodReq
-					&& currentWood >= GameData.currentLevel.woodReq && currentStone >= GameData.currentLevel.stoneReq) {
+				if (FlxG.keys.pressed.SPACE && hasEnoughWood && hasEnoughFood && hasEnoughStone) {
 					winLevel();
 				}
 			}
 		}
-		// Fade the camera to simulate nightfall.
-		// Scale with the remaining time, beginning to darken once half
-		// of the time limit has passed, eventually reaching a darkness of 0.5.
-		var cameraAlpha:Float =  0.5 + (timer / GameData.currentLevel.timeLimit);
-		if (cameraAlpha > 1) {
-			cameraAlpha = 1;
+		if (!_inCameraFade) {
+			// Fade the camera to simulate nightfall.
+			// Scale with the remaining time, beginning to darken once half
+			// of the time limit has passed, eventually reaching a darkness of 0.5.
+			_cameraAlpha =  0.5 + (timer / GameData.currentLevel.timeLimit);
+			if (_cameraAlpha > 1) {
+				_cameraAlpha = 1;
+			}
+			FlxG.camera.alpha = _cameraAlpha;
 		}
-		FlxG.camera.alpha = cameraAlpha;
-
 	}
 	
 	private function addLevelStartScreen():Void {
@@ -151,6 +160,7 @@ class PlayState extends FlxState {
 					currPowerUp.isActive = true;
 					_HUD.showPowerUp(currPowerUp);
 					GameData.activePowerUps.push(currPowerUp);
+					applyPowerUp(currPowerUp);
 				}
 			}
 			PU.kill();
@@ -230,6 +240,35 @@ class PlayState extends FlxState {
 	
 	private function fadeIn():Void {
 		FlxG.camera.alpha = 0;
-		FlxTween.tween(FlxG.camera, {alpha: 1}, 0.2, { ease:FlxEase.quadInOut });
+		_inCameraFade = true;
+		FlxTween.tween(FlxG.camera, {alpha: _cameraAlpha}, 0.2, { ease:FlxEase.quadInOut, onComplete: endCameraFade });
+	}
+	
+	private function endCameraFade(_):Void {
+		_inCameraFade = false;
+	}
+	
+	private function applyActivePowerUps():Void {
+		// TODO: apply powerups here.
+		for (i in 0...GameData.activePowerUps.length) {
+			applyPowerUp(GameData.activePowerUps[i]);
+		}
+	}
+	
+	private function applyPowerUp(pu:PowerUp):Void {
+		switch (pu.powerUpID) {
+			case "000":
+				trace("applying 000: ARMOR");
+			case "001":
+				trace("applying 001: SWORD");
+			case "002":
+				trace("applying 002: AXE");
+			case "003":
+				trace("applying 003: SHIELD");
+			case "004":
+				trace("applying 004: CANDLE");
+				timer += 20;
+				GameData.currentLevel.timeLimit += 20;
+		}
 	}
 }
