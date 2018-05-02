@@ -230,6 +230,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			_playerHealth = _ps.player.hp;
 			// TODO: support ability to change max health with a fn call from playstate
 			_barHealth.value = (_playerHealth / _maxHealth) * 100;
+			if (_barHealth.value < 25) {
+				_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.RED, true, BORDER_COLOR);
+			} else {
+				_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.GREEN, true, BORDER_COLOR);
+			}
 			_txtHealth.text = _playerHealth + " / " + _maxHealth;
 		}
 	}

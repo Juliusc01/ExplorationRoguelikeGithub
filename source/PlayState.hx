@@ -39,6 +39,9 @@ class PlayState extends FlxState {
 	private var _inStart:Bool;
 	private var _levelStartScreen:LevelStartScreen;
 	
+	private var _inCameraFade:Bool;
+	private var _cameraAlpha:Float;
+	
 	/*
 	public var currentCoins:Int;
 	public var currentGems:Int;
@@ -55,6 +58,7 @@ class PlayState extends FlxState {
 		
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
+		_cameraAlpha = 1;
 			
 		add(_currentRoom);
 		sword = new Sword(0, 0);
@@ -104,15 +108,16 @@ class PlayState extends FlxState {
 				}
 			}
 		}
-		// Fade the camera to simulate nightfall.
-		// Scale with the remaining time, beginning to darken once half
-		// of the time limit has passed, eventually reaching a darkness of 0.5.
-		var cameraAlpha:Float =  0.5 + (timer / GameData.currentLevel.timeLimit);
-		if (cameraAlpha > 1) {
-			cameraAlpha = 1;
+		if (!_inCameraFade) {
+			// Fade the camera to simulate nightfall.
+			// Scale with the remaining time, beginning to darken once half
+			// of the time limit has passed, eventually reaching a darkness of 0.5.
+			_cameraAlpha =  0.5 + (timer / GameData.currentLevel.timeLimit);
+			if (_cameraAlpha > 1) {
+				_cameraAlpha = 1;
+			}
+			FlxG.camera.alpha = _cameraAlpha;
 		}
-		FlxG.camera.alpha = cameraAlpha;
-
 	}
 	
 	private function addLevelStartScreen():Void {
@@ -229,6 +234,11 @@ class PlayState extends FlxState {
 	
 	private function fadeIn():Void {
 		FlxG.camera.alpha = 0;
-		FlxTween.tween(FlxG.camera, {alpha: 1}, 0.2, { ease:FlxEase.quadInOut });
+		_inCameraFade = true;
+		FlxTween.tween(FlxG.camera, {alpha: _cameraAlpha}, 0.2, { ease:FlxEase.quadInOut, onComplete: endCameraFade });
+	}
+	
+	private function endCameraFade(_):Void {
+		_inCameraFade = false;
 	}
 }
