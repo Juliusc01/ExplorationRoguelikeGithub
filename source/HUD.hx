@@ -37,9 +37,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	public static var POPUP_X(default, never):Float = (Const.GAME_WIDTH - POPUP_WIDTH) / 2;
 	public static var POPUP_Y(default, never):Float = (Const.GAME_HEIGHT - POPUP_HEIGHT) / 2 + 85;
 	
+	public static var BOTTOM_BAR_Y(default, never):Int = Const.GAME_HEIGHT - WIDGET_HEIGHT;
+
 	public static var FONT(default, never):String = "assets/data/expressway_rg.ttf";
 	
-	private var _sprBackground:FlxSprite;
+	private var _sprBackgroundTop:FlxSprite;
+	private var _sprBackgroundBottom:FlxSprite;
 	
 	private var _bgTimer:FlxSprite;
 	private var _sprTimer:FlxSprite;
@@ -74,6 +77,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _titlePowerUp:FlxText;
 	private var _txtPowerUp:FlxText;
 	
+	private var _nextPowerUpX:Int;
+	private var _nextPowerUpY:Int;
+	private var _activePowerUps:FlxTypedGroup<FlxSprite>;
+	
 	// Reference to the PlayState of our current
 	// level, so we can update values.
 	private var _ps:PlayState;
@@ -106,9 +113,23 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 		
 		// Generate the background of the top UI bar.
-		_sprBackground = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);
-		_sprBackground.drawRect(1, 1, FlxG.width - 2, WIDGET_HEIGHT - 2, BG_COLOR);
-		add(_sprBackground);
+		_sprBackgroundTop = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);
+		_sprBackgroundTop.drawRect(1, 1, FlxG.width - 2, WIDGET_HEIGHT - 2, BG_COLOR);
+		add(_sprBackgroundTop);
+		
+		// Generate the background of the bottom UI bar.
+		_sprBackgroundBottom = new FlxSprite(0, BOTTOM_BAR_Y);
+		_sprBackgroundBottom.makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);
+		_sprBackgroundBottom.drawRect(1, BOTTOM_BAR_Y + 1, FlxG.width - 2, WIDGET_HEIGHT - 2, BG_COLOR);
+		add(_sprBackgroundBottom);
+		
+		_nextPowerUpX = 16;
+		_nextPowerUpY = BOTTOM_BAR_Y + 8;
+		trace(BOTTOM_BAR_Y + " is the y coord");
+		_activePowerUps = new FlxTypedGroup<FlxSprite>();
+		for (i in 0...GameData.activePowerUps.length) {
+			addPowerUpToHUD(GameData.activePowerUps[i]);
+		}
 		
 		var nextX = 0;
 		
@@ -217,14 +238,16 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	 * Shows popup for powerup when it is picked up by the player.
 	 */
 	public function showPowerUp(pu:PowerUp):Void {
-		_sprPowerUp.loadGraphic("assets/images/" + pu.imagePath);
+		_sprPowerUp.loadGraphic(pu.imagePath);
 		_titlePowerUp.text = pu.name;
 		_txtPowerUp.text = pu.effect;
 		
 		_bgPowerUp.alpha = 1;
 		_sprPowerUp.alpha = 1;
 		_titlePowerUp.alpha = 1;
-		_txtPowerUp.alpha = 1;
+		_txtPowerUp.alpha = 1; 
+		
+		addPowerUpToHUD(pu);
 		
 		// Hide the popup after 3 seconds.
 		// TODO: polish this by using a tween to fade out instead.
@@ -238,6 +261,13 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_bgPowerUp.alpha = 0;
 		_titlePowerUp.alpha = 0;
 		_txtPowerUp.alpha = 0;
+	}
+	
+	private function addPowerUpToHUD(pu:PowerUp):Void {
+		var spr:FlxSprite = new FlxSprite(_nextPowerUpX, _nextPowerUpY);
+		spr.loadGraphic(pu.imagePath);
+		_activePowerUps.add(spr);
+		_nextPowerUpX += 24;
 	}
 	
 	public function flashWood():Void {

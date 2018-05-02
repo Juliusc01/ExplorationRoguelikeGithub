@@ -17,6 +17,7 @@ class Main extends Sprite {
 	
 	private function makePowerUps() {
 		GameData.powerUps = [new PowerUp(0, 0, "000", "Sword of Slashing", "Increases Damage After Being Hit", "item_00.png")];
+		GameData.activePowerUps = new Array<PowerUp>();
 	}
 	
 }

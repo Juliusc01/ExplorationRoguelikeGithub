@@ -20,13 +20,13 @@ class PowerUp extends FlxSprite
 		this.powerUpID = powerUpID;
 		this.name = name;
 		this.effect = effect;
-		this.imagePath = imagePath;
+		this.imagePath = "assets/images/" + imagePath;
 		this.isActive = false;
 		
 		var w:Int = Const.TILE_WIDTH;
 		var h:Int = Const.TILE_HEIGHT;
 		
-		loadGraphic("assets/images/" + imagePath, false, w, h);
+		loadGraphic(this.imagePath, false, w, h);
 		setSize(w, h);
 		trace("item size is: " + width + ", " + height);
 
