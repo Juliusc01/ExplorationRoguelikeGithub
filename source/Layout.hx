@@ -428,9 +428,11 @@ class Layout
 		trace ("numResourceRooms: " + resourceRooms.length);
 		trace ("numPowerUpRooms: " + powerUpRooms.length);
 		trace ("numShopRooms: " + shopRooms.length);
-		if (numResourceSpots < GameData.currentLevel.foodReq 
-				+ GameData.currentLevel.stoneReq + GameData.currentLevel.foodReq) {
-					return false;
+		var minSpotsAllowed = GameData.currentLevel.woodReq + GameData.currentLevel.foodReq + GameData.currentLevel.stoneReq;
+		minSpotsAllowed = Std.int(minSpotsAllowed * 1.2);
+		if (numResourceSpots < minSpotsAllowed ) {
+			trace("Needed to repick layout, not enough resource spots");
+			return false;
 		}
 		
 		distributeResources(resourceRooms, numResourceSpots);
