@@ -1,7 +1,7 @@
 package;
 
 import flixel.FlxSprite;
-
+using StringTools;
 /**
  * ...
  * @author Julius Christenson
@@ -36,6 +36,38 @@ class PowerUp extends FlxSprite
 		trace("changing x and y to be " + X + Y);
 		this.x = X;
 		this.y = Y;
+	}
+	
+	public function isAllowedOnLevel():Bool {
+		if (StringTools.startsWith(powerUpID, "0")) {
+			return true;
+		} else if (StringTools.startsWith(powerUpID, "1") &&
+				GameData.currentLevel.levelNum >= Const.FIRST_FOOD_LVL) {
+			return true;
+		} else if (StringTools.startsWith(powerUpID, "2") &&
+				GameData.currentLevel.levelNum >= Const.FIRST_GOLD_LVL) {
+			return true;		
+		} else if (StringTools.startsWith(powerUpID, "3") &&
+				GameData.currentLevel.levelNum >= Const.FIRST_STONE_LVL) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Returns whether the given powerup ID is
+	 * active in the current game by checking in the
+	 * GameData.activePowerUps array.
+	 */
+	public static function isActiveById(id:String):Bool {
+		for (i in 0...GameData.activePowerUps.length) {
+			var current = GameData.activePowerUps[i];
+			if (current.powerUpID == id) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

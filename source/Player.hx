@@ -18,6 +18,7 @@ class Player extends FlxSprite {
 	public var speed:Float = 150;
 	public var canUseDoors:Bool = true;
 	public var isInSwamp:Bool = false;
+	public var isAffectedByTerrain:Bool = true;
 	public var isInSwing:Bool = false;
 	public var isActive:Bool = true;
 	public var framesTillMovement:Int = 0;
@@ -192,7 +193,7 @@ class Player extends FlxSprite {
 				mA = 0;
 				facing = FlxObject.RIGHT;
 			}
-			if (isInSwamp) {
+			if (isInSwamp && isAffectedByTerrain) {
 				velocity.set(speed / 2, 0);
 			} else {
 				velocity.set(speed, 0);
