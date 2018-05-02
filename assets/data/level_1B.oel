@@ -24,6 +24,8 @@
     <n_door id="4" x="160" y="32" />
     <powerup id="1" x="224" y="192" itemID="000" />
     <powerup id="2" x="224" y="192" itemID="000" />
-    <enemy id="3" x="256" y="128" Etype="-1" isOptional="False" />
+    <enemy id="3" x="256" y="144" Etype="100" isOptional="False" />
+    <enemy id="5" x="208" y="144" Etype="101" isOptional="False" />
+    <enemy id="6" x="112" y="96" Etype="102" isOptional="False" />
   </entities>
 </level>

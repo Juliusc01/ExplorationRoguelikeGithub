@@ -35,7 +35,6 @@ class Enemy extends FlxSprite {
 	}
 
 	override public function update(elapsed:Float):Void {
-		_brain.update();
 		if (framesTillMovement > 0) {
 			framesTillMovement--;
 		}

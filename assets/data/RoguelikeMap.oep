@@ -203,7 +203,7 @@
         <RectColor A="255" R="255" G="0" B="128" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="IntValueDefinition" Name="Etype" Default="-1" Min="0" Max="100" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="Etype" Default="-1" Min="0" Max="300" ShowSlider="false" />
         <ValueDefinition xsi:type="BoolValueDefinition" Name="isOptional" Default="false" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
