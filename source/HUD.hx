@@ -20,7 +20,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 {
 	
 	public static var SPRITE_Y(default, never):Int = 1;
-	public static var TEXT_Y(default, never):Int = Const.TILE_HEIGHT - 4;
+	public static var TEXT_Y(default, never):Int = Const.TILE_HEIGHT - 3;
 	
 	public static var WIDGET_WIDTH(default, never):Int = Const.TILE_WIDTH * 3;
 	public static var WIDGET_HEIGHT(default, never):Int = Const.TILE_HEIGHT * 2;
@@ -266,8 +266,9 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private function addPowerUpToHUD(pu:PowerUp):Void {
 		var spr:FlxSprite = new FlxSprite(_nextPowerUpX, _nextPowerUpY);
 		spr.loadGraphic(pu.imagePath);
+		spr.scale.set(1.5, 1.5);
 		add(spr);
-		_nextPowerUpX += 24;
+		_nextPowerUpX += 32;
 	}
 	
 	public function flashWood():Void {

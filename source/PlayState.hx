@@ -23,7 +23,7 @@ class PlayState extends FlxState {
 	
 	private var _currentRoom:Room;
 	private var _layout:Layout;
-	
+
 	
 	public var sword:Sword;
 	// State of the current level, can be referenced
@@ -35,6 +35,9 @@ class PlayState extends FlxState {
 	public var isEnding:Bool;
 	public var hasWon:Bool;
 	public var hasEnoughResources:Bool;
+	
+	private var _inStart:Bool;
+	private var _levelStartScreen:LevelStartScreen;
 	
 	/*
 	public var currentCoins:Int;
@@ -52,9 +55,7 @@ class PlayState extends FlxState {
 		
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
-		
-		//_levelStartScreen = makeLevelStart();
-		
+			
 		add(_currentRoom);
 		sword = new Sword(0, 0);
 		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
@@ -63,14 +64,23 @@ class PlayState extends FlxState {
 		add(_HUD);
 		add(player);
 		add(sword);
+		addLevelStartScreen();
 		super.create();
 	}
 
+	
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		if (_inStart) {
+			if (FlxG.keys.justPressed.SPACE) {
+				removeLevelStartScreen();
+			}
+			return;
+		}
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
+		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			player.hp--;
 		}
@@ -94,13 +104,28 @@ class PlayState extends FlxState {
 				}
 			}
 		}
+		// Fade the camera to simulate nightfall.
+		// Scale with the remaining time, beginning to darken once half
+		// of the time limit has passed, eventually reaching a darkness of 0.5.
+		var cameraAlpha:Float =  0.5 + (timer / GameData.currentLevel.timeLimit);
+		if (cameraAlpha > 1) {
+			cameraAlpha = 1;
+		}
+		FlxG.camera.alpha = cameraAlpha;
 
 	}
 	
-	private function makeLevelStart():FlxSprite {
-		//var bg = new FlxSprite(TILE_WIDTH * 4, TILE_HEIGHT * 5).makeGraphic(TILE_WIDTH * 14, TILE_HEIGHT * 10, FlxColor.BLACK);
-		//bg.add
-		return null;
+	private function addLevelStartScreen():Void {
+		_levelStartScreen = new LevelStartScreen();
+		_inStart = true;
+		player.isActive = false;
+		add(_levelStartScreen);
+	}
+	
+	private function removeLevelStartScreen():Void {
+		_inStart = false;
+		player.isActive = true;
+		_levelStartScreen.kill();
 	}
 	
 	//Test end level function
