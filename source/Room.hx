@@ -11,6 +11,9 @@ import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 import Enemy0;
 import Enemy1;
+import Enemy100;
+import Enemy101;
+import Enemy102;
 /**
  * A room encapsulates all of the data that is specific to one room of the map.
  * This includes all entities (resources, doors) and tilemaps for this room.
@@ -140,13 +143,14 @@ class Room extends FlxGroup
 		var y:Int = Std.parseInt(entityData.get("y"));
 		if (entityName == "enemy") {
 			var myEnemyEtype;
+			var realEnemy;
 			if (Std.parseInt(entityData.get("Etype")) == -1) {
 				var myRandom = new FlxRandom();
-				myEnemyEtype = GameData.enemies[myRandom.int(0, GameData.enemies.length - 1)];	
+				myEnemyEtype = GameData.enemiesRandom[myRandom.int(0, GameData.enemiesRandom.length - 1)];
 			} else {
-				myEnemyEtype = GameData.enemies[Std.parseInt(entityData.get("Etype"))];
+				myEnemyEtype = Std.parseInt(entityData.get("Etype"));
 			}
-			var realEnemy = Type.createInstance(Type.resolveClass("Enemy"+myEnemyEtype), [x, y, myEnemyEtype]);
+			realEnemy = Type.createInstance(Type.resolveClass("Enemy"+myEnemyEtype), [x, y, myEnemyEtype]);
 			grpEnemies.add(realEnemy);
 			myEnemies.push([x, y, myEnemyEtype]);
 		}

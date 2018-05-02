@@ -18,8 +18,7 @@ class GameData
 	public static var currentMenuState:Int = 0;
 	public static var powerUps:Array<PowerUp> = null;
 	public static var activePowerUps:Array<PowerUp> = null;
-	//public static var enemies:Array<Enemy0> = [new Enemy0(0, 0, 0)];
-	public static var enemies:Array<Int> = [0, 1];
+	public static var enemiesRandom:Array<Int> = [0, 1];
 	
 	// TODO: somewhere cleaner to hold the level data for each one,
 	// or is putting them all globally available here fine?

@@ -80,7 +80,6 @@ class Enemy1 extends Enemy {
     }
 
 	override public function update(elapsed:Float):Void {
-		trace("enemy updating");
 		_brain.update();
 		super.update(elapsed);
 	}
