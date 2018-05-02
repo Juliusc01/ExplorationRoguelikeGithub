@@ -189,18 +189,30 @@ class PlayState extends FlxState {
 	
 	private function addResource(res:Resource, amount:Int):Void {
 		switch (res.type) {
-			case 0: // Wood, TODO: use Enums here
+			case 0: // Wood
+				amount = possiblyAddBonus(amount, "002");
 				currentWood += amount;
 				_HUD.flashWood();
 			case 1: // Food
+				amount = possiblyAddBonus(amount, "100");
 				currentFood += amount;
 				_HUD.flashFood();
 			case 2: // Stone
+				amount = possiblyAddBonus(amount, "200");
 				currentStone += amount;
 				_HUD.flashStone();
 			default:
 				trace("resource type was: " + res.type);
 		}
+	}
+	
+	private function possiblyAddBonus(amount:Int, powerUp:String): Int {
+		if (PowerUp.isActiveById(powerUp)) {
+			if (FlxG.random.bool(25)) {
+				return amount + 1;
+			}
+		}
+		return amount;
 	}
 	
 	private function playerTouchDoor(P:Player, D:Door):Void {
@@ -259,16 +271,31 @@ class PlayState extends FlxState {
 		switch (pu.powerUpID) {
 			case "000":
 				trace("applying 000: ARMOR");
+				player.invulnFrames *= 1.5;
 			case "001":
 				trace("applying 001: SWORD");
+				//TODO: decide on this and implement it.
 			case "002":
 				trace("applying 002: AXE");
 			case "003":
 				trace("applying 003: SHIELD");
+				// TODO: implement this behavior.
+				
 			case "004":
 				trace("applying 004: CANDLE");
 				timer += 20;
 				GameData.currentLevel.timeLimit += 20;
+			case "005":
+				trace("applying 005: HEAVY BOOTS");
+				player.knockback = Std.int(player.knockback / 3);
+			case "006":
+				trace("applying 006: WINGS");
+				player.isAffectedByTerrain = false;
+			case "007":
+				trace("applying 007: SPEED BOOTS");
+				player.speed *= 1.2;
+			case "100":
+				trace("applying 100: GLOVES");
 		}
 	}
 }

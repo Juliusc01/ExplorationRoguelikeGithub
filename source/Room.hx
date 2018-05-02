@@ -196,7 +196,7 @@ class Room extends FlxGroup
 				} else {
 					var myRandom = new FlxRandom();
 					myPowerUp = GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)];
-					while (myPowerUp.isActive) { //Reroll if you get something you already have
+					while (myPowerUp.isActive || !myPowerUp.isAllowedOnLevel()) { //Reroll if you get something you already have
 						myPowerUp = GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)];
 					}
 				}
