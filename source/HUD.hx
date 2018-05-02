@@ -79,7 +79,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	private var _nextPowerUpX:Int;
 	private var _nextPowerUpY:Int;
-	private var _activePowerUps:FlxTypedGroup<FlxSprite>;
 	
 	// Reference to the PlayState of our current
 	// level, so we can update values.
@@ -126,7 +125,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_nextPowerUpX = 16;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
 		trace(BOTTOM_BAR_Y + " is the y coord");
-		_activePowerUps = new FlxTypedGroup<FlxSprite>();
 		for (i in 0...GameData.activePowerUps.length) {
 			addPowerUpToHUD(GameData.activePowerUps[i]);
 		}
@@ -266,7 +264,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private function addPowerUpToHUD(pu:PowerUp):Void {
 		var spr:FlxSprite = new FlxSprite(_nextPowerUpX, _nextPowerUpY);
 		spr.loadGraphic(pu.imagePath);
-		_activePowerUps.add(spr);
+		add(spr);
 		_nextPowerUpX += 24;
 	}
 	
