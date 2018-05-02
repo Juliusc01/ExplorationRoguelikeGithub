@@ -64,11 +64,13 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _txtFood:FlxText;
 	private var _sprFood:FlxSprite;
 	private var _foodMax:Int;
+	private var _foodTween:FlxTween;
 	
 	private var _bgStone:FlxSprite;
 	private var _txtStone:FlxText;
 	private var _sprStone:FlxSprite;
 	private var _stoneMax:Int;
+	private var _stoneTween:FlxTween;
 	
 	private var _toRemove:FlxSprite;
 	
@@ -270,14 +272,41 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	public function flashWood():Void {
 		if (_woodTween == null) {
-			_woodTween = FlxTween.color(_bgWood, 0.5, BORDER_COLOR, FlxColor.GREEN, {type: FlxTween.PERSIST, onComplete: resetWoodColor });
+			_woodTween = FlxTween.color(_txtWood, 0.3, BORDER_COLOR, FlxColor.GREEN,
+					{type: FlxTween.PERSIST, onComplete: resetWoodColor, ease: FlxEase.quadIn });
 		} else {
 			_woodTween.start();
 		}
 	}
 	
 	private function resetWoodColor(_):Void {
-		FlxTween.color(_bgWood, 0.5, FlxColor.GREEN, BORDER_COLOR);
+		FlxTween.color(_txtWood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+	}
+	
+	public function flashFood():Void {
+		if (_foodTween == null) {
+			_foodTween = FlxTween.color(_txtFood, 0.3, BORDER_COLOR, FlxColor.GREEN,
+					{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
+		} else {
+			_foodTween.start();
+		}
+	}
+	
+	private function resetFoodColor(_):Void {
+		FlxTween.color(_txtFood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+	}
+	
+	public function flashStone():Void {
+		if (_stoneTween == null) {
+			_stoneTween = FlxTween.color(_txtStone, 0.3, BORDER_COLOR, FlxColor.GREEN,
+					{type: FlxTween.PERSIST, onComplete: resetStoneColor, ease: FlxEase.quadIn });
+		} else {
+			_stoneTween.start();
+		}
+	}
+	
+	private function resetStoneColor(_):Void {
+		FlxTween.color(_txtStone, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {

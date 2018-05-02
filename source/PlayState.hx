@@ -57,7 +57,7 @@ class PlayState extends FlxState {
 		
 		add(_currentRoom);
 		sword = new Sword(0, 0);
-		player = new Player(FlxG.width / 2, FlxG.height / 2, sword);
+		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
 		_HUD = new HUD(this);
 		sword.kill();
 		add(_HUD);
@@ -158,8 +158,10 @@ class PlayState extends FlxState {
 				_HUD.flashWood();
 			case 1: // Food
 				currentFood += amount;
+				_HUD.flashFood();
 			case 2: // Stone
 				currentStone += amount;
+				_HUD.flashStone();
 			default:
 				trace("resource type was: " + res.type);
 		}
@@ -202,6 +204,6 @@ class PlayState extends FlxState {
 	
 	private function fadeIn():Void {
 		FlxG.camera.alpha = 0;
-		FlxTween.tween(FlxG.camera, {alpha: 1}, 0.35, { ease:FlxEase.quadInOut });
+		FlxTween.tween(FlxG.camera, {alpha: 1}, 0.2, { ease:FlxEase.quadInOut });
 	}
 }
