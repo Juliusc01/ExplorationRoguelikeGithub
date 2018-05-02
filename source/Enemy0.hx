@@ -13,32 +13,36 @@ using flixel.util.FlxSpriteUtil;
  * ...
  * @author Julius Christenson
  */
-class Enemy extends FlxSprite {
-    public var speed:Float;
-    public var etype(default, null):Int;
-	private var _brain:FSM;
-	public var seesPlayer:Bool = false;
-	public var playerPos(default, null):FlxPoint;
-	public var damage:Int;
-	
-    public function new(X:Float=0, Y:Float=0, EType:Int) {
-        super(X, Y);
-        etype = EType;
-		loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
-		setFacingFlip(FlxObject.LEFT, false, false);
-        setFacingFlip(FlxObject.RIGHT, true, false);
-        animation.add("d", [0, 1, 0, 2], 6, false);
-        animation.add("lr", [3, 4, 3, 5], 6, false);
-        animation.add("u", [6, 7, 6, 8], 6, false);
-		drag.x = drag.y = 10;
-        width = 8;
-        height = 14;
-        offset.x = 4;
-        offset.y = 2;
-		playerPos = FlxPoint.get();
+class Enemy0 extends Enemy {
+    public function new(X:Float = 0, Y:Float = 0, EType:Int) {
+		trace("enemy made?");
+		super(X, Y, EType);
+		trace("enemy made");
+
+		speed = 80;
+		damage = 10;
+		_brain = new FSM(idle);
+
 	}
 	
-    /*override public function draw():Void {
+	
+	public function idle():Void {
+		trace("idle");
+		if (seesPlayer) {
+			trace("enemy sees player");
+			_brain.activeState = chase;
+		}
+	}
+
+	public function chase():Void {
+		if (!seesPlayer) {
+			_brain.activeState = idle;
+		} else {
+			FlxVelocity.moveTowardsPoint(this, playerPos, Std.int(speed));
+		}
+	}
+	
+	override public function draw():Void {
         if ((velocity.x != 0 || velocity.y != 0 ) && touching == FlxObject.NONE) {
             if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
                 if (velocity.x < 0)
@@ -64,9 +68,10 @@ class Enemy extends FlxSprite {
             }
         }
         super.draw();
-    }*/
+    }
 
 	override public function update(elapsed:Float):Void {
+		trace("enemy updating");
 		_brain.update();
 		super.update(elapsed);
 	}

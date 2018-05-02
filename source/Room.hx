@@ -9,7 +9,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
-
+import Enemy0;
 /**
  * A room encapsulates all of the data that is specific to one room of the map.
  * This includes all entities (resources, doors) and tilemaps for this room.
@@ -72,7 +72,7 @@ class Room extends FlxGroup
 		myHouse = null;
 		
 		_map.loadEntities(placeEntities, "entities");
-
+		_map.loadEntities(placeEnemies, "entities");
 		add(grpEnemies);
 		add(grpDoors);
 		
@@ -131,7 +131,16 @@ class Room extends FlxGroup
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
 		if (entityName == "enemy") {
-			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
+			var myEnemyEtype;
+			if (Std.parseInt(entityData.get("Etype")) == -1) {
+				var myRandom = new FlxRandom();
+				myEnemyEtype = GameData.enemies[myRandom.int(0, GameData.enemies.length - 1)];	
+			} else {
+				myEnemyEtype = GameData.enemies[Std.parseInt(entityData.get("Etype"))];
+			}
+			var realEnemy = Type.createInstance(Type.resolveClass("Enemy"+myEnemyEtype), [x, y, myEnemyEtype]);
+			
+			grpEnemies.add(realEnemy);
 		}
 	}
 
@@ -151,8 +160,6 @@ class Room extends FlxGroup
 			//grpResources.add(new Resource(x, y, Std.parseInt(entityData.get("type"))));
 		} else if (StringTools.endsWith(entityName, "door")) {
 			grpDoors.add(new Door(x, y, convertDoorTypeToEnum(entityName)));
-		} else if (entityName == "enemy") {
-			grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("Etype"))));
 		} else if (entityName == "powerup") {
 			this.hasPowerUp = true;
 		}

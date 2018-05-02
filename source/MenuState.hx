@@ -21,13 +21,17 @@ class MenuState extends FlxState {
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(140, 140, 0, "You won this level, click to continue!");
+			_winText = new FlxText(0, 0, 0, "You won this level, click to continue!");
+			_winText.screenCenter();
+			_winText.y = 120;
 			add(_winText);
 			_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 2) {
-			_winText = new FlxText(140, 140, 0, "You won the game, restart?");
+			_winText = new FlxText(0, 0, 0, "You won the game, restart?");
+			_winText.screenCenter();
+			_winText.y = 120;
 			add(_winText);
 			_btnRestart = new FlxButton(0, 0, "Restart", clickRestart);
 			_btnRestart.screenCenter();
@@ -41,7 +45,12 @@ class MenuState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		if (FlxG.keys.anyJustPressed([SPACE])) {
-			clickPlay();
+			if (GameData.currentMenuState == 0 || GameData.currentMenuState == 1) {
+				clickPlay();
+			} else if (GameData.currentMenuState == 2) {
+				clickRestart();
+			}
+			
 		}
 		
 	}
