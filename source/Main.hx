@@ -39,7 +39,7 @@ class Main extends Sprite {
 		GameData.roomOptions.set("E", 1);
 		GameData.roomOptions.set("ES", 1);
 		GameData.roomOptions.set("ESW", 1);
-		GameData.roomOptions.set("ESWN", 1);
+		GameData.roomOptions.set("ESWN", 2);
 		GameData.roomOptions.set("ESN", 1);
 		GameData.roomOptions.set("EW", 1);
 		GameData.roomOptions.set("EWN", 1);
