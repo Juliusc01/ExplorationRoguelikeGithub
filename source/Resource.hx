@@ -10,6 +10,8 @@ import flixel.tweens.FlxTween;
  */
 class Resource extends FlxSprite {
 	public var type:Int;
+	private var _uiX:Int;
+	private var _uiY:Int;
 	
 	public function new(?X:Float=0, ?Y:Float=0, resType:Int) {
 		super(X, Y);
@@ -25,8 +27,10 @@ class Resource extends FlxSprite {
 	/**
 	 * Fn to call when the resource is killed by the player.
 	 */
-	public function killByPlayer():Void {
+	public function killByPlayer(uiPos:Position):Void {
 		alive = false;
+		_uiX = uiPos.x;
+		_uiY = uiPos.y;
 		this.origin.set(this.origin.x, this.origin.y + 8);
 		if (type == 0) {
 			FlxTween.angle(this, 0, 90, 0.3, { onComplete: animateGetResource });
@@ -50,7 +54,7 @@ class Resource extends FlxSprite {
 		}
 		this.angle = 0;
 		this.alpha = 1;
-		FlxTween.tween(this, { alpha: 0, y: y - 15 }, 0.5, { onComplete: finishKill });
+		FlxTween.tween(this, { alpha: 0, x: _uiX, y: _uiY }, 0.75, { onComplete: finishKill });
 	}
 	
 	/**
