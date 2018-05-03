@@ -1,0 +1,12 @@
+Enemies IDs:
+	0: Wolf
+	1: Cow
+	2: Bow
+	
+	100: udlr spike
+	101: lr spike
+	102: ud spike
+	103: east dart trap
+	104: south dart trap
+	105: west dart trap
+	106: north dart trap

@@ -15,7 +15,7 @@ class GameData
 	public static var currentMenuState:Int = 0;
 	public static var powerUps:Array<PowerUp> = null;
 	public static var activePowerUps:Array<PowerUp> = null;
-	public static var enemiesRandom:Array<Int> = [0, 1];
+	public static var enemiesRandom:Array<Int> = [0, 1, 2];
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)
 	public static var level0 = new LevelData(0, 60, -1, 1, 0, 0);

@@ -12,10 +12,15 @@ import flixel.tile.FlxTilemap;
 import Player;
 import Enemy0;
 import Enemy1;
+import Enemy2;
 import Enemy100;
 import Enemy101;
 import Enemy102;
-import Enemy2;
+import Enemy103;
+import Enemy104;
+import Enemy105;
+import Enemy106;
+
 /**
  * A room encapsulates all of the data that is specific to one room of the map.
  * This includes all entities (resources, doors) and tilemaps for this room.
@@ -129,6 +134,9 @@ class Room extends FlxGroup
 	}
 
 	public function resetRoom():Void {
+		remove(grpProjectiles);
+		grpProjectiles.clear();
+		add(grpProjectiles);
 		if (!allEnemiesDead) {
 			remove(grpEnemies);
 			grpEnemies.clear();
