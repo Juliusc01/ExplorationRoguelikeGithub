@@ -118,6 +118,12 @@ class Player extends FlxSprite {
 		}
 	}
 	
+	public function hurtByProjectile(P:Projectile) {
+		if (!isFlickering()) {
+			P.damagePlayer(this);
+		}
+	}
+	
 	private function swing():Bool {
 		var _space:Bool = FlxG.keys.anyJustPressed([SPACE]);
 		if (_space) {

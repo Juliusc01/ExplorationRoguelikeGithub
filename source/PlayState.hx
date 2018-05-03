@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
+import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 
@@ -18,7 +19,7 @@ class PlayState extends FlxState {
 	private var _grpDoors:FlxTypedGroup<Door>;
 	private var _HUD:HUD;
 	
-	private var _currentRoom:Room;
+	public var _currentRoom:Room;
 	private var _layout:Layout;
 
 	
@@ -49,7 +50,7 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		trace(GameData.currentLevel);
-		
+		GameData.currentPlayState = this;
 		timer = GameData.currentLevel.timeLimit;
 		currentWood = 0;
 		currentFood = 0;
@@ -105,6 +106,8 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
+		FlxG.collide(_currentRoom.grpProjectiles, _currentRoom.tilemap, killProjectile);
+		FlxG.collide(player, _currentRoom.grpProjectiles, playerTouchProjectile);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
@@ -171,6 +174,17 @@ class PlayState extends FlxState {
 		if (P.alive && P.exists && E.alive && E.exists) {
 			P.hurtByEnemy(E);
 		}
+	}
+	
+	private function playerTouchProjectile(P:Player, Pro:Projectile):Void {
+		if (P.alive && P.exists && Pro.alive && Pro.exists) {
+			P.hurtByProjectile(Pro);
+			_currentRoom.grpProjectiles.remove(Pro);
+		}
+	}
+	
+	private function killProjectile(P:Projectile, W:FlxTilemap) {
+		_currentRoom.grpProjectiles.remove(P);
 	}
 	
 	private function swordTouchEnemy(S:Sword , E:Enemy):Void {
