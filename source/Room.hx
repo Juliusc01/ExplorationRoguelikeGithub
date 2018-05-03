@@ -15,6 +15,7 @@ import Enemy1;
 import Enemy100;
 import Enemy101;
 import Enemy102;
+import Enemy2;
 /**
  * A room encapsulates all of the data that is specific to one room of the map.
  * This includes all entities (resources, doors) and tilemaps for this room.
@@ -30,6 +31,7 @@ class Room extends FlxGroup
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
 	public var grpEnemies:FlxTypedGroup<Enemy>;
+	public var grpProjectiles:FlxTypedGroup<Projectile>;
 	private var myEnemies:List<Array<Int>>;
 	public var allEnemiesDead:Bool;
 	public var myHouse:House;
@@ -73,6 +75,7 @@ class Room extends FlxGroup
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
 		grpEnemies = new FlxTypedGroup<Enemy>();
+		grpProjectiles = new FlxTypedGroup<Projectile>();
 		myEnemies = new List<Array<Int>>();
 		allEnemiesDead = false;
 		myPowerUp = null;
@@ -137,6 +140,11 @@ class Room extends FlxGroup
 			}
 			add(grpEnemies);
 		}
+	}
+	
+	public function enemyShootProjectile(P:Projectile):Void {
+		grpProjectiles.add(P);
+		add(grpProjectiles);
 	}
 	
 	private function placeEnemies(entityName:String, entityData:Xml):Void {

@@ -19,9 +19,7 @@ class Enemy100 extends Enemy {
 	private var direction:Direction;
 	
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
-		super(X, Y, EType);
-		trace("made spike");
-		
+		super(X, Y, EType);	
 		drag.x = drag.y = 10;
         width = 16;
         height = 16;
@@ -62,7 +60,6 @@ class Enemy100 extends Enemy {
 		}
 		prevX = this.x;
 		prevY = this.y;
-		trace("" + this.x + ", " + this.y);
 		FlxVelocity.moveTowardsPoint(this, new FlxPoint(newX, newY), Std.int(speed));
 	}
 	
