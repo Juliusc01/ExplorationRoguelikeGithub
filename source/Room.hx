@@ -9,6 +9,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxColor;
 import Player;
 import Enemy0;
 import Enemy1;
@@ -93,8 +94,7 @@ class Room extends FlxGroup
 		
 		myHouse = null;
 		if (isHome) {
-			// TODO: Add instruction text embedded on floor for home tile
-			add(new FlxSprite(Const.HOUSE_X - 24, Const.HOUSE_Y + Const.HOUSE_HEIGHT + Const.TILE_HEIGHT, AssetPaths.instruction_move__png));
+			addInstructionText();
 			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
 			trace("House location is: " + Const.HOUSE_X + ", " + Const.HOUSE_Y);
 			add(myHouse);
@@ -254,5 +254,24 @@ class Room extends FlxGroup
 		if (player == GameData.currentPlayState.player) {
 			cast (player, Player).isInSwamp = true;
 		}	
+	}
+	
+	private function addInstructionText():Void {
+		// Each part is 50 wide, 8 px padding between them.
+		var x1 = Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 50;
+		var x2 = x1 + 58;
+		var y1 = Const.HOUSE_Y + Const.HOUSE_HEIGHT + Const.TILE_HEIGHT; 
+		var y2 = y1 + 20;
+		var picOffset = (50 - 35) / 2;
+		add(new FlxSprite(x1 + picOffset, y1, AssetPaths.instruction_move__png));
+		add(new FlxSprite(x2 + picOffset, y1, AssetPaths.instruction_interact__png));
+		var text1 = new FlxText(x1, y2, 50, "Move");
+		text1.setFormat(HUD.FONT, 14, FlxColor.GRAY, CENTER);
+		var text2 = new FlxText(x2, y2 - 16, 50, "Interact/ Attack");
+		text2.setFormat(HUD.FONT, 12, FlxColor.GRAY, CENTER);
+		trace(text2.size);
+		trace(text1.size);
+		add(text1);
+		add(text2);
 	}
 }

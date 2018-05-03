@@ -484,7 +484,7 @@ class Layout
 			origRatios.push(neededRes[i] / (totalNeeded * 1.0));
 		}
 		
-		var blankChance:Float = 0.1;
+		var blankChance:Float = 0.05;
 		trace("Needed resources: " + neededRes);
 		trace("Original ratios: " + origRatios);
 		while (rooms.length > 0) {
