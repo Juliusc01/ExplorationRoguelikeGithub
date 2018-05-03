@@ -13,6 +13,7 @@ class Main extends Sprite {
 		super();
 		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
 		makePowerUps();
+		initRoomOptions();
 	}
 	
 	private function makePowerUps() {
@@ -32,6 +33,24 @@ class Main extends Sprite {
 		// Power ups with IDs starting with "3" can only be spwaned once stone is introduced
 
 		GameData.activePowerUps = new Array<PowerUp>();
+	}
+	
+	private function initRoomOptions() {
+		GameData.roomOptions.set("E", 1);
+		GameData.roomOptions.set("ES", 1);
+		GameData.roomOptions.set("ESW", 1);
+		GameData.roomOptions.set("ESWN", 1);
+		GameData.roomOptions.set("ESN", 1);
+		GameData.roomOptions.set("EW", 1);
+		GameData.roomOptions.set("EWN", 1);
+		GameData.roomOptions.set("EN", 1);
+		GameData.roomOptions.set("S", 1);
+		GameData.roomOptions.set("SW", 1);
+		GameData.roomOptions.set("SWN", 1);
+		GameData.roomOptions.set("SN", 1);
+		GameData.roomOptions.set("W", 1);
+		GameData.roomOptions.set("WN", 1);
+		GameData.roomOptions.set("N", 1);
 	}
 	
 }

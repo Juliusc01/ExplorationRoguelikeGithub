@@ -49,6 +49,9 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		trace(GameData.currentLevel);
+		GameData.currentPlayState = this;
+		sword = new Sword(0, 0);
+		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
 		
 		timer = GameData.currentLevel.timeLimit;
 		currentWood = 0;
@@ -60,8 +63,7 @@ class PlayState extends FlxState {
 		_cameraAlpha = 1;
 			
 		add(_currentRoom);
-		sword = new Sword(0, 0);
-		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
+		
 		_HUD = new HUD(this);
 		sword.kill();
 		add(_HUD);

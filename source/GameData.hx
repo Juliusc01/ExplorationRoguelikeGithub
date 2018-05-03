@@ -35,4 +35,11 @@ class GameData
 	public static var level14 = new LevelData(14, 120, 20, 15, 10, 5);
 	
 	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, level14];
+
+	// Map storing room shape to max template number.
+	// Gives the maximum number to append to the file
+	// for rooms of the given shape.
+	public static var roomOptions:Map<String, Int> = new Map<String, Int>();
+
+
 }

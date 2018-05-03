@@ -395,6 +395,7 @@ class Layout
 			// TODO: randomly select a number to append to the file path
 			// so we can choose a room of the correct shape at random.
 			// only do this for the case where the current room is NOT the home room.
+			roomNum = FlxG.random.int(0, GameData.roomOptions.get(shape));
 		}
 		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
 	}

@@ -9,6 +9,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
+import Player;
 import Enemy0;
 import Enemy1;
 import Enemy100;
@@ -234,6 +235,8 @@ class Room extends FlxGroup
 	 */
 	private function swampCollide(tile:FlxObject, player:FlxObject):Void {
 		trace("collided with swamp");
-		cast (player, Player).isInSwamp = true;
+		if (player == GameData.currentPlayState.player) {
+			cast (player, Player).isInSwamp = true;
+		}	
 	}
 }

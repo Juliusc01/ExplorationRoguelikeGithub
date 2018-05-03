@@ -20,11 +20,9 @@
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2</walls>
   <entities>
-    <resource id="1" x="288" y="176" type="0" />
-    <resource id="0" x="80" y="176" type="0" />
-    <resource id="2" x="272" y="96" type="0" />
-    <resource id="3" x="80" y="64" type="0" />
     <e_door id="5" x="336" y="144" />
     <w_door id="7" x="0" y="144" />
+    <resource id="0" x="64" y="96" type="0" />
+    <resource id="1" x="288" y="192" type="0" />
   </entities>
 </level>

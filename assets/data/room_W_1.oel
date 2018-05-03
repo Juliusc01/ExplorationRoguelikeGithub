@@ -24,7 +24,7 @@
     <resource id="0" x="288" y="80" type="0" />
     <resource id="1" x="192" y="80" type="0" />
     <resource id="2" x="48" y="208" type="0" />
-    <powerup id="3" x="272" y="224" itemID="000" />
-    <enemy id="4" x="176" y="224" Etype="100" isOptional="False" />
+    <powerup id="3" x="272" y="224" itemID="-1" />
+    <enemy id="4" x="176" y="224" Etype="102" isOptional="False" />
   </entities>
 </level>
