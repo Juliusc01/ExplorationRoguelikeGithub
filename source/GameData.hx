@@ -21,18 +21,18 @@ class GameData
 	public static var level0 = new LevelData(0, 60, -1, 1, 0, 0);
 	public static var level1 = new LevelData(1, 60, -1, 1, 0, 0);
 	public static var level2 = new LevelData(2, 60, -1, 1, 0, 0);
-	public static var level3 = new LevelData(3, 60, 4, 4, 0, 0); 
-	public static var level4 = new LevelData(4, 60, 5, 5, 1, 0); // first food
-	public static var level5 = new LevelData(5, 60, 7, 7, 2, 0); 
-	public static var level6 = new LevelData(6, 60, 7, 8, 3, 0); // first gold
-	public static var level7 = new LevelData(7, 75, 9, 10, 3, 0);
-	public static var level8 = new LevelData(8, 75, 8, 8, 3, 2); // first stone
-	public static var level9 = new LevelData(9, 90, 10, 9, 4, 3);
-	public static var level10 = new LevelData(10, 90, 12, 10, 5, 5);
-	public static var level11 = new LevelData(11, 90, 14, 11, 6, 5);
-	public static var level12 = new LevelData(12, 120, 16, 13, 6, 6);
-	public static var level13 = new LevelData(13, 120, 18, 14, 7, 7);
-	public static var level14 = new LevelData(14, 120, 20, 15, 10, 5);
+	public static var level3 = new LevelData(3, 90, 4, 4, 0, 0); 
+	public static var level4 = new LevelData(4, 90, 5, 5, 1, 0); // first food
+	public static var level5 = new LevelData(5, 90, 7, 7, 2, 0); 
+	public static var level6 = new LevelData(6, 90, 7, 8, 3, 0); // first gold
+	public static var level7 = new LevelData(7, 120, 9, 10, 3, 0);
+	public static var level8 = new LevelData(8, 120, 8, 8, 3, 2); // first stone
+	public static var level9 = new LevelData(9, 150, 10, 9, 4, 3);
+	public static var level10 = new LevelData(10, 150, 12, 10, 5, 5);
+	public static var level11 = new LevelData(11, 150, 14, 11, 6, 5);
+	public static var level12 = new LevelData(12, 180, 16, 13, 6, 6);
+	public static var level13 = new LevelData(13, 180, 18, 14, 7, 7);
+	public static var level14 = new LevelData(14, 180, 20, 15, 10, 5);
 	
 	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, level14];
 
