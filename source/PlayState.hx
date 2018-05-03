@@ -133,12 +133,14 @@ class PlayState extends FlxState {
 		_levelStartScreen = new LevelStartScreen();
 		_inStart = true;
 		player.isActive = false;
+		//TODO: _HUD.startFlash();
 		add(_levelStartScreen);
 	}
 	
 	private function removeLevelStartScreen():Void {
 		_inStart = false;
 		player.isActive = true;
+		//TODO: _HUD.endFlash();
 		_levelStartScreen.kill();
 	}
 	
