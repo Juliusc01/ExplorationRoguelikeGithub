@@ -33,6 +33,7 @@ class Enemy105 extends Enemy {
 		hp = 100000000;
 		projectileTimer = 100;
 		set_immovable(true);
+		updateStats();
 	}
 	
 

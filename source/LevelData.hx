@@ -18,8 +18,9 @@ class LevelData
 	public var woodReq:Int;
 	public var foodReq:Int;
 	public var stoneReq:Int;
+	public var difficulty:Int;
 	
-	public function new(num:Int, time:Int, numRooms:Int, wood:Int, ?food:Int = 0, ?stone:Int = 0) {
+	public function new(num:Int, time:Int, numRooms:Int, wood:Int, ?food:Int = 0, ?stone:Int = 0, ?difficulty:Int = 0) {
 		this.levelNum = num;
 		this.timeLimit = time;
 		//this.width = w;
@@ -28,6 +29,7 @@ class LevelData
 		this.woodReq = wood;
 		this.foodReq = food;
 		this.stoneReq = stone;
+		this.difficulty = difficulty;
 	}
 	
 }

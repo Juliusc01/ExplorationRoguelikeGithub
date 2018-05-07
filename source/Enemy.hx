@@ -33,6 +33,11 @@ class Enemy extends FlxSprite {
 		loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
 		playerPos = FlxPoint.get();
 	}
+	
+	public function updateStats() {
+		this.damage = this.damage * GameData.currentLevel.difficulty;
+		this.hp = this.hp * GameData.currentLevel.difficulty;
+	}
 
 	override public function update(elapsed:Float):Void {
 		if (framesTillMovement > 0) {

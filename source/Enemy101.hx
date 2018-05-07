@@ -31,6 +31,7 @@ class Enemy101 extends Enemy {
 		prevY = this.y;
 		this.direction = Direction.EAST;
 		hp = 1000000;
+		updateStats();
 
 	}
 	public function chase():Void {

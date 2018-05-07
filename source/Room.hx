@@ -93,6 +93,10 @@ class Room extends FlxGroup
 		add(grpDoors);
 		
 		myHouse = null;
+		//Only generate house if not testing a level
+		if (GameData.levels.length == 1 && GameData.testingHome == false) {
+			this.isHome = false;
+		}
 		if (isHome) {
 			addInstructionText();
 			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);

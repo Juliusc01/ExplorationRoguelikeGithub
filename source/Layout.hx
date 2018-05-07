@@ -484,7 +484,8 @@ class Layout
 			origRatios.push(neededRes[i] / (totalNeeded * 1.0));
 		}
 		
-		var blankChance:Float = 0.05;
+		//var blankChance:Float = 0.05;
+		var blankChance:Float = 0.00;
 		trace("Needed resources: " + neededRes);
 		trace("Original ratios: " + origRatios);
 		while (rooms.length > 0) {
@@ -501,7 +502,7 @@ class Layout
 					}
 				} else {
 					currRoom.addResource(selectExtraResource(origRatios, blankChance));
-					blankChance += 0.05;
+					//blankChance += 0.05;
 				}
 				numSpots--;
 			}
@@ -558,6 +559,12 @@ class Layout
 	private function generateSpecialRooms(levelNum:Int):Array<Array<Room>> {
 		var array:Array<Array<Room>>;
 		switch(levelNum) {
+			case -1:
+				_width = _height = 1;
+				_currentRoomRow = _currentRoomCol = 0;
+				//Test out a room here:
+				array = [[new Room(GameData.roomToTest, 0)]];
+				return array;
 			case 0:
 				_width = _height = 1;
 				_currentRoomRow = _currentRoomCol = 0;

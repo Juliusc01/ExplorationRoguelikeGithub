@@ -1,0 +1,6 @@
+Can't get the blank chance to go away, if I set like 10 resources requirement but only try to spawn one it won't work often
+but if I change it to only 1 resource on the map it does spawn.
+
+rooms that can have home: roomf_DIR_H
+rooms that have powerups: roomf_DIR_P
+other rooms: roomf_DIR_0+

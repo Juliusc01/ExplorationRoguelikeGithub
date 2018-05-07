@@ -1,5 +1,6 @@
 package;
 
+import CapstoneLogger;
 import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.Sprite;
@@ -9,11 +10,25 @@ import openfl.display.Sprite;
  */
 
 class Main extends Sprite {
+	
+	private var canStart:Bool = false;
+	
 	public function new() {
 		super();
+		GameData.myLogger = new CapstoneLogger(1802, "explorerogue", "bbe6affcdec9c0192930c77f9cc45788", 1, true);
+		//Just generate ID for now, eventually also grab ID (once we get save data)
+		var userID:String = GameData.myLogger.generateUuid();
+		GameData.myLogger.startNewSession(userID, callback);
+		//while (!this.canStart) {
+		//	trace("trying to start");
+		//}
 		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
 		makePowerUps();
 		initRoomOptions();
+	}
+	
+	public function callback(canStart:Bool):Void {
+		this.canStart = canStart;
 	}
 	
 	private function makePowerUps() {

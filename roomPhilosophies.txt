@@ -1,0 +1,12 @@
+Room philosophies:
+	-All rooms should have 1-3 resources, except some dead ends which could have up to 4
+	-Resources should be more plentiful in rooms with fewer doors, but that won’t always be the case.
+	-Resources will almost always be generated in the spots they are given
+	-Power ups should only be spawned in rooms with a lot of effort required to get the power up
+	-Power ups should usually be in dead end rooms
+	-Keep the average travel time through rooms somewhat constant (no tricky winding paths unless they’re optional for progress)
+
+	-Rooms in which the home can spawn will end in _0
+	-Rooms in which Power ups can spawn will end in _power
+	
+	We’ll generate one power up room per floor and then stop picking power up rooms from there

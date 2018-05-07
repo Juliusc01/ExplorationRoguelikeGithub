@@ -31,6 +31,7 @@ class Enemy0 extends Enemy {
 		knockback = 400;
 		hp = 20;
 		_brain = new FSM(idle);
+		updateStats();
 
 	}
 	
