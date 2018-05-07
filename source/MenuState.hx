@@ -17,15 +17,15 @@ class MenuState extends FlxState {
 	override public function create():Void {
 		
 		if (GameData.currentMenuState == 0) {
-			_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+			_btnPlay = new FlxButton(0, 0, "Start Game", clickPlay);
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(0, 0, 0, "You won this level, click to continue!");
+			_winText = new FlxText(0, 0, 0, "The forest gets harder...");
 			_winText.screenCenter();
 			_winText.y = 120;
 			add(_winText);
-			_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+			_btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 2) {

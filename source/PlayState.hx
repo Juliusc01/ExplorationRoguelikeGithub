@@ -7,6 +7,7 @@ import flixel.math.FlxMath;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -116,6 +117,16 @@ class PlayState extends FlxState {
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
 				if (FlxG.keys.pressed.SPACE && hasEnoughWood && hasEnoughFood && hasEnoughStone) {
 					winLevel();
+				} else if (FlxG.keys.pressed.SPACE) {
+					if (!hasEnoughWood) {
+						//_HUD.flashWood(FlxColor.RED);
+					}
+					if (!hasEnoughStone) {
+						//_HUD.flashStone(FlxColor.RED);
+					}
+					if (!hasEnoughFood) {
+						//_HUD.flashFood(FlxColor.RED);
+					}
 				}
 			}
 		}
