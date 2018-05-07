@@ -93,6 +93,7 @@ class PlayState extends FlxState {
 		}*/
 		
 		if (timer <= 0 || player.hp <= 0) {
+			GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer});
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
@@ -109,6 +110,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
 		FlxG.collide(_currentRoom.grpProjectiles, _currentRoom.tilemap, killProjectile);
 		FlxG.collide(player, _currentRoom.grpProjectiles, playerTouchProjectile);
+		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpDoors);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
@@ -175,12 +177,14 @@ class PlayState extends FlxState {
 	
 	private function playerTouchEnemy(P:Player, E:Enemy):Void {
 		if (P.alive && P.exists && E.alive && E.exists) {
+			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
 			P.hurtByEnemy(E);
 		}
 	}
 	
 	private function playerTouchProjectile(P:Player, Pro:Projectile):Void {
 		if (P.alive && P.exists && Pro.alive && Pro.exists) {
+			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {projectile: true});
 			P.hurtByProjectile(Pro);
 			_currentRoom.grpProjectiles.remove(Pro);
 		}

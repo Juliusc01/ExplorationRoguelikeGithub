@@ -21,6 +21,7 @@ import Enemy103;
 import Enemy104;
 import Enemy105;
 import Enemy106;
+import Enemy200;
 
 /**
  * A room encapsulates all of the data that is specific to one room of the map.

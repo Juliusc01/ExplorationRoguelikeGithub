@@ -26,6 +26,7 @@ class Door extends FlxSprite
 		}
 		setSize(w, h);
 		trace("door size is: " + width + ", " + height);
+		set_immovable(true);
 
 	}
 	

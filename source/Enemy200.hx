@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
@@ -14,10 +13,7 @@ using flixel.util.FlxSpriteUtil;
  * ...
  * @author Julius Christenson
  */
-class Enemy1 extends Enemy {
-	private var idleTimer:Int;
-	private var framesTillCharge:Int;
-	private var willCharge:Bool;
+class Enemy200 extends Enemy {
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
 		super(X, Y, EType);
 		setFacingFlip(FlxObject.LEFT, false, false);
@@ -30,13 +26,10 @@ class Enemy1 extends Enemy {
         height = 14;
         offset.x = 4;
         offset.y = 2;
-		speed = 100;
-		damage = 20;
-		knockback = 400;
-		hp = 20;
-		idleTimer = 0;
-		willCharge = false;
-		framesTillCharge = 0;
+		speed = 80;
+		damage = 0;
+		knockback = 0;
+		hp = 1;
 		_brain = new FSM(idle);
 		updateStats();
 	}
@@ -47,24 +40,14 @@ class Enemy1 extends Enemy {
 		if (seesPlayer) {
 			trace("enemy sees player");
 			_brain.activeState = chase;
-		} else {
-			if (!willCharge && idleTimer == 0) {
-				wander();
-			}
 		}
-	}
-	
-	public function wander():Void {
-		var newPos:FlxPoint = new FlxPoint(this.x + FlxG.random.float(-50, 50), this.y + FlxG.random.float(-50, 50));
-		FlxVelocity.moveTowardsPoint(this, newPos, Std.int(speed / 4));
-		idleTimer = 50;
 	}
 
 	public function chase():Void {
 		if (!seesPlayer) {
 			_brain.activeState = idle;
 		} else {
-			willCharge = true;
+			FlxVelocity.moveTowardsPoint(this, playerPos, -1*Std.int(speed));
 		}
 	}
 	
@@ -97,43 +80,11 @@ class Enemy1 extends Enemy {
     }
 
 	override public function update(elapsed:Float):Void {
-		if (framesTillMovement > 0) {
-			framesTillMovement--;
-		} else {
-			if (willCharge) {
-				trace(""+framesTillCharge);
-				var angleToShoot = FlxAngle.angleBetweenPoint(this, playerPos, true);
-				if (framesTillCharge == 0) {
-					framesTillCharge = 150;
-				} else if (framesTillCharge == 1) {
-					this.velocity.set(speed, 0);
-					velocity.rotate(FlxPoint.weak(0, 0), angleToShoot);
-					willCharge = false;
-				}
-				if (framesTillCharge > 0) {
-					framesTillCharge--;
-				}
-				idleTimer = 50;
-			}
-			if (idleTimer > 0) {
-				idleTimer--;
-			}
-		}
-		//Reset if about to move after taking damage
-		if (framesTillMovement == 1) {
-			this.velocity.set(0, 0);
-			idleTimer = 0;
-			_brain.activeState = idle;
-			willCharge = false;
-			idleTimer = 0;
-			framesTillCharge = 0;
-		}
-		
-		
-			
-		
 		_brain.update();
 		super.update(elapsed);
 	}
 	
+	override public function damagePlayer(P:Player):Void {
+		return;
+	}
 }

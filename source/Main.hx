@@ -17,18 +17,19 @@ class Main extends Sprite {
 		super();
 		GameData.myLogger = new CapstoneLogger(1802, "explorerogue", "bbe6affcdec9c0192930c77f9cc45788", 1, true);
 		//Just generate ID for now, eventually also grab ID (once we get save data)
-		var userID:String = GameData.myLogger.generateUuid();
-		GameData.myLogger.startNewSession(userID, callback);
-		//while (!this.canStart) {
-		//	trace("trying to start");
-		//}
-		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
-		makePowerUps();
-		initRoomOptions();
+		var userID:String = GameData.myLogger.getSavedUserId();
+		if (userID == null) {
+			userID = GameData.myLogger.generateUuid();
+			GameData.myLogger.setSavedUserId(userID);
+		}
+		GameData.myLogger.startNewSession(userID, this.callback);
+
 	}
 	
 	public function callback(canStart:Bool):Void {
-		this.canStart = canStart;
+		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
+		makePowerUps();
+		initRoomOptions();
 	}
 	
 	private function makePowerUps() {

@@ -56,10 +56,11 @@ class MenuState extends FlxState {
 	}
 	
 	private function clickPlay():Void {
+		GameData.myLogger.logActionWithNoLevel(LoggingActions.CLICK_START);
 		if (GameData.currentLevel == null) {
 			GameData.currentLevel = GameData.levels[0];
 		} else {
-			GameData.myLogger.logLevelEnd();
+			GameData.myLogger.logLevelEnd({won: true});
 			GameData.currentLevel = GameData.levels[GameData.currentLevel.levelNum+1];
 		}
 		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum);

@@ -17,7 +17,7 @@ class GameData
 	public static var enemiesRandom:Array<Int> = [0, 1, 2];
 	public static var myLogger:CapstoneLogger;
 	public static var testingHome:Bool = false;
-	public static var roomToTest = AssetPaths.roomf_N_P__oel;
+	public static var roomToTest = AssetPaths.roomf_ESWN_test__oel;
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)
@@ -38,8 +38,8 @@ class GameData
 	public static var level13 = new LevelData(13, 180, 18, 14, 7, 7, 3);
 	public static var level14 = new LevelData(14, 180, 20, 15, 10, 5, 3);
 	//Uncomment to test out a specific room:
-	//public static var levels:Array<LevelData> = [testRooms];
-	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, level14];
+	public static var levels:Array<LevelData> = [testRooms];
+	//public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12, level13, level14];
 
 	// Map storing room shape to max template number.
 	// Gives the maximum number to append to the file
