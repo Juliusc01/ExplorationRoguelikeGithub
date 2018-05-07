@@ -14,6 +14,7 @@ import Player;
 import Enemy0;
 import Enemy1;
 import Enemy2;
+import Enemy3;
 import Enemy100;
 import Enemy101;
 import Enemy102;
