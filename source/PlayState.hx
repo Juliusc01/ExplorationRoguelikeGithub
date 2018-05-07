@@ -199,7 +199,7 @@ class PlayState extends FlxState {
 	
 	private function swordTouchResource(S:Sword, R:Resource):Void {
 		if (S.alive && S.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
-			R.killByPlayer();
+			R.killByPlayer(_HUD.getResourceSpriteLocation(R.type));
 			addResource(R, 1);
 		}
 	}

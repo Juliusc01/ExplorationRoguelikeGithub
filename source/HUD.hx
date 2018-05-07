@@ -309,6 +309,18 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 	}
 	
+	public function getResourceSpriteLocation(type:Int):Position {
+		switch (type) {
+			case 0:
+				return new Position(Std.int(_sprWood.x), Std.int(_sprWood.y));
+			case 1:
+				return new Position(Std.int(_sprFood.x), Std.int(_sprFood.y));
+			case 2:
+				return new Position(Std.int(_sprStone.x), Std.int(_sprStone.y));
+		}
+		return null;
+	}
+	
 	private function resetFoodColor(_):Void {
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
