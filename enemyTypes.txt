@@ -1,7 +1,9 @@
 Enemies IDs:
 	0: Wolf
 	1: Charger
-	2: Bow
+	2: Archer
+	3: 4 shooter
+	4: Scared Archer
 	
 	100: udlr spike
 	101: lr spike
