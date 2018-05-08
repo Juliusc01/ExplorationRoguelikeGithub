@@ -42,7 +42,6 @@ class Room extends FlxGroup
 	public var grpEnemies:FlxTypedGroup<Enemy>;
 	public var grpProjectiles:FlxTypedGroup<Projectile>;
 	private var myEnemies:List<Array<Int>>;
-	public var allEnemiesDead:Bool;
 	public var myHouse:House;
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
@@ -88,7 +87,6 @@ class Room extends FlxGroup
 		grpEnemies = new FlxTypedGroup<Enemy>();
 		grpProjectiles = new FlxTypedGroup<Projectile>();
 		myEnemies = new List<Array<Int>>();
-		allEnemiesDead = false;
 		myPowerUp = null;
 		myHouse = null;
 		
@@ -136,19 +134,13 @@ class Room extends FlxGroup
 		}
 		_resList.push(resType);
 	}
-	
-	public function hasKilledAllEnemies() {
-		if (grpEnemies.getFirstExisting() == null) {
-			this.allEnemiesDead = true;
-			trace("all enemies dead");
-		}
-	}
 
 	public function resetRoom():Void {
 		remove(grpProjectiles);
 		grpProjectiles.clear();
 		add(grpProjectiles);
-		if (!allEnemiesDead) {
+		trace("grpEnemies: " + grpEnemies);
+		if (grpEnemies.getFirstExisting() != null) {
 			remove(grpEnemies);
 			grpEnemies.clear();
 			var myItr = myEnemies.iterator();

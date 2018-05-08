@@ -35,9 +35,7 @@ class Enemy200 extends Enemy {
 	
 	
 	public function idle():Void {
-		trace("idle");
 		if (seesPlayer) {
-			trace("enemy sees player");
 			_brain.activeState = chase;
 		}
 	}
@@ -78,7 +76,6 @@ class Enemy200 extends Enemy {
 	}
 	
 	override public function kill():Void {
-		trace("killing cow at location: " + x + ", " + y);
 		var ps:PlayState = GameData.currentPlayState;
 		loadGraphic(AssetPaths.food__png);
 		var uiPos:Position = ps.getResourceSpriteLocation(1);

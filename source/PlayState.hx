@@ -50,7 +50,6 @@ class PlayState extends FlxState {
 	*/
 	
 	override public function create():Void {
-		trace(GameData.currentLevel);
 		GameData.currentPlayState = this;
 		sword = new Sword(0, 0);
 		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
@@ -64,10 +63,9 @@ class PlayState extends FlxState {
 		_cameraAlpha = 1;
 			
 		add(_currentRoom);
-		
 		_HUD = new HUD(this);
-		sword.kill();
 		add(_HUD);
+		sword.kill();
 		add(player);
 		add(sword);
 		if (GameData.currentLevel.levelNum == 0) {
@@ -177,7 +175,6 @@ class PlayState extends FlxState {
 	
 	private function playerTouchPowerUp(P:Player, PU:PowerUp):Void {
 		if (P.alive && P.exists && PU.alive && PU.exists) {
-			trace("powerupwalkedon");
 			for (currPowerUp in GameData.powerUps) {
 				if (currPowerUp.powerUpID == PU.powerUpID) {
 					currPowerUp.isActive = true;
@@ -213,7 +210,6 @@ class PlayState extends FlxState {
 	private function swordTouchEnemy(S:Sword , E:Enemy):Void {
 		if (S.alive && S.exists && E.alive && E.exists && player.swingNumber != E.lastPlayerSwingNumber) {
 			E.hurtByPlayer(player);
-			_currentRoom.hasKilledAllEnemies();
 		}
 	}
 	
@@ -252,8 +248,6 @@ class PlayState extends FlxState {
 				amount = possiblyAddBonus(amount, "200");
 				currentStone += amount;
 				_HUD.flashStone(FlxColor.GREEN);
-			default:
-				trace("resource type was: " + resType);
 		}
 	}
 	
@@ -268,9 +262,7 @@ class PlayState extends FlxState {
 	
 	private function playerTouchDoor(P:Player, D:Door):Void {
 		if (P.alive && P.exists && P.canUseDoors && D.alive && D.exists) {
-			trace ("Triggered door touch!");
 			player.canUseDoors = false;
-			trace ("can't use doors");
 			switchToRoom(D.direction);
 		}
 	}
