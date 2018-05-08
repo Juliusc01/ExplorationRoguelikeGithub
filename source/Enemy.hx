@@ -31,6 +31,7 @@ class Enemy extends FlxSprite {
         etype = EType;
 		lastPlayerSwingNumber = -1;
 		loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
+        animation.add("lr", [0], 6, false);
 		playerPos = FlxPoint.get();
 	}
 	
@@ -63,5 +64,17 @@ class Enemy extends FlxSprite {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: this.etype});
 		}
 	}
+	
+	override public function draw():Void {
+        if (velocity.x != 0 || velocity.y != 0 ) {
+            if (velocity.x < 0) {
+                facing = FlxObject.LEFT;
+			} else {
+                facing = FlxObject.RIGHT;
+            }
+            animation.play("lr");
+        }
+        super.draw();
+    }
 	
 }

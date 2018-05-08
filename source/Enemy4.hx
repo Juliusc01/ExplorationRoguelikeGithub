@@ -21,11 +21,14 @@ class Enemy4 extends Enemy {
 	public var arrowKnockback:Int;
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
 		super(X, Y, EType);
+		loadGraphic("assets/images/Mob/FrogC.png", true, 16, 16);
+		setFacingFlip(FlxObject.LEFT, false, false);
+        setFacingFlip(FlxObject.RIGHT, true, false);
+		animation.add("lr", [0, 1, 2, 5], 6, true);
+		animation.add("shoot", [3, 4, 8, 7], 8, false);
 		drag.x = drag.y = 10;
-        width = 8;
-        height = 14;
-        offset.x = 4;
-        offset.y = 2;
+        width = 16;
+        height = 16;
 		speed = 75;
 		damage = 10;
 		knockback = 200;
@@ -58,6 +61,19 @@ class Enemy4 extends Enemy {
 		}
 		super.update(elapsed);
 	}
+	override public function draw():Void {
+        if(playerPos.x <= this.x) {
+            facing = FlxObject.LEFT;
+		} else {
+            facing = FlxObject.RIGHT;
+        }
+		if (projectileTimer == 10) {
+			animation.play("shoot");
+		} else if (projectileTimer > 80) {
+			animation.play("lr");
+		}
+        super.draw();
+    }
 	
 	override public function damagePlayer(P:Player):Void {
 		P.hp -= this.damage;
