@@ -45,6 +45,8 @@ class Layout
 	// end of the constructor call.
 	private var _rooms:Array<Array<Room>>;
 	
+	private var _hasPowerUpRoom:Bool;
+	
 	public function new(numRooms:Int) 
 	{
 		// TODO: enable this once implemented
@@ -56,6 +58,7 @@ class Layout
 			return;
 		}
 		var finished:Bool = false;
+		_hasPowerUpRoom = false;
 		while (!finished) {
 			// Generate layout by doing the following:
 			// Maintain a map of (x,y) -> LayoutCell
@@ -83,10 +86,14 @@ class Layout
 			var roomShapes:Array<Array<String>> = fillRoomShapesArray();
 			
 			_rooms = generateRooms(roomShapes);
+			if (_hasPowerUpRoom) {
+				finished = distributeEntities();
+			} else {
+				trace("generated a layout without a powerup, retrying...");
+			}
 			// Attempt to distribute entities. It is possible we have
 			// chosen a layout with insufficient space for resources,
 			// so we check whether the layout is valid, and retry if not.
-			finished = distributeEntities();
 		}
 			
 			// Free up the memory of the data structures only used during
@@ -392,6 +399,12 @@ class Layout
 	private function chooseRoomForShape(shape:String, distFromHome:Int):String {
 		var roomNum = 0;
 		if (distFromHome > 0) {
+			if (!_hasPowerUpRoom && shape.length == 1) {
+				trace("adding powerup room of shape: " + shape);
+				roomNum = FlxG.random.int(0, GameData.powerUpRoomOptions.get(shape));
+				_hasPowerUpRoom = true;
+				return "assets/data/finalizedLevels/roomf_" + shape + "_P_" + roomNum + ".oel";
+			}
 			// TODO: randomly select a number to append to the file path
 			// so we can choose a room of the correct shape at random.
 			// only do this for the case where the current room is NOT the home room.
@@ -437,7 +450,8 @@ class Layout
 		}
 		
 		distributeResources(resourceRooms, numResourceSpots);
-		distributePowerUps(powerUpRooms);
+		//distributePowerUps(powerUpRooms);
+		trace("POWERUPS ARE: " + powerUpRooms);
 		distributeShop(shopRooms);
 		
 		for (i in 0..._height) {
@@ -532,19 +546,6 @@ class Layout
 			return 1;
 		} else {
 			return 2;
-		}
-	}
-	
-	/**
-	 * Randomly select one power up room to keep the power up,
-	 * remove all others. TODO: this algorithm may change.
-	 */
-	private function distributePowerUps(rooms:Array<Room>) {
-		var chosenIndex:Int = FlxG.random.int(0, rooms.length - 1);
-		for (i in 0...rooms.length) {
-			if (i != chosenIndex) {
-				rooms[i].hasPowerUp = false;
-			}
 		}
 	}
 	
