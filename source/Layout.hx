@@ -498,8 +498,6 @@ class Layout
 			origRatios.push(neededRes[i] / (totalNeeded * 1.0));
 		}
 		
-		//var blankChance:Float = 0.05;
-		var blankChance:Float = 0.00;
 		trace("Needed resources: " + neededRes);
 		trace("Original ratios: " + origRatios);
 		while (rooms.length > 0) {
@@ -515,8 +513,7 @@ class Layout
 						totalNeeded--;
 					}
 				} else {
-					currRoom.addResource(selectExtraResource(origRatios, blankChance));
-					//blankChance += 0.05;
+					currRoom.addResource(selectExtraResource(origRatios));
 				}
 				numSpots--;
 			}
@@ -529,16 +526,12 @@ class Layout
 		var woodRange:Float = needed[0] / (totalNeeded * 1.0);
 		var foodRange:Float = (needed[1] / (totalNeeded * 1.0));
 		var numExtraSpots:Float = (1.0) * numSpots - totalNeeded;
-		var blankChance:Float = numExtraSpots / (numSpots);
-		trace("generating with totalNeeded: " + totalNeeded + ", numSpots: " + numSpots + ", blank chance: " + blankChance);
-		return selectExtraResource([woodRange, foodRange], blankChance);
+		trace("generating with totalNeeded: " + totalNeeded + ", numSpots: " + numSpots);
+		return selectExtraResource([woodRange, foodRange]);
 	}
 	
-	private function selectExtraResource(needed:Array<Float>, blank:Float):Int {
+	private function selectExtraResource(needed:Array<Float>):Int {
 		var choice:Float = FlxG.random.float(0, 1);
-		if (choice <= blank) {
-			return -1;
-		}
 		trace ("choice is: " + choice + ", needed array is: " + needed);
 		if (choice <= needed[0]) {
 			return 0;
