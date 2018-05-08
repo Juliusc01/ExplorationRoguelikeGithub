@@ -31,6 +31,11 @@ class Player extends FlxSprite {
 	private var _sword:Sword;
 	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
+	public static var X_OFF(default, never):Float = 4;
+	public static var WIDTH(default, never):Float = 8;
+	public static var Y_OFF(default, never):Float = 4;
+	public static var HEIGHT(default, never):Float = 10;
+	
 	public function new(?X:Float=0, ?Y:Float=0, S:Sword) {
 		super(X, Y);
 		hp = 100;
@@ -46,9 +51,8 @@ class Player extends FlxSprite {
 		animation.add("u", [6, 7, 6, 8], 6, false);
 		animation.add("d", [0, 1, 0, 2], 6, false);
 		drag.x = drag.y = 1600;
-		//setSize(16, 16);
-		setSize(8, 10);
-		offset.set(4, 6);
+		setSize(WIDTH, HEIGHT);
+		offset.set(X_OFF, Y_OFF);
 	}
 	
 	override public function update(elapsed:Float):Void {
@@ -72,6 +76,7 @@ class Player extends FlxSprite {
 			if (framesSwung <= 0) {
 				_sword.kill();
 				loadGraphic(AssetPaths.player__png, true, 16, 16);
+				setSize(WIDTH, HEIGHT);
 				animation.add("lr", [3, 4, 3, 5], 6, false);
 				animation.add("u", [6, 7, 6, 8], 6, false);
 				animation.add("d", [0, 1, 0, 2], 6, false);
@@ -96,7 +101,6 @@ class Player extends FlxSprite {
 			var yMax = FlxG.height - height - 3.25 * Const.TILE_HEIGHT;
 			if (x > xMin && x < xMax && y > yMin && y < yMax) {
 				canUseDoors = true;
-				trace("can use doors:" + x + ", " + y);
 			}
 		}
 		if (x < 0) {
@@ -127,28 +131,32 @@ class Player extends FlxSprite {
 	private function swing():Bool {
 		var _space:Bool = FlxG.keys.anyJustPressed([SPACE]);
 		if (_space) {
-			framesSwung = 39;
+			framesSwung = 24;
 			this.isInSwing = true;
 			switch (facing) {
 				case FlxObject.LEFT:
-					relativeSwordPosition = [-16, 0];
+					relativeSwordPosition = [ -16, -2];
+					_sword.setSize(16, 18);
 					_sword.loadGraphic(AssetPaths.sword_l__png, true, 16, 16);
-					_sword.animation.add("lsword", [2,1,0], 13, false);
+					_sword.animation.add("lsword", [2,1,0], 8, false);
 					_sword.animation.play("lsword");
 				case FlxObject.RIGHT:
-					relativeSwordPosition = [16, 0];
+					relativeSwordPosition = [Std.int(WIDTH), -2];
+					_sword.setSize(16, 18);
 					_sword.loadGraphic(AssetPaths.sword_r__png, true, 16, 16);
-					_sword.animation.add("rsword", [2,1,0], 13, false);
+					_sword.animation.add("rsword", [2,1,0], 8, false);
 					_sword.animation.play("rsword");
 				case FlxObject.UP:
-					relativeSwordPosition = [0, -16];
+					relativeSwordPosition = [ -2, -16];
+					_sword.setSize(18, 16);
 					_sword.loadGraphic(AssetPaths.sword_u__png, true, 16, 16);
-					_sword.animation.add("usword", [2,1,0], 13, false);
+					_sword.animation.add("usword", [2,1,0], 8, false);
 					_sword.animation.play("usword");
 				case FlxObject.DOWN:
-					relativeSwordPosition = [0, 16];
+					relativeSwordPosition = [ -2, Std.int(HEIGHT)];
+					_sword.setSize(18, 16);
 					_sword.loadGraphic(AssetPaths.sword_d__png, true, 16, 16);
-					_sword.animation.add("dsword", [0,1,2], 13, false);
+					_sword.animation.add("dsword", [0,1,2], 8, false);
 					_sword.animation.play("dsword");
 			}
 			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
