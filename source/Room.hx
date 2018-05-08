@@ -279,7 +279,7 @@ class Room extends FlxGroup
 		var y2 = y1 + 20;
 		var picOffset = (50 - 35) / 2;
 		add(new FlxSprite(x1 + picOffset, y1, AssetPaths.instruction_move__png));
-		add(new FlxSprite(x2 + picOffset, y1, AssetPaths.instruction_interact__png));
+		add(new FlxSprite(x2 + picOffset - 1, y1, AssetPaths.instruction_interact__png));
 		var text1 = new FlxText(x1, y2, 50, "Move");
 		text1.setFormat(HUD.FONT, 14, FlxColor.GRAY, CENTER);
 		var text2 = new FlxText(x2, y2 - 16, 50, "Interact/ Attack");
