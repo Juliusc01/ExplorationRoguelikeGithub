@@ -52,7 +52,7 @@ class Main extends Sprite {
 		// Power ups with IDs starting with "3" can only be spwaned once stone is introduced
 
 		GameData.activePowerUps = new Array<PowerUp>();
-		GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
+		//GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
 
 	}
 	
