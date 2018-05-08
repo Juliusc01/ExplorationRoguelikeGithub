@@ -60,13 +60,13 @@ class Main extends Sprite {
 		GameData.roomOptions.set("EW", 1);
 		GameData.roomOptions.set("EWN", 1);
 		GameData.roomOptions.set("EN", 1);
-		GameData.roomOptions.set("S", 1);
+		GameData.roomOptions.set("S", 0);
 		GameData.roomOptions.set("SW", 1);
 		GameData.roomOptions.set("SWN", 1);
 		GameData.roomOptions.set("SN", 1);
-		GameData.roomOptions.set("W", 1);
+		GameData.roomOptions.set("W", 0);
 		GameData.roomOptions.set("WN", 1);
-		GameData.roomOptions.set("N", 1);
+		GameData.roomOptions.set("N", 0);
 	}
 	
 }

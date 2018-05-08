@@ -397,7 +397,7 @@ class Layout
 			// only do this for the case where the current room is NOT the home room.
 			roomNum = FlxG.random.int(0, GameData.roomOptions.get(shape));
 		}
-		return "assets/data/room_" + shape + "_" + roomNum + ".oel";
+		return "assets/data/finalizedLevels/roomf_" + shape + "_" + roomNum + ".oel";
 	}
 	
 	private function distributeEntities():Bool {
