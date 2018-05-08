@@ -21,7 +21,7 @@ class LevelStartScreen extends FlxSpriteGroup
 		title.setFormat(HUD.FONT, 28, HUD.BORDER_COLOR, CENTER);
 		add(title);
 		
-		var text = new FlxText(70, 145, bg.width - 12, "Return home with supplies before dusk!");
+		var text = new FlxText(70, 145, bg.width - 12, "Return home with supplies before night falls!");
 		text.setFormat(HUD.FONT, 18, HUD.BORDER_COLOR, CENTER);
 		add(text);
 		
