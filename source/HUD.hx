@@ -44,6 +44,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprBackgroundTop:FlxSprite;
 	private var _sprBackgroundBottom:FlxSprite;
 	
+	private var _borderTimer:FlxSprite;
 	private var _bgTimer:FlxSprite;
 	private var _sprTimer:FlxSprite;
 	private var _txtTimer:FlxText;
@@ -54,25 +55,25 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _playerHealth:Int;
 	private var _maxHealth:Int;
 
+	private var _borderWood:FlxSprite;
 	private var _bgWood:FlxSprite;
 	private var _txtWood:FlxText;
 	private var _sprWood:FlxSprite;
 	private var _woodMax:Int;
-	private var _woodTween:FlxTween;
 	private var _doneWithWood:Bool;
 	
+	private var _borderFood:FlxSprite;
 	private var _bgFood:FlxSprite;
 	private var _txtFood:FlxText;
 	private var _sprFood:FlxSprite;
 	private var _foodMax:Int;
-	private var _foodTween:FlxTween;
 	private var _doneWithFood:Bool;
 	
+	private var _borderStone:FlxSprite;
 	private var _bgStone:FlxSprite;
 	private var _txtStone:FlxText;
 	private var _sprStone:FlxSprite;
 	private var _stoneMax:Int;
-	private var _stoneTween:FlxTween;
 	private var _doneWithStone:Bool;
 	
 	private var _toRemove:FlxSprite;
@@ -165,8 +166,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		// Add the wood widget to the UI.
 		_bgWood = makeWidgetBackground(nextX);
+		_borderWood = makeWidgetBorder(nextX);
 		_txtWood = makeWidgetText(nextX, WIDGET_WIDTH - 2);
 		_sprWood = makeWidgetSprite(nextX, AssetPaths.wood__png);
+		add(_borderWood);
 		add(_bgWood);
 		add(_txtWood);
 		add(_sprWood);
@@ -175,8 +178,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		// Add the food widget to the UI, if necessary.
 		if (hasFood) {
 			_bgFood = makeWidgetBackground(nextX);
+			_borderFood = makeWidgetBorder(nextX);
 			_txtFood = makeWidgetText(nextX, WIDGET_WIDTH - 2);
 			_sprFood = makeWidgetSprite(nextX, AssetPaths.food__png);
+			add(_borderFood);
 			add(_bgFood);
 			add(_txtFood);
 			add(_sprFood);
@@ -188,8 +193,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		// Add the stone widget to the UI, if nececssary.
 		if (hasStone) {
 			_bgStone = makeWidgetBackground(nextX);
+			_borderStone = makeWidgetBorder(nextX);
 			_txtStone = makeWidgetText(nextX, WIDGET_WIDTH - 2);
 			_sprStone = makeWidgetSprite(nextX, AssetPaths.stone__png);
+			add(_borderStone);
 			add(_bgStone);
 			add(_txtStone);
 			add(_sprStone);
@@ -279,14 +286,10 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_nextPowerUpX += 32;
 	}
 	
-	public function flashWood():Void {
+	public function flashWood(toColor:FlxColor):Void {
 		if (!_doneWithWood) {
-			if (_woodTween == null) {
-				_woodTween = FlxTween.color(_txtWood, 0.3, BORDER_COLOR, FlxColor.GREEN,
+			FlxTween.color(_txtWood, 0.3, BORDER_COLOR, toColor,
 						{type: FlxTween.PERSIST, onComplete: resetWoodColor, ease: FlxEase.quadIn });
-			} else {
-				_woodTween.start();
-			}
 		}
 	}
 	
@@ -294,18 +297,14 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughWood) {
 			_doneWithWood = true;
 		} else {
-			FlxTween.color(_txtWood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_txtWood, 0.3, _txtWood.color, BORDER_COLOR, { ease: FlxEase.quadOut });
 		}
 	}
 	
-	public function flashFood():Void {
+	public function flashFood(toColor:FlxColor):Void {
 		if (!_doneWithFood) {
-			if (_foodTween == null) {
-				_foodTween = FlxTween.color(_txtFood, 0.3, BORDER_COLOR, FlxColor.GREEN,
-						{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
-			} else {
-				_foodTween.start();
-			}
+			FlxTween.color(_txtFood, 0.3, BORDER_COLOR, toColor,
+					{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
 		}
 	}
 	
@@ -325,18 +324,14 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
 		} else {
-			FlxTween.color(_txtFood, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_txtFood, 0.3, _txtFood.color, BORDER_COLOR, { ease: FlxEase.quadOut });
 		}
 	}
 	
-	public function flashStone():Void {
+	public function flashStone(toColor:FlxColor):Void {
 		if (!_doneWithStone) {
-			if (_stoneTween == null) {
-				_stoneTween = FlxTween.color(_txtStone, 0.3, BORDER_COLOR, FlxColor.GREEN,
+			FlxTween.color(_txtStone, 0.3, BORDER_COLOR, toColor,
 						{type: FlxTween.PERSIST, onComplete: resetStoneColor, ease: FlxEase.quadIn });
-			} else {
-				_stoneTween.start();
-			}
 		}
 	}
 	
@@ -344,14 +339,18 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughStone) {
 			_doneWithStone = true;
 		} else {
-			FlxTween.color(_txtStone, 0.3, FlxColor.GREEN, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_txtStone, 0.3, _txtStone.color, BORDER_COLOR, { ease: FlxEase.quadOut });
 		}
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
-		var bg = new FlxSprite(widgetX, 0).makeGraphic(WIDGET_WIDTH, WIDGET_HEIGHT, BORDER_COLOR);
-		bg.drawRect(widgetX + 1, 1, WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
+		var bg = new FlxSprite(widgetX + 1, 1).makeGraphic(WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
 		return bg;
+	}
+	
+	private function makeWidgetBorder(widgetX:Int):FlxSprite {
+		var border = new FlxSprite(widgetX, 0).makeGraphic(WIDGET_WIDTH, WIDGET_HEIGHT, BORDER_COLOR);
+		return border;
 	}
 	
 	private function makeWidgetText(widgetX:Int, txtWidth:Int):FlxText {
