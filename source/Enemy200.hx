@@ -72,7 +72,6 @@ class Enemy200 extends Enemy {
 	
 	override public function kill():Void {
 		trace("killing cow at location: " + x + ", " + y);
-		alive = false;
 		var ps:PlayState = GameData.currentPlayState;
 		loadGraphic(AssetPaths.food__png);
 		var uiPos:Position = ps.getResourceSpriteLocation(1);
@@ -81,6 +80,7 @@ class Enemy200 extends Enemy {
 	}
 	
 	private function finishKill(_):Void {
+		alive = false;
 		exists = false;
 	}
 }

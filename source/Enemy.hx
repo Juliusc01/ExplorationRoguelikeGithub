@@ -52,6 +52,13 @@ class Enemy extends FlxSprite {
 		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), -1*this.knockback);
 		P.flicker(P.invulnFrames/60);
 		P.framesTillMovement = 20;
+		if (PowerUp.isActiveById("003")) { // check for reflective shield
+			this.hp -= Std.int(this.damage / 4);
+			if (this.hp <= 0) {
+				this.kill();
+				GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: this.etype});
+			}
+		}
 	}
 	
 	public function hurtByPlayer(P:Player):Void {

@@ -75,13 +75,6 @@ class Enemy4 extends Enemy {
         super.draw();
     }
 	
-	override public function damagePlayer(P:Player):Void {
-		P.hp -= this.damage;
-		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), -1*this.knockback);
-		P.flicker(P.invulnFrames/60);
-		P.framesTillMovement = 20;
-	}
-	
 	override public function hurtByPlayer(P:Player):Void {
 		lastPlayerSwingNumber = P.swingNumber;
 		framesTillMovement = 50;

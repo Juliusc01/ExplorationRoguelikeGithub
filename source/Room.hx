@@ -106,8 +106,8 @@ class Room extends FlxGroup
 			add(myHouse);
 		} else {
 			_map.loadEntities(placeEnemies, "entities");
-			add(grpEnemies);
 		}
+		add(grpEnemies);
 	}
 
 	/**
@@ -208,7 +208,6 @@ class Room extends FlxGroup
 			if (resType != -1) {
 				if (resType == 1) {
 					if (FlxG.random.bool(50)) {
-						
 						grpEnemies.add(new Enemy200(x, y, 200));
 						myEnemies.push([x, y, 200]);
 					} else {

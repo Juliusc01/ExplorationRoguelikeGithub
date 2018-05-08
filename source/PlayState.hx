@@ -335,15 +335,16 @@ class PlayState extends FlxState {
 				GameData.currentLevel.timeLimit += 20;
 			case "005":
 				trace("applying 005: HEAVY BOOTS");
-				player.knockback = Std.int(player.knockback / 3);
 			case "006":
 				trace("applying 006: WINGS");
 				player.isAffectedByTerrain = false;
 			case "007":
 				trace("applying 007: SPEED BOOTS");
-				player.speed *= 1.2;
+				player.speed *= 1.25;
 			case "100":
 				trace("applying 100: GLOVES");
+			case "101":
+				trace("applying 101: KNIFE");
 		}
 	}
 }

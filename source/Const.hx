@@ -16,7 +16,7 @@ class Const
 	public static var HOUSE_Y(default, never):Int = Std.int((GAME_HEIGHT - HOUSE_HEIGHT) /2);
 	
 	public static var FIRST_HP_LVL(default, never):Int = 2;
-	public static var FIRST_FOOD_LVL(default, never):Int = 4;
-	public static var FIRST_GOLD_LVL(default, never):Int = 6;
-	public static var FIRST_STONE_LVL(default, never):Int = 8;
+	public static var FIRST_FOOD_LVL(default, never):Int = 3;
+	public static var FIRST_GOLD_LVL(default, never):Int = 5;
+	public static var FIRST_STONE_LVL(default, never):Int = 6;
 }

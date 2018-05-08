@@ -41,9 +41,15 @@ class Projectile extends FlxSprite {
 	
 	public function damagePlayer(P:Player):Void {
 		P.hp -= this.damage;
-		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), -1*this.knockback);
+		var knockbackSpeed:Float = -1 * this.knockback;
+		var knockbackFrames:Float = 20;
+		if (PowerUp.isActiveById("005")) { // check for heavy boots
+			knockbackSpeed = knockbackSpeed / 2;
+			knockbackFrames = knockbackFrames / 2;
+		}
+		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), knockbackSpeed);
 		P.flicker(P.invulnFrames/60);
-		P.framesTillMovement = 20;
+		P.framesTillMovement = Std.int(knockbackFrames);
 	}
 	
 }
