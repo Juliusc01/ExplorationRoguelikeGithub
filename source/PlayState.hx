@@ -110,10 +110,12 @@ class PlayState extends FlxState {
 		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
+		FlxG.overlap(sword, _currentRoom.grpProjectiles, swordTouchProjectile);
 		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
 		FlxG.collide(_currentRoom.grpProjectiles, _currentRoom.tilemap, killProjectile);
 		FlxG.collide(player, _currentRoom.grpProjectiles, playerTouchProjectile);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpDoors);
+		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpEnemies);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
@@ -209,6 +211,12 @@ class PlayState extends FlxState {
 		if (S.alive && S.exists && E.alive && E.exists && player.swingNumber != E.lastPlayerSwingNumber) {
 			E.hurtByPlayer(player);
 			_currentRoom.hasKilledAllEnemies();
+		}
+	}
+	
+	private function swordTouchProjectile(S:Sword , P:Projectile):Void {
+		if (S.alive && S.exists && P.alive && P.exists) {
+			_currentRoom.grpProjectiles.remove(P);
 		}
 	}
 	
