@@ -128,7 +128,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_sprBackgroundBottom.drawRect(1, BOTTOM_BAR_Y + 1, FlxG.width - 2, WIDGET_HEIGHT - 2, BG_COLOR);
 		add(_sprBackgroundBottom);
 		
-		_nextPowerUpX = 16;
+		_nextPowerUpX = 8;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
 		trace(BOTTOM_BAR_Y + " is the y coord");
 		for (i in 0...GameData.activePowerUps.length) {

@@ -22,7 +22,7 @@ class MenuState extends FlxState {
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(0, 0, 0, "You survived through the night!\n\nThe forest grows harsher...");
+			_winText = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
 			_winText.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
 			_winText.screenCenter();
 			_winText.y = 64;
