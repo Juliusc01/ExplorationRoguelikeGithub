@@ -210,6 +210,7 @@ class Room extends FlxGroup
 					if (FlxG.random.bool(50)) {
 						
 						grpEnemies.add(new Enemy200(x, y, 200));
+						myEnemies.push([x, y, 200]);
 					} else {
 						grpResources.add(new Resource(x, y, resType));
 					}
