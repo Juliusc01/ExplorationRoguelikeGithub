@@ -30,7 +30,7 @@ class Enemy extends FlxSprite {
 		framesTillMovement = 0;
         etype = EType;
 		lastPlayerSwingNumber = -1;
-		loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
+		//loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
         animation.add("lr", [0], 6, false);
 		playerPos = FlxPoint.get();
 	}

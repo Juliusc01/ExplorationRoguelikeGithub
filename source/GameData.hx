@@ -21,7 +21,7 @@ class GameData
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)
-	public static var testRooms = new LevelData(-1, 180, -1, 2, 0, 0, 1);
+	public static var testRooms = new LevelData(-1, 180, -1, 2, 2, 0, 1);
 	public static var level0 = new LevelData(0, 60, -1, 1, 0, 0, 1);
 	public static var level1 = new LevelData(1, 60, -1, 1, 0, 0, 1);
 	public static var level2 = new LevelData(2, 60, -1, 1, 0, 0, 1);
