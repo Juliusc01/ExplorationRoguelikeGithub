@@ -21,11 +21,13 @@ class Enemy2 extends Enemy {
 	public var arrowKnockback:Int;
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
 		super(X, Y, EType);
+		loadGraphic("assets/images/Mob/SkullSmallA.png", true, 16, 16);
+		setFacingFlip(FlxObject.LEFT, false, false);
+        setFacingFlip(FlxObject.RIGHT, true, false);
+		animation.add("lr", [3, 4, 0, 1, 2], 7, true);
 		drag.x = drag.y = 10;
-        width = 8;
-        height = 14;
-        offset.x = 4;
-        offset.y = 2;
+        width = 16;
+		height = 16;
 		speed = 0;
 		damage = 10;
 		knockback = 200;
@@ -33,7 +35,7 @@ class Enemy2 extends Enemy {
 		arrowSpeed = 120;
 		arrowKnockback = 100;
 		hp = 20;
-		projectileTimer = 100;
+		projectileTimer = 84;
 		updateStats();
 	}
 	
@@ -44,13 +46,22 @@ class Enemy2 extends Enemy {
 			this.velocity.set(0, 0);
 		}
 		if (projectileTimer == 0) {
-			var P:Projectile = new Projectile(this.x, this.y, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P);
-			projectileTimer = 100;
-		} else {
-			projectileTimer--;
-		}
+			projectileTimer = 84;
+		} 
+		projectileTimer--;
 		super.update(elapsed);
+	}
+	
+	override public function draw():Void {
+		if(playerPos.x <= this.x) {
+            facing = FlxObject.LEFT;
+		} else {
+            facing = FlxObject.RIGHT;
+        }
+        animation.play("lr");
+        super.draw();	
 	}
 	
 	override public function damagePlayer(P:Player):Void {

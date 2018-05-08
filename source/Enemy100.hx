@@ -19,10 +19,12 @@ class Enemy100 extends Enemy {
 	private var direction:Direction;
 	
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
-		super(X, Y, EType);	
+		super(X, Y, EType);
+		loadGraphic("assets/images/Mob/SphereA.png", true, 16, 16);
+		animation.add("lr", [0,1,2,3,4,5], 6, true);
 		drag.x = drag.y = 10;
-        width = 16;
-        height = 16;
+        width = 14;
+        height = 14;
 		speed = 80;
 		damage = 10;
 		knockback = 400;

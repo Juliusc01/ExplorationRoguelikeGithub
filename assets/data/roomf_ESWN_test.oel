@@ -24,8 +24,9 @@
     <e_door id="5" x="336" y="144" />
     <s_door id="6" x="160" y="272" />
     <w_door id="7" x="0" y="144" />
-    <enemy id="0" x="192" y="176" Etype="0" isOptional="False" />
-    <enemy id="1" x="288" y="208" Etype="0" isOptional="False" />
-    <enemy id="2" x="80" y="192" Etype="0" isOptional="False" />
+    <enemy id="0" x="192" y="176" Etype="4" isOptional="False" />
+    <enemy id="1" x="288" y="208" Etype="4" isOptional="False" />
+    <enemy id="2" x="80" y="192" Etype="4" isOptional="False" />
+    <enemy id="3" x="48" y="112" Etype="4" isOptional="False" />
   </entities>
 </level>
