@@ -32,14 +32,17 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	public static var BORDER_COLOR(default, never):FlxColor = FlxColor.WHITE;
 	public static var BG_COLOR(default, never):FlxColor = FlxColor.GRAY;
 	
+	public static var BOTTOM_BAR_Y(default, never):Int = Const.GAME_HEIGHT - WIDGET_HEIGHT;
+
+	
 	public static var POPUP_WIDTH(default, never):Int = 250;
 	public static var POPUP_HEIGHT(default, never):Int = 32;
 	public static var POPUP_X(default, never):Float = (Const.GAME_WIDTH - POPUP_WIDTH) / 2;
-	public static var POPUP_Y(default, never):Float = (Const.GAME_HEIGHT - POPUP_HEIGHT) / 2 + 85;
+	public static var POPUP_Y(default, never):Float = BOTTOM_BAR_Y;
 	
-	public static var BOTTOM_BAR_Y(default, never):Int = Const.GAME_HEIGHT - WIDGET_HEIGHT;
 
 	public static var FONT(default, never):String = "assets/data/expressway_rg.ttf";
+	public static var FLASH_DURATION(default, never):Float = 0.5;
 	
 	private var _sprBackgroundTop:FlxSprite;
 	private var _sprBackgroundBottom:FlxSprite;
@@ -288,8 +291,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	
 	public function flashWood(toColor:FlxColor):Void {
 		if (!_doneWithWood) {
-			FlxTween.color(_txtWood, 0.3, BORDER_COLOR, toColor,
-						{type: FlxTween.PERSIST, onComplete: resetWoodColor, ease: FlxEase.quadIn });
+			FlxTween.color(_bgWood, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetWoodColor });
 		}
 	}
 	
@@ -297,14 +300,14 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughWood) {
 			_doneWithWood = true;
 		} else {
-			FlxTween.color(_txtWood, 0.3, _txtWood.color, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_bgWood, FLASH_DURATION, _bgWood.color, BORDER_COLOR);
 		}
 	}
 	
 	public function flashFood(toColor:FlxColor):Void {
 		if (!_doneWithFood) {
-			FlxTween.color(_txtFood, 0.3, BORDER_COLOR, toColor,
-					{type: FlxTween.PERSIST, onComplete: resetFoodColor, ease: FlxEase.quadIn });
+			FlxTween.color(_bgFood, FLASH_DURATION, BORDER_COLOR, toColor,
+					{type: FlxTween.PERSIST, onComplete: resetFoodColor});
 		}
 	}
 	
@@ -324,14 +327,14 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
 		} else {
-			FlxTween.color(_txtFood, 0.3, _txtFood.color, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_bgFood, FLASH_DURATION, _bgFood.color, BORDER_COLOR);
 		}
 	}
 	
 	public function flashStone(toColor:FlxColor):Void {
 		if (!_doneWithStone) {
-			FlxTween.color(_txtStone, 0.3, BORDER_COLOR, toColor,
-						{type: FlxTween.PERSIST, onComplete: resetStoneColor, ease: FlxEase.quadIn });
+			FlxTween.color(_bgStone, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetStoneColor});
 		}
 	}
 	
@@ -339,7 +342,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughStone) {
 			_doneWithStone = true;
 		} else {
-			FlxTween.color(_txtStone, 0.3, _txtStone.color, BORDER_COLOR, { ease: FlxEase.quadOut });
+			FlxTween.color(_bgStone, FLASH_DURATION, _bgStone.color, BORDER_COLOR);
 		}
 	}
 	
