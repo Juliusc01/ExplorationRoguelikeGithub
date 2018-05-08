@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
 using flixel.util.FlxSpriteUtil;
 
 
@@ -86,5 +87,19 @@ class Enemy200 extends Enemy {
 	
 	override public function damagePlayer(P:Player):Void {
 		return;
+	}
+	
+	override public function kill():Void {
+		trace("killing cow at location: " + x + ", " + y);
+		alive = false;
+		var ps:PlayState = GameData.currentPlayState;
+		loadGraphic(AssetPaths.food__png);
+		var uiPos:Position = ps.getResourceSpriteLocation(1);
+		FlxTween.tween(this, { alpha: 0, x: uiPos.x, y: uiPos.y }, 0.75, { onComplete: finishKill });
+		ps.addResource(1, 1, true);
+	}
+	
+	private function finishKill(_):Void {
+		exists = false;
 	}
 }

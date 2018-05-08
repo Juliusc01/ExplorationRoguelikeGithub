@@ -43,6 +43,7 @@ class GameData
 	// Gives the maximum number to append to the file
 	// for rooms of the given shape.
 	public static var roomOptions:Map<String, Int> = new Map<String, Int>();
-
-
+	
+	// Map storing room shape to max powerup template number.
+	public static var powerUpRoomOptions:Map<String, Int> = new Map<String, Int>();
 }

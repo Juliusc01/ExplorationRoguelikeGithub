@@ -70,7 +70,9 @@ class PlayState extends FlxState {
 		add(_HUD);
 		add(player);
 		add(sword);
-		addLevelStartScreen();
+		if (GameData.currentLevel.levelNum == 0) {
+			addLevelStartScreen();
+		}
 		applyActivePowerUps();
 		super.create();
 	}
@@ -148,14 +150,12 @@ class PlayState extends FlxState {
 		_levelStartScreen = new LevelStartScreen();
 		_inStart = true;
 		player.isActive = false;
-		//TODO: _HUD.startFlash();
 		add(_levelStartScreen);
 	}
 	
 	private function removeLevelStartScreen():Void {
 		_inStart = false;
 		player.isActive = true;
-		//TODO: _HUD.endFlash();
 		_levelStartScreen.kill();
 	}
 	
@@ -223,18 +223,26 @@ class PlayState extends FlxState {
 	private function swordTouchResource(S:Sword, R:Resource):Void {
 		if (S.alive && S.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
 			R.killByPlayer(_HUD.getResourceSpriteLocation(R.type));
-			addResource(R, 1);
+			addResource(R.type, 1, false);
 		}
 	}
 	
-	private function addResource(res:Resource, amount:Int):Void {
-		switch (res.type) {
+	public function getResourceSpriteLocation(rType:Int):Position {
+		return _HUD.getResourceSpriteLocation(rType);
+	}
+	
+	public function addResource(resType:Int, amount:Int, fromCow:Bool):Void {
+		switch (resType) {
 			case 0: // Wood
 				amount = possiblyAddBonus(amount, "002");
 				currentWood += amount;
 				_HUD.flashWood(FlxColor.GREEN);
 			case 1: // Food
-				amount = possiblyAddBonus(amount, "100");
+				if (!fromCow) {
+					amount = possiblyAddBonus(amount, "100");
+				} else {
+					amount = possiblyAddBonus(amount, "101");
+				}
 				currentFood += amount;
 				_HUD.flashFood(FlxColor.GREEN);
 			case 2: // Stone
@@ -242,7 +250,7 @@ class PlayState extends FlxState {
 				currentStone += amount;
 				_HUD.flashStone(FlxColor.GREEN);
 			default:
-				trace("resource type was: " + res.type);
+				trace("resource type was: " + resType);
 		}
 	}
 	

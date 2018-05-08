@@ -27,7 +27,7 @@ class Main extends Sprite {
 	}
 	
 	public function callback(canStart:Bool):Void {
-		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState));
+		addChild(new FlxGame(Const.GAME_WIDTH, Const.GAME_HEIGHT, MenuState, 1, 60, 60, true));
 		makePowerUps();
 		initRoomOptions();
 	}
@@ -67,6 +67,11 @@ class Main extends Sprite {
 		GameData.roomOptions.set("W", 0);
 		GameData.roomOptions.set("WN", 1);
 		GameData.roomOptions.set("N", 0);
+		
+		GameData.powerUpRoomOptions.set("E", 0);
+		GameData.powerUpRoomOptions.set("S", 0);
+		GameData.powerUpRoomOptions.set("W", 0);
+		GameData.powerUpRoomOptions.set("N", 0);
 	}
 	
 }

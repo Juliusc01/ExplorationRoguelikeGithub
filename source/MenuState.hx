@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 /**
  * ...
  * @author Julius Christenson + Alex Vrhel
@@ -21,12 +22,14 @@ class MenuState extends FlxState {
 			_btnPlay.screenCenter();
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(0, 0, 0, "The forest gets harder...");
+			_winText = new FlxText(0, 0, 0, "You survived through the night!\n\nThe forest grows harsher...");
+			_winText.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
 			_winText.screenCenter();
-			_winText.y = 120;
+			_winText.y = 64;
 			add(_winText);
-			_btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
+			_btnPlay = new FlxButton(0, 0, "Start day " + Std.string(GameData.currentLevel.levelNum + 2), clickPlay);
 			_btnPlay.screenCenter();
+			_btnPlay.y = 130;
 			add(_btnPlay);
 		} else if (GameData.currentMenuState == 2) {
 			_winText = new FlxText(0, 0, 0, "You won the game, restart?");
