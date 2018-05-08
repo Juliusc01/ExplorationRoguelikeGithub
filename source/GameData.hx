@@ -17,7 +17,7 @@ class GameData
 	public static var enemiesRandom:Array<Int> = [0, 1, 2, 3, 4];
 	public static var myLogger:CapstoneLogger;
 	public static var testingHome:Bool = false;
-	public static var roomToTest = AssetPaths.roomf_ESWN_test3__oel;
+	public static var roomToTest = AssetPaths.roomf_E_0__oel;
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)

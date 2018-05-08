@@ -91,8 +91,7 @@ class Room extends FlxGroup
 		myHouse = null;
 		
 		_map.loadEntities(placeEntities, "entities");
-		_map.loadEntities(placeEnemies, "entities");
-		add(grpEnemies);
+		
 		add(grpDoors);
 		
 		myHouse = null;
@@ -105,6 +104,9 @@ class Room extends FlxGroup
 			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
 			trace("House location is: " + Const.HOUSE_X + ", " + Const.HOUSE_Y);
 			add(myHouse);
+		} else {
+			_map.loadEntities(placeEnemies, "entities");
+			add(grpEnemies);
 		}
 	}
 
