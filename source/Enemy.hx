@@ -45,6 +45,7 @@ class Enemy extends FlxSprite {
 	public function updateStats() {
 		this.damage = this.damage * GameData.currentLevel.difficulty;
 		this.hp = this.hp * GameData.currentLevel.difficulty;
+		this.maxHp = this.maxHp * GameData.currentLevel.difficulty;
 	}
 	
 	public function createHealthBar():Void {
