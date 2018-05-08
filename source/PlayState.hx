@@ -119,13 +119,13 @@ class PlayState extends FlxState {
 					winLevel();
 				} else if (FlxG.keys.pressed.SPACE) {
 					if (!hasEnoughWood) {
-						//_HUD.flashWood(FlxColor.RED);
+						_HUD.flashWood(FlxColor.RED);
 					}
 					if (!hasEnoughStone) {
-						//_HUD.flashStone(FlxColor.RED);
+						_HUD.flashStone(FlxColor.RED);
 					}
 					if (!hasEnoughFood) {
-						//_HUD.flashFood(FlxColor.RED);
+						_HUD.flashFood(FlxColor.RED);
 					}
 				}
 			}
@@ -224,15 +224,15 @@ class PlayState extends FlxState {
 			case 0: // Wood
 				amount = possiblyAddBonus(amount, "002");
 				currentWood += amount;
-				_HUD.flashWood();
+				_HUD.flashWood(FlxColor.GREEN);
 			case 1: // Food
 				amount = possiblyAddBonus(amount, "100");
 				currentFood += amount;
-				_HUD.flashFood();
+				_HUD.flashFood(FlxColor.GREEN);
 			case 2: // Stone
 				amount = possiblyAddBonus(amount, "200");
 				currentStone += amount;
-				_HUD.flashStone();
+				_HUD.flashStone(FlxColor.GREEN);
 			default:
 				trace("resource type was: " + res.type);
 		}
