@@ -29,8 +29,8 @@ class Projectile extends FlxSprite {
 		this.knockback = knockback;
 		angleToShoot = FlxAngle.angleBetweenPoint(this, playerPos, true);
 		this.angle = angleToShoot;
-		loadGraphic("assets/images/projectile.png", true, 6, 16);
-		setSize(6, 12);
+		loadGraphic("assets/images/projectile.png", true, 6, 6);
+		setSize(6, 6);
 	}
 
 	override public function update(elapsed:Float):Void {
