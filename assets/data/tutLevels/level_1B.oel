@@ -22,6 +22,5 @@
   <entities>
     <resource id="0" x="80" y="176" type="0" />
     <n_door id="4" x="160" y="32" />
-    <powerup id="2" x="224" y="192" itemID="000" />
   </entities>
 </level>
