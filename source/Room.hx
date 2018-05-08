@@ -9,6 +9,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
+import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import Player;
 import Enemy0;
@@ -148,6 +149,9 @@ class Room extends FlxGroup
 				var enemyVar = myItr.next();
 				var realEnemy = Type.createInstance(Type.resolveClass("Enemy"+enemyVar[2]), [enemyVar[0], enemyVar[1], enemyVar[2]]);
 				grpEnemies.add(realEnemy);
+				if (realEnemy.healthbar != null) {
+					add(realEnemy.healthbar);
+				}
 			}
 			add(grpEnemies);
 		}
@@ -170,8 +174,11 @@ class Room extends FlxGroup
 			} else {
 				myEnemyEtype = Std.parseInt(entityData.get("Etype"));
 			}
-			realEnemy = Type.createInstance(Type.resolveClass("Enemy"+myEnemyEtype), [x, y, myEnemyEtype]);
+			realEnemy = Type.createInstance(Type.resolveClass("Enemy" + myEnemyEtype), [x, y, myEnemyEtype]);
 			grpEnemies.add(realEnemy);
+			if (realEnemy.healthbar != null) {
+				add(realEnemy.healthbar);
+			}
 			myEnemies.push([x, y, myEnemyEtype]);
 		}
 	}
@@ -202,7 +209,9 @@ class Room extends FlxGroup
 			if (resType != -1) {
 				if (resType == 1) {
 					if (FlxG.random.bool(50)) {
-						grpEnemies.add(new Enemy200(x, y, 200));
+						var rabbit = new Enemy200(x, y, 200);
+						grpEnemies.add(rabbit);
+						add(rabbit.healthbar);
 						myEnemies.push([x, y, 200]);
 					} else {
 						grpResources.add(new Resource(x, y, resType));

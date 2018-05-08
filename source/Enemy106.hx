@@ -20,6 +20,7 @@ class Enemy106 extends Enemy {
 	public var arrowSpeed:Int;
 	public var arrowKnockback:Int;
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
+		healthbarDisabled = true;
 		super(X, Y, EType);
 		loadGraphic("assets/images/Mob/OrbB.png", true, 16, 16);
 		animation.add("shoot", [6,5,5], 2, true);

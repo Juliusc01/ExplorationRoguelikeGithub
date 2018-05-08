@@ -35,7 +35,7 @@ class Enemy4 extends Enemy {
 		arrowDamage = 15;
 		arrowSpeed = 60;
 		arrowKnockback = 100;
-		hp = 20;
+		hp = maxHp = 20;
 		projectileTimer = 100;
 		updateStats();
 	}

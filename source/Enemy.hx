@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
+import flixel.ui.FlxBar;
 using flixel.util.FlxSpriteUtil;
 
 
@@ -22,8 +23,11 @@ class Enemy extends FlxSprite {
 	public var damage:Int;
 	public var knockback:Int;
 	public var hp:Int;
+	public var maxHp:Int;
 	public var lastPlayerSwingNumber:Int;
 	public var framesTillMovement:Int;
+	public var healthbar:FlxBar;
+	public var healthbarDisabled:Bool;
 	
     public function new(X:Float=0, Y:Float=0, EType:Int) {
         super(X, Y);
@@ -33,16 +37,29 @@ class Enemy extends FlxSprite {
 		//loadGraphic("assets/images/enemy-" + etype + ".png", true, 16, 16);
         animation.add("lr", [0], 6, false);
 		playerPos = FlxPoint.get();
+		if (!healthbarDisabled) {
+			createHealthBar();
+		}
 	}
 	
 	public function updateStats() {
 		this.damage = this.damage * GameData.currentLevel.difficulty;
 		this.hp = this.hp * GameData.currentLevel.difficulty;
 	}
+	
+	public function createHealthBar():Void {
+		healthbar = new FlxBar(0, 0, 16, 4);
+		healthbar.setParent(this, "hp", true, 0, -10);
+		healthbar.killOnEmpty = true;
+	}
 
 	override public function update(elapsed:Float):Void {
 		if (framesTillMovement > 0) {
 			framesTillMovement--;
+		}
+		if (!healthbarDisabled) {
+			healthbar.value = (hp / maxHp) * 100;
+			trace("healthbar value is: " + healthbar.value);
 		}
 		super.update(elapsed);
 	}

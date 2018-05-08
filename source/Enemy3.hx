@@ -34,7 +34,7 @@ class Enemy3 extends Enemy {
 		arrowDamage = 15;
 		arrowSpeed = 120;
 		arrowKnockback = 100;
-		hp = 20;
+		hp = maxHp = 20;
 		projectileTimer = 84;
 		updateStats();
 	}
@@ -69,7 +69,6 @@ class Enemy3 extends Enemy {
 	}
 	
 	public function wander():Void {
-		trace("wandering");
 		var newPos:FlxPoint = new FlxPoint(this.x + FlxG.random.float(-50, 50), this.y + FlxG.random.float(-50, 50));
 		FlxVelocity.moveTowardsPoint(this, newPos, Std.int(speed));
 	}

@@ -16,6 +16,7 @@ using flixel.util.FlxSpriteUtil;
  * @author Julius Christenson
  */
 class Enemy200 extends Enemy {
+
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {
 		super(X, Y, EType);
 		loadGraphic("assets/images/Mob/HareA.png", true, 16, 16);
@@ -28,7 +29,7 @@ class Enemy200 extends Enemy {
 		speed = 80;
 		damage = 0;
 		knockback = 0;
-		hp = 1;
+		hp = maxHp = 1;
 		_brain = new FSM(idle);
 		updateStats();
 	}
@@ -78,6 +79,7 @@ class Enemy200 extends Enemy {
 	override public function kill():Void {
 		var ps:PlayState = GameData.currentPlayState;
 		loadGraphic(AssetPaths.food__png);
+		animation.add("lr", [0], 6, true); // to prevent warning since we still draw the animation on this sprite
 		var uiPos:Position = ps.getResourceSpriteLocation(1);
 		FlxTween.tween(this, { alpha: 0, x: uiPos.x, y: uiPos.y }, 0.75, { onComplete: finishKill });
 		ps.addResource(1, 1, true);

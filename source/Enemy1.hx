@@ -33,7 +33,7 @@ class Enemy1 extends Enemy {
 		speed = 100;
 		damage = 20;
 		knockback = 400;
-		hp = 20;
+		hp = maxHp = 20;
 		idleTimer = 0;
 		willCharge = false;
 		framesTillCharge = 0;
@@ -43,9 +43,7 @@ class Enemy1 extends Enemy {
 	
 	
 	public function idle():Void {
-		trace("idle");
 		if (seesPlayer) {
-			trace("enemy sees player");
 			_brain.activeState = chase;
 		} else {
 			if (!willCharge && idleTimer == 0) {
@@ -87,7 +85,6 @@ class Enemy1 extends Enemy {
 			framesTillMovement--;
 		} else {
 			if (willCharge) {
-				trace(""+framesTillCharge);
 				var angleToShoot = FlxAngle.angleBetweenPoint(this, playerPos, true);
 				if (framesTillCharge == 0) {
 					framesTillCharge = 150;
