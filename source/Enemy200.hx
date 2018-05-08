@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
@@ -45,7 +46,13 @@ class Enemy200 extends Enemy {
 		if (!seesPlayer) {
 			_brain.activeState = idle;
 		} else {
-			FlxVelocity.moveTowardsPoint(this, playerPos, -1*Std.int(speed));
+			if (PowerUp.isActiveById("102")) {
+				if (FlxMath.distanceToPoint(this, playerPos) > 48) {
+					FlxVelocity.moveTowardsPoint(this, playerPos, 1 * Std.int(speed));
+				}
+			} else {
+				FlxVelocity.moveTowardsPoint(this, playerPos, -1 * Std.int(speed));
+			}
 		}
 	}
 	

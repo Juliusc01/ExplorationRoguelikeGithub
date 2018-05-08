@@ -326,9 +326,7 @@ class PlayState extends FlxState {
 			case "002":
 				trace("applying 002: AXE");
 			case "003":
-				trace("applying 003: SHIELD");
-				// TODO: implement this behavior.
-				
+				trace("applying 003: SHIELD");				
 			case "004":
 				trace("applying 004: CANDLE");
 				timer += 20;
@@ -345,6 +343,8 @@ class PlayState extends FlxState {
 				trace("applying 100: GLOVES");
 			case "101":
 				trace("applying 101: KNIFE");
+			case "300":
+				trace("applying 300: PICKAXE");
 		}
 	}
 }

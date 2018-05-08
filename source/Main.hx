@@ -41,15 +41,19 @@ class Main extends Sprite {
 		GameData.powerUps.push(new PowerUp("005", "Sturdy Boots", "Knockback from projectiles reduced", "005_heavy_boots.png"));
 		GameData.powerUps.push(new PowerUp("006", "Fairy Wings", "Immunity to terrain effects", "006_wings.png"));
 		GameData.powerUps.push(new PowerUp("007", "Boots of Extreme Speed", "Speed increased", "007_boots.png"));
+		
 		// Power ups with IDs starting with "1" can only be spawned once food is introduced
 		GameData.powerUps.push(new PowerUp("100", "Foraging Gloves", "Chance of extra food from bushes", "100_gloves.png"));
 		GameData.powerUps.push(new PowerUp("101", "Hunting Knife", "Chance of extra food from rabbits", "101_knife.png"));
+		GameData.powerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
 		// Power ups with IDs starting with "2" can only be spawned once gold is introduced
-		
+
 		
 		// Power ups with IDs starting with "3" can only be spwaned once stone is introduced
 
 		GameData.activePowerUps = new Array<PowerUp>();
+		GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
+
 	}
 	
 	private function initRoomOptions() {
