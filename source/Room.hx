@@ -48,6 +48,8 @@ class Room extends FlxGroup
 	public var isHome:Bool = false;
 	public var distFromHome:Int;
 	
+	public var isKnown:Bool;
+	
 	public var numResources:Int;
 	public var hasPowerUp:Bool;
 	public var hasShop:Bool;
@@ -265,7 +267,6 @@ class Room extends FlxGroup
 	 * to remember they are currently in the swamp.
 	 */
 	private function swampCollide(tile:FlxObject, player:FlxObject):Void {
-		trace("collided with swamp");
 		if (player == GameData.currentPlayState.player) {
 			cast (player, Player).isInSwamp = true;
 		}	

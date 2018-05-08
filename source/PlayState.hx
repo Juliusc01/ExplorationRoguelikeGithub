@@ -74,6 +74,7 @@ class PlayState extends FlxState {
 			addLevelStartScreen();
 		}
 		applyActivePowerUps();
+		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum);
 		super.create();
 	}
 
@@ -96,7 +97,6 @@ class PlayState extends FlxState {
 		}*/
 		
 		if (timer <= 0 || player.hp <= 0) {
-			GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer});
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
@@ -162,10 +162,12 @@ class PlayState extends FlxState {
 	//Test end level function
 
 	private function loseLevel():Void {
+		GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms });
 		FlxG.switchState(new LoseState());
 	}
 	
 	private function winLevel():Void {
+		GameData.myLogger.logLevelEnd({won: true, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms});
 		GameData.currentMenuState = 1;
 		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
 			GameData.currentMenuState = 2;
@@ -182,6 +184,7 @@ class PlayState extends FlxState {
 					_HUD.showPowerUp(currPowerUp);
 					GameData.activePowerUps.push(currPowerUp);
 					applyPowerUp(currPowerUp);
+					GameData.myLogger.logLevelAction(LoggingActions.POWERUP, { pu: currPowerUp.powerUpID });
 				}
 			}
 			PU.kill();

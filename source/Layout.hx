@@ -47,6 +47,8 @@ class Layout
 	
 	private var _hasPowerUpRoom:Bool;
 	
+	public var numRooms:Int;
+	
 	public function new(numRooms:Int) 
 	{
 		// TODO: enable this once implemented
@@ -57,6 +59,7 @@ class Layout
 			trace(result);
 			return;
 		}
+		this.numRooms = numRooms;
 		var finished:Bool = false;
 		_hasPowerUpRoom = false;
 		while (!finished) {
@@ -103,6 +106,7 @@ class Layout
 	}
 	
 	public function getCurrentRoom():Room {
+		_rooms[_currentRoomRow][_currentRoomCol].isKnown = true;
 		return _rooms[_currentRoomRow][_currentRoomCol];
 	}
 	
@@ -124,6 +128,19 @@ class Layout
 				_currentRoomRow--;
 		}
 		return getCurrentRoom();
+	}
+	
+	public function getNumKnownRooms():Int {
+		var count:Int = 0;
+		for (i in 0..._height) {
+			for (j in 0..._width) {
+				var currRoom:Room = _rooms[i][j];
+				if (currRoom != null && currRoom.isKnown) {
+					count++;
+				}
+			}
+		}
+		return count;
 	}
 	
 	/**
