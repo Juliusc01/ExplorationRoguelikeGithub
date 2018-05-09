@@ -548,6 +548,7 @@ class Layout
 				_width = _height = 1;
 				_currentRoomRow = _currentRoomCol = 0;
 				array = [[new Room(AssetPaths.level_0__oel, 0)]];
+				numRooms = 1;
 				return array;
 			case 1:
 				_width = 1;
@@ -556,10 +557,12 @@ class Layout
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_1A__oel, 0)];
 				array[1] = [new Room(AssetPaths.level_1B__oel, 1)];
+				numRooms = 2;
 				return array;
 			case 2:
 				_width = 2;
 				_height = 1;
+				numRooms = 2;
 				_currentRoomRow = _currentRoomCol = 0;
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_2A__oel, 0), new Room(AssetPaths.level_2B__oel, 1)];

@@ -34,7 +34,6 @@ class Enemy0 extends Enemy {
 
 	}
 	
-	
 	public function idle():Void {
 		if (seesPlayer) {
 			_brain.activeState = chase;
