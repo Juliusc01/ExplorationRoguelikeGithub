@@ -14,6 +14,7 @@ class PowerUp extends FlxSprite
 	public var imagePath:String;
 	public var isActive:Bool;
 	
+	
 	public function new(powerUpID:String, name:String, effect:String, imagePath:String) 
 	{
 		super(0, 0);
@@ -50,6 +51,14 @@ class PowerUp extends FlxSprite
 		} else {
 			return false;
 		}
+	}
+	
+	public static function powerUpIDS():Array<String> {
+		var IDS = new Array<String>();
+		for (powerup in GameData.activePowerUps) {
+			IDS.push(powerup.powerUpID);
+		}
+		return IDS;
 	}
 	
 	public static function copy(toCopy:PowerUp):PowerUp {

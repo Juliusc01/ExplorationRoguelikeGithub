@@ -11,6 +11,7 @@ class LoggingActions {
 	public static var PLAYER_KILL_ENEMEY:Int = 4;
 	public static var CLICK_START:Int = 5;
 	public static var POWERUP:Int = 6;
+	public static var RESTART_GAME:Int = 7;
 	
 	public function new() {
 		
