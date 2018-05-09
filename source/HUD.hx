@@ -64,6 +64,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprWood:FlxSprite;
 	private var _woodMax:Int;
 	private var _doneWithWood:Bool;
+	private var _inWoodFlash:Bool;
 	
 	private var _borderFood:FlxSprite;
 	private var _bgFood:FlxSprite;
@@ -71,6 +72,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprFood:FlxSprite;
 	private var _foodMax:Int;
 	private var _doneWithFood:Bool;
+	private var _inFoodFlash:Bool;
 	
 	private var _borderStone:FlxSprite;
 	private var _bgStone:FlxSprite;
@@ -78,6 +80,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprStone:FlxSprite;
 	private var _stoneMax:Int;
 	private var _doneWithStone:Bool;
+	private var _inStoneFlash:Bool;
 	
 	private var _toRemove:FlxSprite;
 	
@@ -295,28 +298,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_nextPowerUpX += 32;
 	}
 	
-	public function flashWood(toColor:FlxColor):Void {
-		if (!_doneWithWood) {
-			FlxTween.color(_bgWood, FLASH_DURATION, BORDER_COLOR, toColor,
-						{type: FlxTween.PERSIST, onComplete: resetWoodColor });
-		}
-	}
-	
-	private function resetWoodColor(_):Void {
-		if (_ps.hasEnoughWood) {
-			_doneWithWood = true;
-		} else {
-			FlxTween.color(_bgWood, FLASH_DURATION, _bgWood.color, BORDER_COLOR);
-		}
-	}
-	
-	public function flashFood(toColor:FlxColor):Void {
-		if (!_doneWithFood) {
-			FlxTween.color(_bgFood, FLASH_DURATION, BORDER_COLOR, toColor,
-					{type: FlxTween.PERSIST, onComplete: resetFoodColor});
-		}
-	}
-	
 	public function getResourceSpriteLocation(type:Int):Position {
 		switch (type) {
 			case 0:
@@ -329,16 +310,51 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		return null;
 	}
 	
+	public function flashWood(toColor:FlxColor):Void {
+		if (!_doneWithWood && !_inWoodFlash) {
+			_inWoodFlash = true;
+			FlxTween.color(_bgWood, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetWoodColor });
+		}
+	}
+	
+	private function resetWoodColor(_):Void {
+		if (_ps.hasEnoughWood) {
+			_doneWithWood = true;
+		} else {
+			FlxTween.color(_bgWood, FLASH_DURATION, _bgWood.color, BORDER_COLOR, { onComplete: finishWoodFlash });
+		}
+	}
+	
+	private function finishWoodFlash(_):Void {
+		_inWoodFlash = false;
+	}
+	
+	public function flashFood(toColor:FlxColor):Void {
+		if (!_doneWithFood && !_inFoodFlash) {
+			_inFoodFlash = true;
+			FlxTween.color(_bgFood, FLASH_DURATION, BORDER_COLOR, toColor,
+					{type: FlxTween.PERSIST, onComplete: resetFoodColor});
+		}
+	}
+	
+
+	
 	private function resetFoodColor(_):Void {
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
 		} else {
-			FlxTween.color(_bgFood, FLASH_DURATION, _bgFood.color, BORDER_COLOR);
+			FlxTween.color(_bgFood, FLASH_DURATION, _bgFood.color, BORDER_COLOR, { onComplete: finishFoodFlash });
 		}
 	}
 	
+	private function finishFoodFlash(_):Void {
+		_inFoodFlash = false;
+	}
+	
 	public function flashStone(toColor:FlxColor):Void {
-		if (!_doneWithStone) {
+		if (!_doneWithStone && !_inStoneFlash) {
+			_inStoneFlash = true;
 			FlxTween.color(_bgStone, FLASH_DURATION, BORDER_COLOR, toColor,
 						{type: FlxTween.PERSIST, onComplete: resetStoneColor});
 		}
@@ -348,8 +364,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (_ps.hasEnoughStone) {
 			_doneWithStone = true;
 		} else {
-			FlxTween.color(_bgStone, FLASH_DURATION, _bgStone.color, BORDER_COLOR);
+			FlxTween.color(_bgStone, FLASH_DURATION, _bgStone.color, BORDER_COLOR, {onComplete: finishStoneFlash });
 		}
+	}
+	
+	private function finishStoneFlash(_):Void {
+		_inStoneFlash = false;
 	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {

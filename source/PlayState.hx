@@ -1,9 +1,11 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -50,6 +52,7 @@ class PlayState extends FlxState {
 	*/
 	
 	override public function create():Void {
+		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
 		sword = new Sword(0, 0);
 		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
@@ -116,10 +119,14 @@ class PlayState extends FlxState {
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpEnemies);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
+			// Win level case 1: pressing space on house
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
-				if (FlxG.keys.pressed.SPACE && hasEnoughWood && hasEnoughFood && hasEnoughStone) {
+				// Win the level if has enough resources && either pressing space near house or at door
+				var canWin:Bool = hasEnoughWood && hasEnoughFood && hasEnoughStone;
+				var atDoor:Bool = FlxMath.distanceToPoint(player, new FlxPoint(Const.DOOR_X, Const.DOOR_Y)) < 8 && (player.facing == FlxObject.UP);
+				if ( canWin && (FlxG.keys.pressed.SPACE ||atDoor) ) {
 					winLevel();
-				} else if (FlxG.keys.pressed.SPACE) {
+				} else if (FlxG.keys.pressed.SPACE || atDoor) {
 					if (!hasEnoughWood) {
 						_HUD.flashWood(FlxColor.RED);
 					}

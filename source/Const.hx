@@ -13,8 +13,11 @@ class Const
 	public static var HOUSE_WIDTH(default, never):Int = TILE_WIDTH * 3;
 	public static var HOUSE_HEIGHT(default, never):Int = TILE_HEIGHT * 3;
 	public static var HOUSE_X(default, never):Int = Std.int((GAME_WIDTH - HOUSE_WIDTH) / 2);
-	public static var HOUSE_Y(default, never):Int = Std.int((GAME_HEIGHT - HOUSE_HEIGHT) /2);
+	public static var HOUSE_Y(default, never):Int = Std.int((GAME_HEIGHT - HOUSE_HEIGHT) / 2);
 	
+	public static var DOOR_X(default, never):Float = HOUSE_X + (HOUSE_WIDTH / 2) + 5;
+	public static var DOOR_Y(default, never):Float = HOUSE_Y + HOUSE_HEIGHT + (TILE_HEIGHT / 2);
+
 	public static var FIRST_HP_LVL(default, never):Int = 2;
 	public static var FIRST_FOOD_LVL(default, never):Int = 3;
 	public static var FIRST_GOLD_LVL(default, never):Int = 5;

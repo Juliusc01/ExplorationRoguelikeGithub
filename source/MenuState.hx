@@ -11,27 +11,32 @@ import flixel.util.FlxColor;
  */
 
 class MenuState extends FlxState {
-	private var _btnPlay:FlxButton;
+	private var _txtPlay:FlxText;
+	private var _btnPlay:FlxText;
 	private var _winText:FlxText;
 	private var _btnRestart:FlxButton;
 	
 	override public function create():Void {
 		
 		if (GameData.currentMenuState == 0) {
-			_btnPlay = new FlxButton(0, 0, "Start Game", clickPlay);
-			_btnPlay.screenCenter();
-			add(_btnPlay);
+			FlxG.mouse.visible = false;
+			_txtPlay = new FlxText(0, 0, "Press [space] to start");
+			_txtPlay.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
+			_txtPlay.screenCenter();
+			add(_txtPlay);
 		} else if (GameData.currentMenuState == 1) {
 			_winText = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
 			_winText.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
 			_winText.screenCenter();
 			_winText.y = 64;
 			add(_winText);
-			_btnPlay = new FlxButton(0, 0, "Start day " + Std.string(GameData.currentLevel.levelNum + 2), clickPlay);
-			_btnPlay.screenCenter();
-			_btnPlay.y = 130;
-			add(_btnPlay);
+			_txtPlay = new FlxText(0, 0, "Press space to start day " + Std.string(GameData.currentLevel.levelNum + 2));
+			_txtPlay.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
+			_txtPlay.screenCenter();
+			_txtPlay.y = 240;
+			add(_txtPlay);
 		} else if (GameData.currentMenuState == 2) {
+			FlxG.mouse.visible = true;
 			_winText = new FlxText(0, 0, 0, "You won the game, restart?");
 			_winText.screenCenter();
 			_winText.y = 120;

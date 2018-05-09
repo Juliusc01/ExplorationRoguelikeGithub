@@ -14,6 +14,7 @@ class LoseState extends FlxState {
 	private var _loseText:FlxText;
 	
 	override public function create():Void {
+		FlxG.mouse.visible = true;
 		_loseText = new FlxText(0, 0, 0, "You lose this level, restart?");
 		_loseText.screenCenter();
 		_loseText.y = 120;
