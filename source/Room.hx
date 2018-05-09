@@ -65,7 +65,6 @@ class Room extends FlxGroup
 	public function new(path:String, distanceFromHome:Int) 
 	{
 		super(0);
-		trace("creating room from: " + path);
 		if (distanceFromHome == 0) {
 			this.isHome = true;
 		}
@@ -104,7 +103,6 @@ class Room extends FlxGroup
 		if (isHome) {
 			addInstructionText();
 			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
-			trace("House location is: " + Const.HOUSE_X + ", " + Const.HOUSE_Y);
 			add(myHouse);
 		} else {
 			_map.loadEntities(placeEnemies, "entities");
@@ -144,7 +142,6 @@ class Room extends FlxGroup
 			spr.kill();
 		});
 		add(grpProjectiles);
-		trace("grpEnemies: " + grpEnemies);
 		if (grpEnemies.getFirstExisting() != null) {
 			remove(grpEnemies);
 			grpEnemies.clear();
@@ -245,7 +242,6 @@ class Room extends FlxGroup
 					}
 				}
 				myPowerUp.changeXY(x, y);
-				trace(myPowerUp.toString() +"");
 			}
 		}
 	}
@@ -295,8 +291,6 @@ class Room extends FlxGroup
 		text1.setFormat(HUD.FONT, 14, FlxColor.GRAY, CENTER);
 		var text2 = new FlxText(x2, y2 - 16, 50, "Interact/ Attack");
 		text2.setFormat(HUD.FONT, 12, FlxColor.GRAY, CENTER);
-		trace(text2.size);
-		trace(text1.size);
 		add(text1);
 		add(text2);
 	}

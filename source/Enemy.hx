@@ -60,9 +60,6 @@ class Enemy extends FlxSprite {
 		}
 		if (!healthbarDisabled) {
 			healthbar.value = (hp / maxHp) * 100;
-			trace("healthbar value is: " + healthbar.value);
-			trace("healthbar: " + healthbar);
-			trace("pct: " + healthbar.percent);
 		}
 		super.update(elapsed);
 	}

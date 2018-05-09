@@ -136,7 +136,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		_nextPowerUpX = 8;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
-		trace(BOTTOM_BAR_Y + " is the y coord");
 		for (i in 0...GameData.activePowerUps.length) {
 			addPowerUpToHUD(GameData.activePowerUps[i]);
 		}
@@ -219,7 +218,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_titlePowerUp.setFormat(FONT, FONT_SIZE - 1, FlxColor.YELLOW, CENTER);
 		_txtPowerUp = new FlxText(POPUP_X + 25, POPUP_Y + 15, POPUP_WIDTH - 26);
 		_txtPowerUp.setFormat(FONT, FONT_SIZE - 3, FlxColor.WHITE, CENTER);
-		trace("x,y: " + POPUP_X + ", " + POPUP_Y);
 		add(_bgPowerUp);
 		add(_sprPowerUp);
 		add(_titlePowerUp);

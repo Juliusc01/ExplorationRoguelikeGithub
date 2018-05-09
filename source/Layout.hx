@@ -53,10 +53,8 @@ class Layout
 	{
 		// TODO: enable this once implemented
 		if (GameData.currentLevel.levelNum <= 2) {
-			trace("generating level for number: " + GameData.currentLevel.levelNum);
 			_rooms = generateSpecialRooms(GameData.currentLevel.levelNum);
 			var result = distributeEntities();
-			trace(result);
 			return;
 		}
 		this.numRooms = numRooms;
@@ -91,8 +89,6 @@ class Layout
 			_rooms = generateRooms(roomShapes);
 			if (_hasPowerUpRoom) {
 				finished = distributeEntities();
-			} else {
-				trace("generated a layout without a powerup, retrying...");
 			}
 			// Attempt to distribute entities. It is possible we have
 			// chosen a layout with insufficient space for resources,
@@ -149,19 +145,14 @@ class Layout
 	 */
 	private function chooseNextRoom():PosCandidate {
 		var foundNewLocation:Bool = false;
-		trace ("considering: " + _nextRoomPossibilities);
 		var retVal:PosCandidate = null;
 		while (!foundNewLocation) {
 			var index:Int = FlxG.random.int(0, _nextRoomPossibilities.length - 1);
 			var vals:Array<PosCandidate> = _nextRoomPossibilities.splice(index, 1);
-			trace("vals are: " + vals);
 			retVal = vals[0];
 			var cell:LayoutCell = getWithoutNull(new Position(retVal.x, retVal.y));
 			if (!cell.exists) {
-				trace("Found a new cell to add!");
 				foundNewLocation = true;
-			} else {
-				trace("Found duplicate location, continuing");
 			}
 		}
 		return retVal;
@@ -187,7 +178,6 @@ class Layout
 		
 		// Update the neighbors that may already exist around this new room.
 		updateNeighborCells(nextCell, newLocation.x, newLocation.y);
-		trace("added room:" + newLocation);
 	}
 	
 	/**
@@ -347,7 +337,6 @@ class Layout
 			}
 			
 		}
-		trace(_map);
 		
 		var xAdjust = 0 - minX;
 		var yAdjust = 0 - minY;
@@ -355,10 +344,7 @@ class Layout
 		_currentRoomRow = yAdjust;
 		_width = maxX + xAdjust + 1;
 		_height = maxY + yAdjust + 1;
-		
-		trace("Layout size is: " + _width + ", " + _height);
-		trace("x adjust: " + xAdjust + ", yAdjust: " + yAdjust);
-		trace("max x is: " + maxX + ", max y is: " + maxY);
+
 		var roomShapes = new Array<Array<String>>();
 		// Iterate through the layout cells again, this time adding them to arrays
 		for (i in 0..._height) {
@@ -368,20 +354,14 @@ class Layout
 			}
 		}
 		
-		trace(roomShapes);
 		keys = _map.keys();
 		while (keys.hasNext()) {
 			var posStr:String = keys.next();
 			var pos:Position = Position.asPosition(posStr);
 			var cell:LayoutCell = _map.get(posStr);
-			trace("placing: " + (pos.y + yAdjust) + " y and " + (pos.x + xAdjust) + " x...");
 			roomShapes[pos.y + yAdjust][pos.x + xAdjust] = cell.getShape(); 
 		}
-		
-		trace("finished shaping layout:");
-		for (i in 0..._height) {
-			trace(roomShapes[i]);
-		}
+
 		return roomShapes;
 	}
 	
@@ -417,7 +397,6 @@ class Layout
 		var roomNum = 0;
 		if (distFromHome > 0) {
 			if (!_hasPowerUpRoom && shape.length == 1) {
-				trace("adding powerup room of shape: " + shape);
 				roomNum = FlxG.random.int(0, GameData.powerUpRoomOptions.get(shape));
 				_hasPowerUpRoom = true;
 				return "assets/data/finalizedLevels/roomf_" + shape + "_P_" + roomNum + ".oel";
@@ -455,10 +434,7 @@ class Layout
 				}
 			}
 		}
-		trace ("numResourceSpots: " + numResourceSpots);
-		trace ("numResourceRooms: " + resourceRooms.length);
-		trace ("numPowerUpRooms: " + powerUpRooms.length);
-		trace ("numShopRooms: " + shopRooms.length);
+
 		var minSpotsAllowed = GameData.currentLevel.woodReq + GameData.currentLevel.foodReq + GameData.currentLevel.stoneReq;
 		minSpotsAllowed = Std.int(minSpotsAllowed * 1.2);
 		if (numResourceSpots < minSpotsAllowed ) {
@@ -467,8 +443,6 @@ class Layout
 		}
 		
 		distributeResources(resourceRooms, numResourceSpots);
-		//distributePowerUps(powerUpRooms);
-		trace("POWERUPS ARE: " + powerUpRooms);
 		distributeShop(shopRooms);
 		
 		for (i in 0..._height) {
@@ -514,17 +488,13 @@ class Layout
 		for (i in 0...neededRes.length) {
 			origRatios.push(neededRes[i] / (totalNeeded * 1.0));
 		}
-		
-		trace("Needed resources: " + neededRes);
-		trace("Original ratios: " + origRatios);
+
 		while (rooms.length > 0) {
 			var currRoom:Room = rooms.pop();
-			trace("Current room num resources: " + currRoom.numResources);
 			for (i in 0...currRoom.numResources) {
 				if (totalNeeded > 0) {
 					var chosen:Int = selectResource(neededRes, totalNeeded, numSpots);
 					currRoom.addResource(chosen);
-					trace("resource chosen: " + chosen);
 					if (chosen != -1) {
 						neededRes[chosen]--;
 						totalNeeded--;
@@ -543,13 +513,11 @@ class Layout
 		var woodRange:Float = needed[0] / (totalNeeded * 1.0);
 		var foodRange:Float = (needed[1] / (totalNeeded * 1.0));
 		var numExtraSpots:Float = (1.0) * numSpots - totalNeeded;
-		trace("generating with totalNeeded: " + totalNeeded + ", numSpots: " + numSpots);
 		return selectExtraResource([woodRange, foodRange]);
 	}
 	
 	private function selectExtraResource(needed:Array<Float>):Int {
 		var choice:Float = FlxG.random.float(0, 1);
-		trace ("choice is: " + choice + ", needed array is: " + needed);
 		if (choice <= needed[0]) {
 			return 0;
 		} else if (choice <= needed[0] + needed[1]) {

@@ -16,7 +16,6 @@ class Door extends FlxSprite
 		this.direction = dir;
 		var w:Int = Const.TILE_WIDTH;
 		var h:Int = Const.TILE_HEIGHT;
-		trace("made door with direction:" + direction);
 		if (dir == Direction.WEST || dir == Direction.EAST) {
 			h *= 2;
 			loadGraphic(AssetPaths.doorEW__png, false, w, h);
@@ -25,7 +24,6 @@ class Door extends FlxSprite
 			loadGraphic(AssetPaths.doorNS__png, false, w, h);
 		}
 		setSize(w, h);
-		trace("door size is: " + width + ", " + height);
 		set_immovable(true);
 
 	}

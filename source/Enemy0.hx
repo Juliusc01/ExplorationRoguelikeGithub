@@ -36,9 +36,7 @@ class Enemy0 extends Enemy {
 	
 	
 	public function idle():Void {
-		trace("idle");
 		if (seesPlayer) {
-			trace("enemy sees player");
 			_brain.activeState = chase;
 		}
 	}
