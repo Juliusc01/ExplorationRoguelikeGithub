@@ -57,6 +57,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _txtHealth:FlxText;
 	private var _playerHealth:Int;
 	private var _maxHealth:Int;
+	private var _inHealthFlash:Bool;
 
 	private var _borderWood:FlxSprite;
 	private var _bgWood:FlxSprite;
@@ -154,13 +155,14 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		// Add the health widget to the UI, if we are on a level that uses health.
 		if (hasHp) {
-			_bgHealth = new FlxSprite(nextX, 0).makeGraphic(HP_WIDGET_WIDTH, WIDGET_HEIGHT, BORDER_COLOR);
-			_bgHealth.drawRect(1, 1, HP_WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
+			var borderHealth =  new FlxSprite(nextX, 0).makeGraphic(HP_WIDGET_WIDTH, WIDGET_HEIGHT, BORDER_COLOR);
+			_bgHealth = new FlxSprite(nextX + 1, 1).makeGraphic(HP_WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
 			_barHealth = new FlxBar(nextX + Std.int((HP_WIDGET_WIDTH - HP_BAR_WIDTH - 2) / 2), SPRITE_Y + 3, 50, 10);
 			_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.GREEN, true, BORDER_COLOR);
 			_playerHealth = _maxHealth = _ps.player.hp;
 			_barHealth.value = 100;
 			_txtHealth = makeWidgetText(nextX, HP_WIDGET_WIDTH - 2);
+			add(borderHealth);
 			add(_bgHealth);
 			add(_barHealth);
 			add(_txtHealth);
@@ -336,8 +338,6 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 	}
 	
-
-	
 	private function resetFoodColor(_):Void {
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
@@ -369,6 +369,22 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private function finishStoneFlash(_):Void {
 		_inStoneFlash = false;
 	}
+	
+	public function flashHealth(toColor:FlxColor):Void {
+		if (!_inHealthFlash && _bgHealth != null) {
+			_inHealthFlash = true;
+			FlxTween.color(_bgHealth, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetHealthColor});
+		}
+	}
+	
+	private function resetHealthColor(_):Void {
+		FlxTween.color(_bgHealth, FLASH_DURATION, _bgHealth.color, BORDER_COLOR, {onComplete: finishHealthFlash });
+	}
+	
+	private function finishHealthFlash(_):Void {
+		_inHealthFlash = false;
+	}	
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
 		var bg = new FlxSprite(widgetX + 1, 1).makeGraphic(WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);

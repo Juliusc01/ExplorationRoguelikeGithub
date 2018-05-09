@@ -119,12 +119,14 @@ class Player extends FlxSprite {
 	public function hurtByEnemy(E:Enemy) {
 		if(!isFlickering()) {
 			E.damagePlayer(this);
+			GameData.currentPlayState.flashHealth();
 		}
 	}
 	
 	public function hurtByProjectile(P:Projectile) {
 		if (!isFlickering()) {
 			P.damagePlayer(this);
+			GameData.currentPlayState.flashHealth();
 		}
 	}
 	
