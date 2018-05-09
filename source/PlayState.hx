@@ -93,6 +93,7 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
+		/*
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
@@ -100,7 +101,7 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
-		}
+		}*/
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
