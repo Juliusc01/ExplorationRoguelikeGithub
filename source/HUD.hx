@@ -38,7 +38,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	public static var POPUP_WIDTH(default, never):Int = 250;
 	public static var POPUP_HEIGHT(default, never):Int = 32;
 	public static var POPUP_X(default, never):Float = (Const.GAME_WIDTH - POPUP_WIDTH) / 2;
-	public static var POPUP_Y(default, never):Float = BOTTOM_BAR_Y;
+	public static var POPUP_Y(default, never):Float = WIDGET_HEIGHT + 8;
 	
 
 	public static var FONT(default, never):String = "assets/data/expressway_rg.ttf";
@@ -232,6 +232,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		_txtTimer.text = FlxStringUtil.formatTime(_ps.timer);
+		if (_ps.timer < 20) {
+			_bgTimer.color = FlxColor.RED;
+		}
+		else if (_ps.timer < 40) {
+			_bgTimer.color = FlxColor.ORANGE;
+		}
 		_txtWood.text = _ps.currentWood + " / " + _woodMax;
 		if (_txtFood != null) {
 			_txtFood.text = _ps.currentFood + " / " + _foodMax;

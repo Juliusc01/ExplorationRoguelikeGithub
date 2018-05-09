@@ -41,6 +41,7 @@ class Room extends FlxGroup
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
 	public var grpEnemies:FlxTypedGroup<Enemy>;
+	public var grpHealthbars:FlxTypedGroup<FlxBar>; // For storing references, not for adding to gamestate
 	public var grpProjectiles:FlxTypedGroup<Projectile>;
 	private var myEnemies:List<Array<Int>>;
 	public var myHouse:House;
@@ -72,7 +73,6 @@ class Room extends FlxGroup
 		
 		_map = new FlxOgmoLoader(path);
 		tilemap = _map.loadTilemap(AssetPaths.tiles__png, 16, 16, "walls");
-		//tilemap.follow();
 		tilemap.setTileProperties(1, FlxObject.NONE);
 		tilemap.setTileProperties(3, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE, swampCollide);
@@ -86,6 +86,7 @@ class Room extends FlxGroup
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
 		grpEnemies = new FlxTypedGroup<Enemy>();
+		grpHealthbars = new FlxTypedGroup<FlxBar>();
 		grpProjectiles = new FlxTypedGroup<Projectile>();
 		myEnemies = new List<Array<Int>>();
 		myPowerUp = null;
@@ -117,15 +118,14 @@ class Room extends FlxGroup
 	 * added contents.
 	 */
 	public function finalizeRoom():Void {
-		trace("resource list for room is: " + _resList);
 		_map.loadEntities(finalizeEntities, "entities");
 		
 		if (myPowerUp != null) {
-			trace("powerupadded");
-			trace(""+myPowerUp.imagePath);
 			add(myPowerUp);
 		}
 		add(grpResources);
+		// adds things in the proper order, fixes bug with rabbit health bars.
+		resetRoom();
 		//TODO: add shop here as well.
 	}
 	
@@ -139,6 +139,10 @@ class Room extends FlxGroup
 	public function resetRoom():Void {
 		remove(grpProjectiles);
 		grpProjectiles.clear();
+		grpHealthbars.forEachAlive(function(spr:FlxSprite)
+		{
+			spr.kill();
+		});
 		add(grpProjectiles);
 		trace("grpEnemies: " + grpEnemies);
 		if (grpEnemies.getFirstExisting() != null) {
@@ -151,6 +155,7 @@ class Room extends FlxGroup
 				grpEnemies.add(realEnemy);
 				if (realEnemy.healthbar != null) {
 					add(realEnemy.healthbar);
+					grpHealthbars.add(realEnemy.healthbar);
 				}
 			}
 			add(grpEnemies);
@@ -178,6 +183,7 @@ class Room extends FlxGroup
 			grpEnemies.add(realEnemy);
 			if (realEnemy.healthbar != null) {
 				add(realEnemy.healthbar);
+				grpHealthbars.add(realEnemy.healthbar);
 			}
 			myEnemies.push([x, y, myEnemyEtype]);
 		}
@@ -211,7 +217,10 @@ class Room extends FlxGroup
 					if (FlxG.random.bool(50)) {
 						var rabbit = new Enemy200(x, y, 200);
 						grpEnemies.add(rabbit);
-						add(rabbit.healthbar);
+						if (rabbit.healthbar != null) {
+							add(rabbit.healthbar);
+							grpHealthbars.add(rabbit.healthbar);
+						}
 						myEnemies.push([x, y, 200]);
 					} else {
 						grpResources.add(new Resource(x, y, resType));

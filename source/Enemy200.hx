@@ -29,7 +29,7 @@ class Enemy200 extends Enemy {
 		speed = 80;
 		damage = 0;
 		knockback = 0;
-		hp = maxHp = 1;
+		hp = maxHp = 3;
 		_brain = new FSM(idle);
 		updateStats();
 	}

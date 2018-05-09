@@ -28,12 +28,9 @@ class PowerUp extends FlxSprite
 		
 		loadGraphic(this.imagePath, false, w, h);
 		setSize(w, h);
-		trace("item size is: " + width + ", " + height);
-
 	}
 	
 	public function changeXY(X:Float, Y:Float) {
-		trace("changing x and y to be " + X + Y);
 		this.x = X;
 		this.y = Y;
 	}

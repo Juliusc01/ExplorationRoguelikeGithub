@@ -17,7 +17,6 @@ class House extends FlxSprite
 		var h:Int = Const.HOUSE_HEIGHT;
 		loadGraphic(AssetPaths.house__png, false, w, h);
 		setSize(w, h);
-		trace("house size is: " + width + ", " + height);
 		centerOffsets();
 		set_immovable(true);
 

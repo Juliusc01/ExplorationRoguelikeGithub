@@ -90,9 +90,9 @@ class PlayState extends FlxState {
 		timer -= elapsed;
 		
 		//TODO: remove this after testing health loss
-		/*if (FlxG.keys.pressed.X) {
-			player.hp--;
-		}*/
+		if (FlxG.keys.pressed.X) {
+			winLevel();
+		}
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
