@@ -120,6 +120,7 @@ class Player extends FlxSprite {
 		if(!isFlickering()) {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
 			E.damagePlayer(this);
+			GameData.currentPlayState.flashHealth();
 		}
 	}
 	
@@ -127,6 +128,7 @@ class Player extends FlxSprite {
 		if (!isFlickering()) {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {projectile: true});
 			P.damagePlayer(this);
+			GameData.currentPlayState.flashHealth();
 		}
 	}
 	

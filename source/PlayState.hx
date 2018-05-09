@@ -156,6 +156,11 @@ class PlayState extends FlxState {
 		}
 	}
 	
+		
+	public function flashHealth():Void {
+		_HUD.flashHealth(FlxColor.RED);
+	}
+	
 	private function addLevelStartScreen():Void {
 		_levelStartScreen = new LevelStartScreen();
 		_inStart = true;
