@@ -216,14 +216,12 @@ class PlayState extends FlxState {
 	
 	private function playerTouchEnemy(P:Player, E:Enemy):Void {
 		if (P.alive && P.exists && E.alive && E.exists) {
-			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
 			P.hurtByEnemy(E);
 		}
 	}
 	
 	private function playerTouchProjectile(P:Player, Pro:Projectile):Void {
 		if (P.alive && P.exists && Pro.alive && Pro.exists) {
-			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {projectile: true});
 			P.hurtByProjectile(Pro);
 			_currentRoom.grpProjectiles.remove(Pro);
 		}
