@@ -52,6 +52,13 @@ class PowerUp extends FlxSprite
 		}
 	}
 	
+	public static function copy(toCopy:PowerUp):PowerUp {
+		trace(toCopy.imagePath.substr(20));
+		var res:PowerUp = new PowerUp(toCopy.powerUpID, toCopy.name, toCopy.effect, toCopy.imagePath.substr(20));
+		res.isActive = toCopy.isActive;
+		return res;
+	}
+	
 	/**
 	 * Returns whether the given powerup ID is
 	 * active in the current game by checking in the

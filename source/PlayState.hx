@@ -39,6 +39,8 @@ class PlayState extends FlxState {
 	public var hasEnoughFood:Bool;
 	public var hasEnoughStone:Bool;
 	
+	private var _gotPowerUp:Bool;
+	
 	private var _inStart:Bool;
 	private var _levelStartScreen:LevelStartScreen;
 	
@@ -95,6 +97,10 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
+		}
+		//TODO: remove this after testing health loss
+		if (FlxG.keys.pressed.C) {
+			player.hp --;
 		}
 		
 		if (timer <= 0 || player.hp <= 0) {
@@ -167,6 +173,19 @@ class PlayState extends FlxState {
 	//Test end level function
 
 	private function loseLevel():Void {
+		// If they got a powerup this level, then they lose it when they lose the level.
+		// It will always be the last one in the array.
+		trace("losing level");
+		if (_gotPowerUp) {
+			trace("losing powerup now");
+			trace("before: " + GameData.activePowerUps.length);
+			GameData.activePowerUps.pop();
+			trace(GameData.activePowerUps);
+			trace("after: " +  GameData.activePowerUps.length);
+			trace(GameData.powerUps[0].exists);
+			trace(GameData.powerUps[0].alive);
+			trace(GameData.powerUps[0]);
+		}
 		GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms });
 		FlxG.switchState(new LoseState());
 	}
@@ -185,9 +204,10 @@ class PlayState extends FlxState {
 			for (currPowerUp in GameData.powerUps) {
 				if (currPowerUp.powerUpID == PU.powerUpID) {
 					currPowerUp.isActive = true;
-					_HUD.showPowerUp(currPowerUp);
-					GameData.activePowerUps.push(currPowerUp);
-					applyPowerUp(currPowerUp);
+					_HUD.showPowerUp(PU);
+					GameData.activePowerUps.push(PU);
+					applyPowerUp(PU);
+					_gotPowerUp = true;
 					GameData.myLogger.logLevelAction(LoggingActions.POWERUP, { pu: currPowerUp.powerUpID });
 				}
 			}

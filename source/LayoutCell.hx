@@ -50,7 +50,6 @@ class LayoutCell
 		if (this.hasN) {
 			val += "N";
 		}
-		trace("shape is: " + val);
 		return val;
 	}
 }

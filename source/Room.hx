@@ -231,14 +231,14 @@ class Room extends FlxGroup
 				if (entityData.get("itemID") != "-1") {
 					for (currPowerUp in GameData.powerUps) {
 						if (currPowerUp.powerUpID == entityData.get("itemID")) {
-							myPowerUp = currPowerUp;
+							myPowerUp = PowerUp.copy(currPowerUp);
 						}
 					}
 				} else {
 					var myRandom = new FlxRandom();
-					myPowerUp = GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)];
+					myPowerUp = PowerUp.copy(GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)]);
 					while (myPowerUp.isActive || !myPowerUp.isAllowedOnLevel()) { //Reroll if you get something you already have
-						myPowerUp = GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)];
+						myPowerUp = PowerUp.copy(GameData.powerUps[myRandom.int(0, GameData.powerUps.length - 1)]);
 					}
 				}
 				myPowerUp.changeXY(x, y);
