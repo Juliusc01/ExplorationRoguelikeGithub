@@ -77,7 +77,6 @@ class PlayState extends FlxState {
 			addLevelStartScreen();
 		}
 		applyActivePowerUps();
-		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum);
 		super.create();
 	}
 
@@ -191,12 +190,12 @@ class PlayState extends FlxState {
 			trace(GameData.powerUps[0].alive);
 			trace(GameData.powerUps[0]);
 		}
-		GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms });
+		GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS()});
 		FlxG.switchState(new LoseState());
 	}
 	
 	private function winLevel():Void {
-		GameData.myLogger.logLevelEnd({won: true, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms});
+		GameData.myLogger.logLevelEnd({won: true, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS()});
 		GameData.currentMenuState = 1;
 		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
 			GameData.currentMenuState = 2;

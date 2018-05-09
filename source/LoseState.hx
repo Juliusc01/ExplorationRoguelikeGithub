@@ -35,7 +35,7 @@ class LoseState extends FlxState {
 	
 	private function clickRestart():Void {
 		trace("in menu: " + GameData.activePowerUps.length);
-		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum);
+		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:true});
 		FlxG.switchState(new PlayState());
 	}
 }
