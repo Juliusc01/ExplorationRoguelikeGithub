@@ -134,29 +134,19 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.grpProjectiles, playerTouchProjectile);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpDoors);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpEnemies);
+		
+		FlxG.overlap(sword, _currentRoom.grpFeatures, swordTouchFeature);
+		FlxG.collide(player, _currentRoom.grpFeatures);
+		FlxG.collide(_currentRoom.grpAnimals, _currentRoom.grpFeatures);
+		
+		// Check for winning by entering the door.
 		if (_currentRoom.isHome) {
-			FlxG.collide(player, _currentRoom.myHouse);
-			FlxG.collide(_currentRoom.myHouse, _currentRoom.grpAnimals);
-			// Win level case 1: pressing space on house
-			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
-				// Win the level if has enough resources && either pressing space near house or at door
-				var canWin:Bool = hasEnoughWood && hasEnoughFood && hasEnoughStone;
-				var atDoor:Bool = FlxMath.distanceToPoint(player, new FlxPoint(Const.DOOR_X, Const.DOOR_Y)) < 8 && (player.facing == FlxObject.UP);
-				if ( canWin && (FlxG.keys.pressed.SPACE ||atDoor) ) {
-					winLevel();
-				} else if (FlxG.keys.pressed.SPACE || atDoor) {
-					if (!hasEnoughWood) {
-						_HUD.flashWood(FlxColor.RED);
-					}
-					if (!hasEnoughStone) {
-						_HUD.flashStone(FlxColor.RED);
-					}
-					if (!hasEnoughFood) {
-						_HUD.flashFood(FlxColor.RED);
-					}
-				}
+			if (FlxMath.distanceToPoint(player, new FlxPoint(Const.DOOR_X, Const.DOOR_Y)) < 8 
+					&& (player.facing == FlxObject.UP)) {
+				checkForWin();
 			}
 		}
+		
 		if (!_inCameraFade) {
 			// Fade the camera to simulate nightfall.
 			// Scale with the remaining time, beginning to darken once half
@@ -172,6 +162,23 @@ class PlayState extends FlxState {
 		
 	public function flashHealth():Void {
 		_HUD.flashHealth(FlxColor.RED);
+	}
+	
+	public function checkForWin():Void {
+		var canWin = hasEnoughWood && hasEnoughFood && hasEnoughStone;
+		if ( canWin) {
+			winLevel();
+		} else {
+			if (!hasEnoughWood) {
+				_HUD.flashWood(FlxColor.RED);
+			}
+			if (!hasEnoughStone) {
+				_HUD.flashStone(FlxColor.RED);
+			}
+			if (!hasEnoughFood) {
+				_HUD.flashFood(FlxColor.RED);
+			}
+		}
 	}
 	
 	private function addLevelStartScreen():Void {
@@ -265,6 +272,13 @@ class PlayState extends FlxState {
 		if (S.alive && S.exists && R.alive && R.exists && FlxG.keys.pressed.SPACE) {
 			R.killByPlayer(_HUD.getResourceSpriteLocation(R.type));
 			addResource(R.type, 1, false);
+		}
+	}
+	
+	private function swordTouchFeature(S: Sword, F:Feature):Void {
+		if (S.alive && S.exists && F.alive && F.exists && FlxG.keys.justPressed.SPACE) {
+			F.touchBySword();
+			trace("touched feature: " + F);
 		}
 	}
 	

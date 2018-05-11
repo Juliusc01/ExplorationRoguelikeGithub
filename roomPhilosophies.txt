@@ -6,7 +6,9 @@ Room philosophies:
 	-Power ups should usually be in dead end rooms
 	-Keep the average travel time through rooms somewhat constant (no tricky winding paths unless they’re optional for progress)
 
-	-Rooms in which the home can spawn will end in _H
+	-Rooms in which the home can spawn will end in _0
+	-Rooms in which the home can spawn need to leave space for the home and anvil: Leave a rectangle of size 8x6 in the center of the room as default terrain
+			- This leaves 4 rows above/4 rows below, and 6 columns of tiles on either side that can be modified
 	-Rooms in which Power ups can spawn will end in _P
 	
 	We’ll generate one power up room per floor and then stop picking power up rooms from there

@@ -43,10 +43,10 @@ class PowerUp extends FlxSprite
 				GameData.currentLevel.levelNum >= Const.FIRST_FOOD_LVL) {
 			return true;
 		} else if (StringTools.startsWith(powerUpID, "2") &&
-				GameData.currentLevel.levelNum >= Const.FIRST_GOLD_LVL) {
+				GameData.currentLevel.levelNum >= Const.FIRST_STONE_LVL) {
 			return true;		
 		} else if (StringTools.startsWith(powerUpID, "3") &&
-				GameData.currentLevel.levelNum >= Const.FIRST_STONE_LVL) {
+				GameData.currentLevel.levelNum >= Const.FIRST_CRAFT_LVL) {
 			return true;
 		} else {
 			return false;

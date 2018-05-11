@@ -1,25 +1,18 @@
 package;
 
-import flixel.FlxSprite;
-
 /**
  * ...
  * @author Alex Vrhel
  */
-class House extends FlxSprite 
-{
-	public var direction:Direction;
-	
+class House extends Feature 
+{	
 	public function new(X:Float=0, Y:Float=0) 
 	{
-		super(X, Y);
-		var w:Int = Const.HOUSE_WIDTH;
-		var h:Int = Const.HOUSE_HEIGHT;
-		loadGraphic(AssetPaths.house__png, false, w, h);
-		setSize(w, h);
-		centerOffsets();
-		set_immovable(true);
-
+		super(X, Y, Const.HOUSE_WIDTH, Const.HOUSE_HEIGHT, AssetPaths.house__png);
+	}
+	
+	override public function touchBySword():Void {
+		GameData.currentPlayState.checkForWin();
 	}
 	
 }

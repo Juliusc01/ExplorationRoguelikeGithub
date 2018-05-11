@@ -46,10 +46,12 @@ class Room extends FlxGroup
 	public var grpHealthbars:FlxTypedGroup<FlxBar>; // For storing references, not for adding to gamestate
 	public var grpAnimalHealthbars:FlxTypedGroup<FlxBar>; // For storing references, not for adding to gamestate
 	public var grpProjectiles:FlxTypedGroup<Projectile>;
+	public var grpFeatures:FlxTypedGroup<Feature>;
 	private var myEnemies:List<Array<Int>>;
 	private var myAnimals:List<Array<Int>>;
 	private var myObstacles:List<Array<Int>>;
-	public var myHouse:House;
+	//public var myHouse:House;
+	//public var myAnvil:Anvil;
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
 	public var distFromHome:Int;
@@ -95,29 +97,36 @@ class Room extends FlxGroup
 		grpHealthbars = new FlxTypedGroup<FlxBar>();
 		grpAnimalHealthbars = new FlxTypedGroup<FlxBar>();
 		grpProjectiles = new FlxTypedGroup<Projectile>();
+		grpFeatures = new FlxTypedGroup<Feature>();
 		myEnemies = new List<Array<Int>>();
 		myAnimals = new List<Array<Int>>();
 		myObstacles = new List<Array<Int>>();
 		myPowerUp = null;
-		myHouse = null;
 		
 		_map.loadEntities(placeEntities, "entities");
 		
 		add(grpDoors);
 		
-		myHouse = null;
+		var myHouse = null;
 		//Only generate house if not testing a level
 		if (GameData.levels.length == 1 && GameData.testingHome == false) {
 			this.isHome = false;
 		}
 		if (isHome) {
-			addInstructionText();
+			if (GameData.currentLevel.levelNum <= Const.LAST_INSTRUCTION_LVL) {
+				addInstructionText();
+			}
 			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
-			add(myHouse);
+			grpFeatures.add(myHouse);
+			if (GameData.currentLevel.levelNum >= Const.FIRST_CRAFT_LVL) {
+				var myAnvil = new Anvil(Const.ANVIL_X, Const.ANVIL_Y);
+				grpFeatures.add(myAnvil);
+			}
 		} else {
 			_map.loadEntities(placeEnemies, "entities");
 		}
 		add(grpEnemies);
+		add(grpFeatures);
 	}
 
 	/**
@@ -308,7 +317,7 @@ class Room extends FlxGroup
 	
 	private function addInstructionText():Void {
 		// Each part is 50 wide, 8 px padding between them.
-		var x1 = Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 50;
+		var x1 = Const.HOUSE_X + Const.HOUSE_WIDTH / 2 - 54;
 		var x2 = x1 + 58;
 		var y1 = Const.HOUSE_Y + Const.HOUSE_HEIGHT + Const.TILE_HEIGHT; 
 		var y2 = y1 + 20;
