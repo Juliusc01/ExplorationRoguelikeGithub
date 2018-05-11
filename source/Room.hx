@@ -127,8 +127,8 @@ class Room extends FlxGroup
 			if (GameData.currentLevel.levelNum <= Const.LAST_INSTRUCTION_LVL) {
 				addInstructionText();
 			}
-
 		} else {
+			// Only place enemies and entities if the room is not the home room.
 			_map.loadEntities(placeEnemies, "entities");
 		}
 		add(grpEnemies);
