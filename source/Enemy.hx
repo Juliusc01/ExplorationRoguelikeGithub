@@ -112,4 +112,9 @@ class Enemy extends FlxSprite {
 		return checkType >= 100 && checkType < 200;
 	}
 	
+	// All enemies 103 and up do not hurt player on contact.
+	public static function hurtsOnContactByType(checkType:Int):Bool {
+		return checkType < 103;
+	}
+	
 }

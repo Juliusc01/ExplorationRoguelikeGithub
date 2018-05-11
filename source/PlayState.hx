@@ -24,6 +24,7 @@ class PlayState extends FlxState {
 	
 	public var _currentRoom:Room;
 	private var _layout:Layout;
+	private var _doorX:Float;
 
 	
 	public var sword:Sword;
@@ -57,7 +58,12 @@ class PlayState extends FlxState {
 		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
 		sword = new Sword(0, 0);
-		player = new Player(Const.HOUSE_X + (Const.HOUSE_WIDTH / 2) - 8, Const.HOUSE_Y + (Const.HOUSE_HEIGHT) + 4, sword);
+		_doorX = Const.DOOR_X_WITH_ANVIL;
+		if (GameData.currentLevel.levelNum < Const.FIRST_CRAFT_LVL) {
+			_doorX = Const.DOOR_X_NO_ANVIL;
+		}
+		var playerX = _doorX - 9;
+		player = new Player(playerX, Const.HOUSE_Y + Const.HOUSE_HEIGHT + 4, sword);
 		timer = GameData.currentLevel.timeLimit;
 		currentWood = 0;
 		currentFood = 0;
@@ -120,7 +126,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
 		
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
-		FlxG.collide(player, _currentRoom.grpObstacles, playerTouchEnemy);
+		FlxG.overlap(player, _currentRoom.grpObstacles, playerTouchEnemy);
 		FlxG.collide(player, _currentRoom.grpAnimals);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
 		FlxG.overlap(sword, _currentRoom.grpAnimals, swordTouchEnemy);
@@ -141,7 +147,7 @@ class PlayState extends FlxState {
 		
 		// Check for winning by entering the door.
 		if (_currentRoom.isHome) {
-			if (FlxMath.distanceToPoint(player, new FlxPoint(Const.DOOR_X, Const.DOOR_Y)) < 8 
+			if (FlxMath.distanceToPoint(player, new FlxPoint(_doorX, Const.DOOR_Y)) < 8 
 					&& (player.facing == FlxObject.UP)) {
 				checkForWin();
 			}

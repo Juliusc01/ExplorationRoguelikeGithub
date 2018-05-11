@@ -117,7 +117,7 @@ class Player extends FlxSprite {
 	}
 	
 	public function hurtByEnemy(E:Enemy) {
-		if(!isFlickering()) {
+		if(!isFlickering() && Enemy.hurtsOnContactByType(E.etype)) {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
 			E.damagePlayer(this);
 			GameData.currentPlayState.flashHealth();

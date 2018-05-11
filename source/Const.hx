@@ -12,15 +12,17 @@ class Const
 	public static var GAME_HEIGHT(default, never):Int = 320;
 	public static var HOUSE_WIDTH(default, never):Int = TILE_WIDTH * 3;
 	public static var HOUSE_HEIGHT(default, never):Int = TILE_HEIGHT * 3;
-	public static var HOUSE_X(default, never):Int = Std.int((GAME_WIDTH - HOUSE_WIDTH) / 2 - (TILE_WIDTH * 1.5));
+	public static var HOUSE_X_WITH_ANVIL(default, never):Int = Std.int((GAME_WIDTH - HOUSE_WIDTH) / 2 - (TILE_WIDTH * 1.5));
+	public static var HOUSE_X_NO_ANVIL(default, never):Int = Std.int((GAME_WIDTH - HOUSE_WIDTH) / 2);
 	public static var HOUSE_Y(default, never):Int = Std.int((GAME_HEIGHT - HOUSE_HEIGHT) / 2);
 	
 	public static var ANVIL_WIDTH(default, never):Int = 32;
 	public static var ANVIL_HEIGHT(default, never):Int = 17;
-	public static var ANVIL_X(default, never):Int = HOUSE_X + HOUSE_WIDTH + 16;
+	public static var ANVIL_X(default, never):Int = HOUSE_X_WITH_ANVIL + HOUSE_WIDTH + 16;
 	public static var ANVIL_Y(default, never):Int = HOUSE_Y + HOUSE_HEIGHT - ANVIL_HEIGHT;
 	
-	public static var DOOR_X(default, never):Float = HOUSE_X + (HOUSE_WIDTH / 2) + 5;
+	public static var DOOR_X_WITH_ANVIL(default, never):Float = HOUSE_X_WITH_ANVIL + (HOUSE_WIDTH / 2) + 5;
+	public static var DOOR_X_NO_ANVIL(default, never):Float = HOUSE_X_NO_ANVIL + (HOUSE_WIDTH / 2) + 5;
 	public static var DOOR_Y(default, never):Float = HOUSE_Y + HOUSE_HEIGHT + (TILE_HEIGHT / 2);
 
 	public static var FIRST_HP_LVL(default, never):Int = 2;

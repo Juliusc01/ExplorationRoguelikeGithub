@@ -113,15 +113,21 @@ class Room extends FlxGroup
 			this.isHome = false;
 		}
 		if (isHome) {
-			if (GameData.currentLevel.levelNum <= Const.LAST_INSTRUCTION_LVL) {
-				addInstructionText();
-			}
-			myHouse = new House(Const.HOUSE_X, Const.HOUSE_Y);
-			grpFeatures.add(myHouse);
+			var houseX = Const.HOUSE_X_NO_ANVIL;
+			// If in a crafting level, offset the house and add anvil.
 			if (GameData.currentLevel.levelNum >= Const.FIRST_CRAFT_LVL) {
 				var myAnvil = new Anvil(Const.ANVIL_X, Const.ANVIL_Y);
 				grpFeatures.add(myAnvil);
+				houseX = Const.HOUSE_X_WITH_ANVIL;
 			}
+			
+			myHouse = new House(houseX, Const.HOUSE_Y);
+			grpFeatures.add(myHouse);
+			
+			if (GameData.currentLevel.levelNum <= Const.LAST_INSTRUCTION_LVL) {
+				addInstructionText();
+			}
+
 		} else {
 			_map.loadEntities(placeEnemies, "entities");
 		}
@@ -317,7 +323,7 @@ class Room extends FlxGroup
 	
 	private function addInstructionText():Void {
 		// Each part is 50 wide, 8 px padding between them.
-		var x1 = Const.HOUSE_X + Const.HOUSE_WIDTH / 2 - 54;
+		var x1 = Const.GAME_WIDTH / 2 - 54;
 		var x2 = x1 + 58;
 		var y1 = Const.HOUSE_Y + Const.HOUSE_HEIGHT + Const.TILE_HEIGHT; 
 		var y2 = y1 + 20;
