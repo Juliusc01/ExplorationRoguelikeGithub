@@ -41,9 +41,14 @@ class Room extends FlxGroup
 	public var grpResources:FlxTypedGroup<Resource>;
 	public var grpDoors:FlxTypedGroup<Door>;
 	public var grpEnemies:FlxTypedGroup<Enemy>;
+	public var grpObstacles:FlxTypedGroup<Enemy>;
+	public var grpAnimals:FlxTypedGroup<Enemy>;
 	public var grpHealthbars:FlxTypedGroup<FlxBar>; // For storing references, not for adding to gamestate
+	public var grpAnimalHealthbars:FlxTypedGroup<FlxBar>; // For storing references, not for adding to gamestate
 	public var grpProjectiles:FlxTypedGroup<Projectile>;
 	private var myEnemies:List<Array<Int>>;
+	private var myAnimals:List<Array<Int>>;
+	private var myObstacles:List<Array<Int>>;
 	public var myHouse:House;
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
@@ -85,9 +90,14 @@ class Room extends FlxGroup
 		grpResources = new FlxTypedGroup<Resource>();
 		grpDoors = new FlxTypedGroup<Door>();
 		grpEnemies = new FlxTypedGroup<Enemy>();
+		grpAnimals = new FlxTypedGroup<Enemy>();
+		grpObstacles = new FlxTypedGroup<Enemy>();
 		grpHealthbars = new FlxTypedGroup<FlxBar>();
+		grpAnimalHealthbars = new FlxTypedGroup<FlxBar>();
 		grpProjectiles = new FlxTypedGroup<Projectile>();
 		myEnemies = new List<Array<Int>>();
+		myAnimals = new List<Array<Int>>();
+		myObstacles = new List<Array<Int>>();
 		myPowerUp = null;
 		myHouse = null;
 		
@@ -122,6 +132,7 @@ class Room extends FlxGroup
 			add(myPowerUp);
 		}
 		add(grpResources);
+		add(grpAnimals);
 		// adds things in the proper order, fixes bug with rabbit health bars.
 		resetRoom();
 		//TODO: add shop here as well.
@@ -141,6 +152,7 @@ class Room extends FlxGroup
 		{
 			spr.kill();
 		});
+		grpHealthbars.clear();
 		add(grpProjectiles);
 		if (grpEnemies.getFirstExisting() != null) {
 			remove(grpEnemies);
@@ -157,6 +169,16 @@ class Room extends FlxGroup
 			}
 			add(grpEnemies);
 		}
+		
+		remove(grpObstacles);
+		grpObstacles.clear();
+		var myItr = myObstacles.iterator();
+		while (myItr.hasNext()) {
+			var obstacleVar = myItr.next();
+			var realObstacle = Type.createInstance(Type.resolveClass("Enemy"+obstacleVar[2]), [obstacleVar[0], obstacleVar[1], obstacleVar[2]]);
+			grpObstacles.add(realObstacle);
+		}
+		add(grpObstacles);
 	}
 	
 	public function enemyShootProjectile(P:Projectile):Void {
@@ -168,7 +190,7 @@ class Room extends FlxGroup
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
 		if (entityName == "enemy") {
-			var myEnemyEtype;
+			var myEnemyEtype:Int;
 			var realEnemy;
 			if (Std.parseInt(entityData.get("Etype")) == -1) {
 				var myRandom = new FlxRandom();
@@ -177,12 +199,18 @@ class Room extends FlxGroup
 				myEnemyEtype = Std.parseInt(entityData.get("Etype"));
 			}
 			realEnemy = Type.createInstance(Type.resolveClass("Enemy" + myEnemyEtype), [x, y, myEnemyEtype]);
-			grpEnemies.add(realEnemy);
-			if (realEnemy.healthbar != null) {
-				add(realEnemy.healthbar);
-				grpHealthbars.add(realEnemy.healthbar);
+			// Determine whether generated enemy is an obstacle or enemy.
+			if (Enemy.isObstacleByType(myEnemyEtype)) {
+				grpObstacles.add(realEnemy);
+				myObstacles.push([x, y, myEnemyEtype]);
+			} else {
+				grpEnemies.add(realEnemy);
+				if (realEnemy.healthbar != null) {
+					add(realEnemy.healthbar);
+					grpHealthbars.add(realEnemy.healthbar);
+				}
+				myEnemies.push([x, y, myEnemyEtype]);
 			}
-			myEnemies.push([x, y, myEnemyEtype]);
 		}
 	}
 
@@ -213,12 +241,12 @@ class Room extends FlxGroup
 				if (resType == 1) {
 					if (FlxG.random.bool(50)) {
 						var rabbit = new Enemy200(x, y, 200);
-						grpEnemies.add(rabbit);
+						grpAnimals.add(rabbit);
 						if (rabbit.healthbar != null) {
 							add(rabbit.healthbar);
-							grpHealthbars.add(rabbit.healthbar);
+							grpAnimalHealthbars.add(rabbit.healthbar);
 						}
-						myEnemies.push([x, y, 200]);
+						myAnimals.add([x, y, 200]);
 					} else {
 						grpResources.add(new Resource(x, y, resType));
 					}

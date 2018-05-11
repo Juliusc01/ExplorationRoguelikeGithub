@@ -93,7 +93,7 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
-		/*
+		
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
@@ -101,13 +101,16 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
-		}*/
+		}
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
 		}
 		_currentRoom.grpEnemies.forEachAlive(checkEnemyVision);
+		_currentRoom.grpAnimals.forEachAlive(checkEnemyVision);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
+		FlxG.collide(_currentRoom.grpAnimals, _currentRoom.tilemap);
+		FlxG.collide(_currentRoom.grpObstacles, _currentRoom.tilemap);
 		
 		FlxG.collide(player, _currentRoom.grpResources);
 		hasEnoughWood = currentWood >= GameData.currentLevel.woodReq;
@@ -115,8 +118,16 @@ class PlayState extends FlxState {
 		hasEnoughStone = currentStone >= GameData.currentLevel.stoneReq;
 		FlxG.overlap(player, _currentRoom.grpDoors, playerTouchDoor);
 		FlxG.overlap(player, _currentRoom.myPowerUp, playerTouchPowerUp);
+		
 		FlxG.collide(player, _currentRoom.grpEnemies, playerTouchEnemy);
+		FlxG.collide(player, _currentRoom.grpObstacles, playerTouchEnemy);
+		FlxG.collide(player, _currentRoom.grpAnimals);
 		FlxG.overlap(sword, _currentRoom.grpEnemies, swordTouchEnemy);
+		FlxG.overlap(sword, _currentRoom.grpAnimals, swordTouchEnemy);
+		FlxG.overlap(player, _currentRoom.grpEnemies);
+		FlxG.overlap(player, _currentRoom.grpObstacles);
+		FlxG.overlap(player, _currentRoom.grpAnimals);
+		
 		FlxG.overlap(sword, _currentRoom.grpProjectiles, swordTouchProjectile);
 		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
 		FlxG.collide(_currentRoom.grpProjectiles, _currentRoom.tilemap, killProjectile);
@@ -125,6 +136,7 @@ class PlayState extends FlxState {
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpEnemies);
 		if (_currentRoom.isHome) {
 			FlxG.collide(player, _currentRoom.myHouse);
+			FlxG.collide(_currentRoom.myHouse, _currentRoom.grpAnimals);
 			// Win level case 1: pressing space on house
 			if (FlxMath.isDistanceWithin(player, _currentRoom.myHouse, 48, true)) {
 				// Win the level if has enough resources && either pressing space near house or at door

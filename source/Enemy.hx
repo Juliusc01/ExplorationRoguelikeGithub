@@ -107,4 +107,9 @@ class Enemy extends FlxSprite {
 		exists = false;
 	}
 	
+	// Reserve all enemy types 100-199, inclusive, for obstacle enemies.
+	public static function isObstacleByType(checkType:Int):Bool {
+		return checkType >= 100 && checkType < 200;
+	}
+	
 }
