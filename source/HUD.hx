@@ -278,7 +278,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		// Hide the popup after 3 seconds.
 		// TODO: polish this by using a tween to fade out instead.
-		new FlxTimer().start(3, hidePowerUp, 1);
+		new FlxTimer().start(4, hidePowerUp, 1);
 	}
 	
 	// Hides the popup showing which powerup was just collected

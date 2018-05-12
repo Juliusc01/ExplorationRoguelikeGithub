@@ -41,6 +41,7 @@ class Main extends Sprite {
 		GameData.powerUps.push(new PowerUp("005", "Sturdy Boots", "Knockback from projectiles reduced", "005_heavy_boots.png"));
 		GameData.powerUps.push(new PowerUp("006", "Fairy Wings", "Immunity to terrain effects", "006_wings.png"));
 		GameData.powerUps.push(new PowerUp("007", "Boots of Extreme Speed", "Speed increased", "007_boots.png"));
+		GameData.powerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase momvement speed", "008_speed.png"));
 		
 		// Power ups with IDs starting with "1" can only be spawned once food is introduced
 		GameData.powerUps.push(new PowerUp("100", "Foraging Gloves", "Chance of extra food from bushes", "100_gloves.png"));
@@ -54,6 +55,7 @@ class Main extends Sprite {
 
 		
 		GameData.activePowerUps = new Array<PowerUp>();
+		//GameData.activePowerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase movement speed", "008_speed.png"));
 		//GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
 
 	}

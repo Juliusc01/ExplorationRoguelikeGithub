@@ -85,6 +85,7 @@ class Enemy extends FlxSprite {
 		this.hp -= P.damage;
 		if (this.hp <= 0) {
 			this.kill();
+			P.increaseKills();
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: this.etype});
 		}
 	}

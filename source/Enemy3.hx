@@ -72,14 +72,4 @@ class Enemy3 extends Enemy {
 		var newPos:FlxPoint = new FlxPoint(this.x + FlxG.random.float(-50, 50), this.y + FlxG.random.float(-50, 50));
 		FlxVelocity.moveTowardsPoint(this, newPos, Std.int(speed));
 	}
-	
-	override public function hurtByPlayer(P:Player):Void {
-		lastPlayerSwingNumber = P.swingNumber;
-		framesTillMovement = 20;
-		FlxVelocity.moveTowardsPoint(this, P.getMidpoint(), -1*P.knockback);
-		this.hp -= P.damage;
-		if (this.hp <= 0) {
-			this.kill();
-		}
-	}
 }

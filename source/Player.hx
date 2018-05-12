@@ -28,6 +28,7 @@ class Player extends FlxSprite {
 	public var knockback:Int;
 	public var swingNumber:Int;
 	public var invulnFrames:Float;
+	public var kills:Int;
 	private var _sword:Sword;
 	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
@@ -43,6 +44,7 @@ class Player extends FlxSprite {
 		damage = 10;
 		invulnFrames = 80;
 		swingNumber = 0;
+		kills = 0;
 		_sword = S;
 		loadGraphic(AssetPaths.player__png, true, 16, 16);
 		setFacingFlip(FlxObject.LEFT, false, false);
@@ -67,7 +69,6 @@ class Player extends FlxSprite {
 		if (!isInSwing) {
 			isInSwing = swing();
 			swingNumber++;
-			speed = 150;
 			if (!isInSwing && framesTillMovement == 0) {
 				movement();
 			}
@@ -129,6 +130,13 @@ class Player extends FlxSprite {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {projectile: true});
 			P.damagePlayer(this);
 			GameData.currentPlayState.flashHealth();
+		}
+	}
+	
+	public function increaseKills():Void {
+		kills++;
+		if (PowerUp.isActiveById("008")) {
+			speed += 7;
 		}
 	}
 	

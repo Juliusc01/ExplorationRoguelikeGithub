@@ -397,6 +397,8 @@ class PlayState extends FlxState {
 			case "007":
 				trace("applying 007: SPEED BOOTS");
 				player.speed *= 1.25;
+			case "008":
+				trace("applying 008: SPEED STACKING");
 			case "100":
 				trace("applying 100: GLOVES");
 			case "101":

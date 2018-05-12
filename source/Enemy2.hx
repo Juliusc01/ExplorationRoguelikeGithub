@@ -63,14 +63,4 @@ class Enemy2 extends Enemy {
         animation.play("lr");
         super.draw();	
 	}
-	
-	override public function hurtByPlayer(P:Player):Void {
-		lastPlayerSwingNumber = P.swingNumber;
-		framesTillMovement = 20;
-		FlxVelocity.moveTowardsPoint(this, P.getMidpoint(), -1*P.knockback);
-		this.hp -= P.damage;
-		if (this.hp <= 0) {
-			this.kill();
-		}
-	}
 }
