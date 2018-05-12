@@ -117,6 +117,8 @@ class PlayState extends FlxState {
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.tilemap);
 		FlxG.collide(_currentRoom.grpAnimals, _currentRoom.tilemap);
 		FlxG.collide(_currentRoom.grpObstacles, _currentRoom.tilemap);
+		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpDoors);
+		FlxG.collide(_currentRoom.grpAnimals, _currentRoom.grpDoors);
 		
 		FlxG.collide(player, _currentRoom.grpResources);
 		hasEnoughWood = currentWood >= GameData.currentLevel.woodReq;
@@ -138,7 +140,6 @@ class PlayState extends FlxState {
 		FlxG.overlap(sword, _currentRoom.grpResources, swordTouchResource);
 		FlxG.collide(_currentRoom.grpProjectiles, _currentRoom.tilemap, killProjectile);
 		FlxG.collide(player, _currentRoom.grpProjectiles, playerTouchProjectile);
-		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpDoors);
 		FlxG.collide(_currentRoom.grpEnemies, _currentRoom.grpEnemies);
 		
 		FlxG.overlap(sword, _currentRoom.grpFeatures, swordTouchFeature);
