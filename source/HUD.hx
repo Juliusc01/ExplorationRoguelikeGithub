@@ -88,6 +88,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _doneWithStone:Bool;
 	private var _inStoneFlash:Bool;
 	
+	private var _borderCraft:FlxSprite;
+	private var _bgCraft:FlxSprite;
+	private var _txtCraft:FlxText;
+	private var _sprCraft:FlxSprite;
+	private var _inCraftFlash:Bool;
+	
 	private var _toRemove:FlxSprite;
 	
 	private var _bgPowerUp:FlxSprite;
@@ -128,6 +134,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (GameData.currentLevel.levelNum >= Const.FIRST_HP_LVL) {
 			hasHp = true;
 		}
+		var hasCrafting:Bool = GameData.currentLevel.hasCrafting;
 		
 		// Generate the background of the top UI bar.
 		_sprBackgroundTop = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);
@@ -233,6 +240,19 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			this._txtStone = null;
 		}
 		
+		// Add the crafting resource widget to the UI, if necessary.
+		if (hasCrafting) {
+			_borderCraft = makeWidgetBorder(nextX);
+			_bgCraft = makeWidgetBackground(nextX);
+			_txtCraft = makeWidgetText(nextX, WIDGET_WIDTH - 2);
+			_sprCraft = makeWidgetSprite(nextX, AssetPaths.craft__png);
+			add(_borderCraft);
+			add(_bgCraft);
+			add(_txtCraft);
+			add(_sprCraft);
+			nextX += WIDGET_WIDTH;
+		}
+		
 		// Add the powerup tooltip to the UI and make it invisible at first.
 		_bgPowerUp = new FlxSprite(POPUP_X, POPUP_Y).makeGraphic(POPUP_WIDTH, POPUP_HEIGHT, BORDER_COLOR);
 		_bgPowerUp.drawRect(1, 1, POPUP_WIDTH - 2, POPUP_HEIGHT - 2, BG_COLOR);
@@ -279,6 +299,9 @@ class HUD extends FlxTypedGroup<FlxSprite>
 				_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.GREEN, true, BORDER_COLOR);
 			}
 			_txtHealth.text = _playerHealth + " / " + _maxHealth;
+		}
+		if (_txtCraft != null) {
+			_txtCraft.text = "" + GameData.currentCraft;
 		}
 	}
 	
@@ -327,6 +350,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 				return new Position(Std.int(_sprFood.x), Std.int(_sprFood.y));
 			case 2:
 				return new Position(Std.int(_sprStone.x), Std.int(_sprStone.y));
+			case 3:
+				return new Position(Std.int(_sprCraft.x), Std.int(_sprCraft.y));
 		}
 		return null;
 	}
@@ -406,6 +431,22 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private function finishHealthFlash(_):Void {
 		_inHealthFlash = false;
 	}	
+	
+	public function flashCraft(toColor:FlxColor):Void {
+		if (!_inCraftFlash && _bgCraft != null) {
+			_inCraftFlash = true;
+			FlxTween.color(_bgCraft, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetCraftColor});
+		}
+	}
+	
+	private function resetCraftColor(_):Void {
+		FlxTween.color(_bgCraft, FLASH_DURATION, _bgCraft.color, BORDER_COLOR, {onComplete: finishCraftFlash });
+	}
+	
+	private function finishCraftFlash(_):Void {
+		_inCraftFlash = false;
+	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
 		var bg = new FlxSprite(widgetX + 1, 1).makeGraphic(WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
