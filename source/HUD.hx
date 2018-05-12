@@ -47,6 +47,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprBackgroundTop:FlxSprite;
 	private var _sprBackgroundBottom:FlxSprite;
 	
+	private var _borderDayNum:FlxSprite;
+	private var _bgDayNum:FlxSprite;
+	private var _txtDay:FlxText;
+	private var _txtDayNum:FlxText;
+	
 	private var _borderTimer:FlxSprite;
 	private var _bgTimer:FlxSprite;
 	private var _sprTimer:FlxSprite;
@@ -143,11 +148,26 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		var nextX = 0;
 		
+		_borderDayNum = makeWidgetBorder(nextX);
+		_bgDayNum = makeWidgetBackground(nextX);
+		_txtDay = new FlxText(nextX + 1, 1, WIDGET_WIDTH - 2, "Day");
+		_txtDay.setFormat(FONT, FONT_SIZE - 3, BORDER_COLOR, CENTER);
+		_txtDayNum = new FlxText(nextX + 1, 12, WIDGET_WIDTH - 2);
+		_txtDayNum.setFormat(FONT, FONT_SIZE +3, BORDER_COLOR, CENTER);
+		_txtDayNum.text = "" + (GameData.currentLevel.levelNum + 1);
+		add(_borderDayNum);
+		add(_bgDayNum);
+		add(_txtDay);
+		add(_txtDayNum);
+		nextX += WIDGET_WIDTH;
+		
 		// Add the time widget to the UI. This widget is present on every level,
 		// and will always be in the upper left corner.
+		_borderTimer = makeWidgetBorder(nextX);
 		_bgTimer = makeWidgetBackground(nextX);
 		_txtTimer = makeWidgetText(nextX, WIDGET_WIDTH - 2);
 		_sprTimer = makeWidgetSprite(nextX, AssetPaths.time__png);
+		add(_borderTimer);
 		add(_bgTimer);
 		add(_txtTimer);
 		add(_sprTimer);
