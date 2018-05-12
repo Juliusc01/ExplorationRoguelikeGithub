@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -21,11 +22,18 @@ class MenuState extends FlxState {
 	override public function create():Void {
 		
 		if (GameData.currentMenuState == 0) {
+			add(new FlxSprite(0, 0, AssetPaths.title__png));
 			FlxG.mouse.visible = false;
 			_canContinue = true;
+			var titleText = new FlxText(0, 0, "Forest Floor");
+			titleText.setFormat(40, FlxColor.WHITE, CENTER);
+			titleText.screenCenter();
+			titleText.y = 30;
+			add(titleText);
 			_txtPlay = new FlxText(0, 0, "Press [space] to start");
-			_txtPlay.setFormat(HUD.FONT, 14, FlxColor.WHITE, CENTER);
+			_txtPlay.setFormat(14, FlxColor.WHITE, CENTER);
 			_txtPlay.screenCenter();
+			_txtPlay.y = 280;
 			add(_txtPlay);
 		} else if (GameData.currentMenuState == 1) {
 			_winText = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
