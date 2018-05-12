@@ -135,16 +135,21 @@ class Player extends FlxSprite {
 	public function hurtByEnemy(E:Enemy) {
 		if(!isFlickering() && Enemy.hurtsOnContactByType(E.etype)) {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
+			if(!GameData.currentPlayState.hasShieldForNextHit) {
+				GameData.currentPlayState.flashHealth();
+			}
 			E.damagePlayer(this);
-			GameData.currentPlayState.flashHealth();
+			
 		}
 	}
 	
 	public function hurtByProjectile(P:Projectile) {
 		if (!isFlickering()) {
 			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {projectile: true});
+			if(!GameData.currentPlayState.hasShieldForNextHit) {
+				GameData.currentPlayState.flashHealth();
+			}
 			P.damagePlayer(this);
-			GameData.currentPlayState.flashHealth();
 		}
 	}
 	

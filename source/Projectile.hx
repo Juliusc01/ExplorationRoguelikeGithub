@@ -42,12 +42,23 @@ class Projectile extends FlxSprite {
 	}
 	
 	public function damagePlayer(P:Player):Void {
-		P.hp -= this.damage;
+		if (GameData.currentPlayState.hasShieldForNextHit) {
+			GameData.currentPlayState.hasShieldForNextHit = false;
+		} else {
+			P.hp -= this.damage;
+		}
 		var knockbackSpeed:Float = -1 * this.knockback;
 		var knockbackFrames:Float = 20;
 		if (PowerUp.isActiveById("005")) { // check for heavy boots
 			knockbackSpeed = knockbackSpeed / 2;
 			knockbackFrames = knockbackFrames / 2;
+		}
+		if (PowerUp.isActiveById("003")) { // check for reflective shield
+			myEnemy.hp -= Std.int(this.damage / 4);
+			if (myEnemy.hp <= 0) {
+				myEnemy.kill();
+				GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: myEnemy.etype});
+			}
 		}
 		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), knockbackSpeed);
 		P.flicker(P.invulnFrames/60);

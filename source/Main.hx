@@ -43,6 +43,7 @@ class Main extends Sprite {
 		GameData.powerUps.push(new PowerUp("007", "Boots of Extreme Speed", "Speed increased", "007_boots.png"));
 		GameData.powerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase momvement speed", "008_speed.png"));
 		GameData.powerUps.push(new PowerUp("009", "Gift of Life", "Health regenerates over time", "009_regen.png"));
+		GameData.powerUps.push(new PowerUp("010", "Amulet of Shielding", "Protects you for one hit each day", "010_amulet_shielding.png"));
 		
 		// Power ups with IDs starting with "1" can only be spawned once food is introduced
 		GameData.powerUps.push(new PowerUp("100", "Foraging Gloves", "Chance of extra food from bushes", "100_gloves.png"));
@@ -56,6 +57,8 @@ class Main extends Sprite {
 
 		
 		GameData.activePowerUps = new Array<PowerUp>();
+		//GameData.activePowerUps.push(new PowerUp("010", "Amulet of Shielding", "Protects you for one hit each day", "010_amulet_shielding.png"));
+		//GameData.activePowerUps.push(new PowerUp("003", "Reflective Shield", "Reflect some damage back to enemies", "003_shield.png"));
 		//GameData.activePowerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase movement speed", "008_speed.png"));
 		//GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
 		//GameData.activePowerUps.push(new PowerUp("009", "Gift of Life", "Health regenerates over time", "009_regen.png"));
