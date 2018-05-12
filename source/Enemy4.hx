@@ -16,7 +16,6 @@ using flixel.util.FlxSpriteUtil;
 class Enemy4 extends Enemy {
 	
 	public var projectileTimer:Int;
-	public var arrowDamage:Int;
 	public var arrowSpeed:Int;
 	public var arrowKnockback:Int;
     public function new(X:Float = 0, Y:Float = 0, EType:Int) {

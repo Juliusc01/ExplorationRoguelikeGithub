@@ -21,6 +21,7 @@ class Enemy extends FlxSprite {
 	public var seesPlayer:Bool = false;
 	public var playerPos(default, null):FlxPoint;
 	public var damage:Int;
+	public var arrowDamage:Int;
 	public var knockback:Int;
 	public var hp:Int;
 	public var maxHp:Int;
@@ -44,6 +45,7 @@ class Enemy extends FlxSprite {
 	
 	public function updateStats() {
 		this.damage = Std.int(this.damage * GameData.currentLevel.difficulty);
+		this.arrowDamage = Std.int(this.arrowDamage * GameData.currentLevel.difficulty);
 		this.hp = Std.int(this.hp * GameData.currentLevel.difficulty);
 		this.maxHp = Std.int(this.maxHp * GameData.currentLevel.difficulty);
 	}
