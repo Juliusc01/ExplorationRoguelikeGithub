@@ -52,7 +52,7 @@ class Layout
 	public function new(numRooms:Int) 
 	{
 		// TODO: enable this once implemented
-		if (GameData.currentLevel.levelNum <= 2) {
+		if (GameData.currentLevel.levelNum <= 3) {
 			_rooms = generateSpecialRooms(GameData.currentLevel.levelNum);
 			var result = distributeEntities();
 			return;
@@ -566,6 +566,16 @@ class Layout
 				_currentRoomRow = _currentRoomCol = 0;
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_2A__oel, 0), new Room(AssetPaths.level_2B__oel, 1)];
+				return array;
+			case 3:
+				_width = 3;
+				_height = 2;
+				numRooms = 5;
+				_currentRoomRow = 1;
+				_currentRoomCol = 0;
+				array = new Array<Array<Room>>();
+				array[0] = [new Room(AssetPaths.level_3A__oel, 1), new Room(AssetPaths.level_3B__oel, 2)];
+				array[1] = [new Room(AssetPaths.level_3C__oel, 0), new Room(AssetPaths.level_3D__oel, 1), new Room(AssetPaths.level_3E__oel, 2)];
 				return array;
 		}
 		return null;
