@@ -69,7 +69,11 @@ class Enemy extends FlxSprite {
 	}
 	
 	public function damagePlayer(P:Player):Void {
-		P.hp -= this.damage;
+		if (GameData.currentPlayState.hasShieldForNextHit) {
+			GameData.currentPlayState.hasShieldForNextHit = false;
+		} else {
+			P.hp -= this.damage;
+		}
 		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), -1*this.knockback);
 		P.flicker(P.invulnFrames/60);
 		P.framesTillMovement = 20;

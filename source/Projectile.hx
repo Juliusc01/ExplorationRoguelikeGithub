@@ -42,7 +42,11 @@ class Projectile extends FlxSprite {
 	}
 	
 	public function damagePlayer(P:Player):Void {
-		P.hp -= this.damage;
+		if (GameData.currentPlayState.hasShieldForNextHit) {
+			GameData.currentPlayState.hasShieldForNextHit = false;
+		} else {
+			P.hp -= this.damage;
+		}
 		var knockbackSpeed:Float = -1 * this.knockback;
 		var knockbackFrames:Float = 20;
 		if (PowerUp.isActiveById("005")) { // check for heavy boots

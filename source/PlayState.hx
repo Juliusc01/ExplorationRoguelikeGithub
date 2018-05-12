@@ -39,6 +39,7 @@ class PlayState extends FlxState {
 	public var hasEnoughWood:Bool;
 	public var hasEnoughFood:Bool;
 	public var hasEnoughStone:Bool;
+	public var hasShieldForNextHit:Bool;
 	
 	private var _gotPowerUp:Bool;
 	
@@ -549,6 +550,11 @@ class PlayState extends FlxState {
 				player.speed *= 1.25;
 			case "008":
 				trace("applying 008: SPEED STACKING");
+			case "009":
+				trace("applying 009: GIFT OF LIFE");
+			case "010":
+				trace("applying 010: AMULET OF SHIELDING");
+				hasShieldForNextHit = true;
 			case "100":
 				trace("applying 100: GLOVES");
 			case "101":
