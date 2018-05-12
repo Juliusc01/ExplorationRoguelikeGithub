@@ -49,6 +49,13 @@ class Projectile extends FlxSprite {
 			knockbackSpeed = knockbackSpeed / 2;
 			knockbackFrames = knockbackFrames / 2;
 		}
+		if (PowerUp.isActiveById("003")) { // check for reflective shield
+			myEnemy.hp -= Std.int(this.damage / 4);
+			if (myEnemy.hp <= 0) {
+				myEnemy.kill();
+				GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: myEnemy.etype});
+			}
+		}
 		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), knockbackSpeed);
 		P.flicker(P.invulnFrames/60);
 		P.framesTillMovement = Std.int(knockbackFrames);

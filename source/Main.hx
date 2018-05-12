@@ -56,6 +56,7 @@ class Main extends Sprite {
 
 		
 		GameData.activePowerUps = new Array<PowerUp>();
+		//GameData.activePowerUps.push(new PowerUp("003", "Reflective Shield", "Reflect some damage back to enemies", "003_shield.png"));
 		//GameData.activePowerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase movement speed", "008_speed.png"));
 		//GameData.activePowerUps.push(new PowerUp("102", "Rabbit Charm", "Stops rabbits from running away", "102_animal.png"));
 		//GameData.activePowerUps.push(new PowerUp("009", "Gift of Life", "Health regenerates over time", "009_regen.png"));

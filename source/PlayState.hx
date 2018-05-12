@@ -303,7 +303,7 @@ class PlayState extends FlxState {
 					enemyIDsToDamageDoneTotal.set("" + Pro.myEnemy.etype + "P", damageDoneByEnemyTotal + (currHealth - endHealth));
 				}
 			}
-			_currentRoom.grpProjectiles.remove(Pro);
+		_currentRoom.grpProjectiles.remove(Pro);
 		}
 	}
 	
