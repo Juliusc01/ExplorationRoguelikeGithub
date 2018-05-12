@@ -159,7 +159,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			_bgHealth = new FlxSprite(nextX + 1, 1).makeGraphic(HP_WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);
 			_barHealth = new FlxBar(nextX + Std.int((HP_WIDGET_WIDTH - HP_BAR_WIDTH - 2) / 2), SPRITE_Y + 3, 50, 10);
 			_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.GREEN, true, BORDER_COLOR);
-			_playerHealth = _maxHealth = _ps.player.hp;
+			_playerHealth = _ps.player.hp;
+			_maxHealth = _ps.player.maxHp;
 			_barHealth.value = 100;
 			_txtHealth = makeWidgetText(nextX, HP_WIDGET_WIDTH - 2);
 			add(borderHealth);
@@ -250,7 +251,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 		if (_barHealth != null) {
 			_playerHealth = _ps.player.hp;
-			// TODO: support ability to change max health with a fn call from playstate
+			_maxHealth = _ps.player.maxHp;
 			_barHealth.value = (_playerHealth / _maxHealth) * 100;
 			if (_barHealth.value < 25) {
 				_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.RED, true, BORDER_COLOR);
@@ -277,8 +278,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		addPowerUpToHUD(pu);
 		
 		// Hide the popup after 3 seconds.
-		// TODO: polish this by using a tween to fade out instead.
 		new FlxTimer().start(4, hidePowerUp, 1);
+		// TODO: polish this by using a tween to fade out instead.
 	}
 	
 	// Hides the popup showing which powerup was just collected
