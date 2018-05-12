@@ -47,7 +47,7 @@ class Enemy4 extends Enemy {
 			framesTillMovement = -1;
 		}
 		if (projectileTimer == 0 && framesTillMovement < 1) {
-			var P:Projectile = new Projectile(this.x, this.y, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P:Projectile = new Projectile(this.x, this.y, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed, this);
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P);
 			projectileTimer = 100;
 		} else if (framesTillMovement < 1) {

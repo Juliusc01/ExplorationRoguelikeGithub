@@ -42,6 +42,15 @@ class PlayState extends FlxState {
 	
 	private var _gotPowerUp:Bool;
 	
+	//Logging variables
+	private var playerStartingHealth:Int;
+	private var enemyIDsToDamageDone:Map<String, Int>;
+	private var enemiesKilled:Map<String, Int>;
+	private var enemyIDsToDamageDoneTotal:Map<String, Int>;
+	private var enemiesKilledTotal:Map<String, Int>;
+	public var grpEnemiesTotal:FlxTypedGroup<Enemy>;
+	private var startTimer:Float;
+	
 	private var _inStart:Bool;
 	private var _levelStartScreen:LevelStartScreen;
 	
@@ -57,6 +66,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
+		grpEnemiesTotal = new FlxTypedGroup<Enemy>();
 		sword = new Sword(0, 0);
 		_doorX = Const.DOOR_X_WITH_ANVIL;
 		if (GameData.currentLevel.levelNum < Const.FIRST_CRAFT_LVL) {
@@ -64,7 +74,9 @@ class PlayState extends FlxState {
 		}
 		var playerX = _doorX - 9;
 		player = new Player(playerX, Const.HOUSE_Y + Const.HOUSE_HEIGHT + 4, sword);
+		playerStartingHealth = player.hp;
 		timer = GameData.currentLevel.timeLimit;
+		startTimer = timer;
 		currentWood = 0;
 		currentFood = 0;
 		currentStone = 0;
@@ -72,7 +84,11 @@ class PlayState extends FlxState {
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
 		_cameraAlpha = 1;
-			
+		
+		enemyIDsToDamageDone = new Map<String,Int>();
+		enemiesKilled = new Map<String, Int>();
+		enemyIDsToDamageDoneTotal = new Map<String,Int>();
+		enemiesKilledTotal = new Map<String, Int>();
 		add(_currentRoom);
 		_HUD = new HUD(this);
 		add(_HUD);
@@ -217,16 +233,16 @@ class PlayState extends FlxState {
 			trace(GameData.powerUps[0].alive);
 			trace(GameData.powerUps[0]);
 		}
-		GameData.myLogger.logLevelEnd({won: false, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS()});
+		analyzeLevel(true);
 		FlxG.switchState(new LoseState());
 	}
 	
 	private function winLevel():Void {
-		GameData.myLogger.logLevelEnd({won: true, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(), rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS()});
 		GameData.currentMenuState = 1;
 		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
 			GameData.currentMenuState = 2;
 		}
+		analyzeLevel(false);
 		FlxG.switchState(new MenuState());
 	}
 	
@@ -248,13 +264,45 @@ class PlayState extends FlxState {
 	
 	private function playerTouchEnemy(P:Player, E:Enemy):Void {
 		if (P.alive && P.exists && E.alive && E.exists) {
+			var currHealth:Int = P.hp;
 			P.hurtByEnemy(E);
+			var endHealth:Int = P.hp;
+			if (currHealth - endHealth > 0) {
+				var damageDoneByEnemy:Null<Int> = enemyIDsToDamageDone.get("" + E.etype);
+				if (damageDoneByEnemy == null) {
+					enemyIDsToDamageDone.set("" + E.etype, currHealth - endHealth);
+				} else {
+					enemyIDsToDamageDone.set("" + E.etype, damageDoneByEnemy + (currHealth - endHealth));
+				}
+				var damageDoneByEnemyTotal:Null<Int> = enemyIDsToDamageDoneTotal.get("" + E.etype);
+				if (damageDoneByEnemyTotal == null) {
+					enemyIDsToDamageDoneTotal.set("" + E.etype, currHealth - endHealth);
+				} else {
+					enemyIDsToDamageDoneTotal.set("" + E.etype, damageDoneByEnemyTotal + (currHealth - endHealth));
+				}
+			}
 		}
 	}
 	
 	private function playerTouchProjectile(P:Player, Pro:Projectile):Void {
 		if (P.alive && P.exists && Pro.alive && Pro.exists) {
+			var currHealth:Int = P.hp;
 			P.hurtByProjectile(Pro);
+			var endHealth:Int = P.hp;
+			if (currHealth - endHealth > 0) {
+				var damageDoneByEnemy:Null<Int> = enemyIDsToDamageDone.get("" + Pro.myEnemy.etype + "P");
+				if (damageDoneByEnemy == null) {
+					enemyIDsToDamageDone.set("" + Pro.myEnemy.etype + "P", currHealth - endHealth);
+				} else {
+					enemyIDsToDamageDone.set("" + Pro.myEnemy.etype + "P", damageDoneByEnemy + (currHealth - endHealth));
+				}
+				var damageDoneByEnemyTotal:Null<Int> = enemyIDsToDamageDoneTotal.get("" + Pro.myEnemy.etype + "P");
+				if (damageDoneByEnemyTotal == null) {
+					enemyIDsToDamageDoneTotal.set("" + Pro.myEnemy.etype + "P", currHealth - endHealth);
+				} else {
+					enemyIDsToDamageDoneTotal.set("" + Pro.myEnemy.etype + "P", damageDoneByEnemyTotal + (currHealth - endHealth));
+				}
+			}
 			_currentRoom.grpProjectiles.remove(Pro);
 		}
 	}
@@ -265,7 +313,24 @@ class PlayState extends FlxState {
 	
 	private function swordTouchEnemy(S:Sword , E:Enemy):Void {
 		if (S.alive && S.exists && E.alive && E.exists && player.swingNumber != E.lastPlayerSwingNumber) {
+			var currKills:Int = player.kills;
 			E.hurtByPlayer(player);
+			var endKills:Int = player.kills;
+			if (endKills > currKills) {
+				var numEnemiesKilledOfType:Null<Int> = enemiesKilled.get("" + E.etype);
+				if (numEnemiesKilledOfType == null) {
+					enemiesKilled.set("" + E.etype,1);
+				} else {
+					enemiesKilled.set("" + E.etype, numEnemiesKilledOfType+1);
+				}
+				var numEnemiesKilledOfTypeTotal:Null<Int> = enemiesKilledTotal.get("" + E.etype);
+				if (numEnemiesKilledOfTypeTotal == null) {
+					enemiesKilledTotal.set("" + E.etype,1);
+				} else {
+					enemiesKilledTotal.set("" + E.etype, numEnemiesKilledOfTypeTotal+1);
+				}
+			}
+			
 		}
 	}
 	
@@ -343,6 +408,7 @@ class PlayState extends FlxState {
 	}
 	
 	private function switchToRoom(outgoingDir:Direction) {
+		analyzeRoom();
 		fadeIn();
 		remove(_currentRoom);
 		switch(outgoingDir) { 
@@ -357,6 +423,8 @@ class PlayState extends FlxState {
 		}
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
+		
+		
 	}
 	
 	private function fadeIn():Void {
@@ -367,6 +435,85 @@ class PlayState extends FlxState {
 	
 	private function endCameraFade(_):Void {
 		_inCameraFade = false;
+	}
+	
+	private function analyzeLevel(lost:Bool):Void {
+		var enemyMapIteratorKeys = enemyIDsToDamageDoneTotal.keys();
+		var stringOfMap:String = "";
+		//Gets enemy damage map into printable form
+		while (enemyMapIteratorKeys.hasNext()) {
+			var currEnemyMapKey = enemyMapIteratorKeys.next();
+			stringOfMap += currEnemyMapKey.toString() + ": ";
+			stringOfMap += enemyIDsToDamageDoneTotal.get(currEnemyMapKey) + ", ";
+		}
+		stringOfMap = stringOfMap.substring(0, stringOfMap.length - 2);
+		
+		/////
+		//Counts of number of enemies
+		var stringOfMapKilled:String = "";
+
+		//Gets enemies killed into printable form
+		var enemiesKilledIteratorKeys = enemiesKilledTotal.keys();
+		while (enemiesKilledIteratorKeys.hasNext()) {
+			var currEnemyMapKey = enemiesKilledIteratorKeys.next();
+			stringOfMapKilled += currEnemyMapKey.toString() + ": ";
+			stringOfMapKilled += enemiesKilledTotal.get(currEnemyMapKey) + ", ";
+		}
+		stringOfMapKilled = stringOfMapKilled.substring(0, stringOfMapKilled.length - 2);
+		GameData.myLogger.logLevelEnd({won: !lost, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(),
+										rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS(), enemiesHurtingPlayer:stringOfMap,
+										enemiesKilledByPlayer:stringOfMapKilled});
+		enemyIDsToDamageDoneTotal = new Map<String,Int>();
+		enemiesKilledTotal = new Map<String, Int>();
+	}
+	
+	private function analyzeRoom():Void {
+		var enemyMapIteratorKeys = enemyIDsToDamageDone.keys();
+		var stringOfMap:String = "";
+		//Gets enemy damage map into printable form
+		while (enemyMapIteratorKeys.hasNext()) {
+			var currEnemyMapKey = enemyMapIteratorKeys.next();
+			stringOfMap += currEnemyMapKey.toString() + ": ";
+			stringOfMap += enemyIDsToDamageDone.get(currEnemyMapKey) + ", ";
+		}
+		stringOfMap = stringOfMap.substring(0, stringOfMap.length - 2);
+		//Counts of number of enemies
+		var enemiesTotalItr = _currentRoom.grpEnemies.iterator();
+		var mapEnemyTypeToNumOf = new Map<String, Int>();
+		while (enemiesTotalItr.hasNext()) {
+			var currEnemy = enemiesTotalItr.next();
+			if (mapEnemyTypeToNumOf.get("" + currEnemy.etype) == null) {
+				mapEnemyTypeToNumOf.set("" + currEnemy.etype, 1);
+			} else {
+				mapEnemyTypeToNumOf.set("" + currEnemy.etype, mapEnemyTypeToNumOf.get("" + currEnemy.etype) + 1);
+			}
+			
+		}
+		var stringOfMapKilled:String = "";
+
+		//Gets enemies killed into printable form
+		var enemiesTotalIteratorKeys = mapEnemyTypeToNumOf.keys();
+		while (enemiesTotalIteratorKeys.hasNext()) {
+			var currEnemyMapKey = enemiesTotalIteratorKeys.next();
+			if(Std.parseInt(currEnemyMapKey.toString()) < 99) {
+				stringOfMapKilled += currEnemyMapKey.toString() + ": ";
+				var amountKilled:Int = 0;
+				if (enemiesKilled.get(currEnemyMapKey.toString()) != null) {
+					amountKilled = enemiesKilled.get(currEnemyMapKey.toString());
+				}
+				stringOfMapKilled += amountKilled + " out of " + mapEnemyTypeToNumOf.get(currEnemyMapKey.toString()) + ", ";
+			}
+		}
+		stringOfMapKilled = stringOfMapKilled.substring(0, stringOfMapKilled.length - 2);
+		GameData.myLogger.logLevelAction(LoggingActions.CHANGE_ROOM, 
+											{roomID: _currentRoom.roomID, hpLost: playerStartingHealth - player.hp, 
+											playerEndHealth: player.hp, timeElapsed:startTimer-timer , timeLeft:timer,
+											enemiesHurtingPlayer:stringOfMap, enemiesKilledByPlayer:stringOfMapKilled});
+		//Resets logging fields
+		playerStartingHealth = player.hp;
+		startTimer = timer;
+		enemyIDsToDamageDone = new Map<String,Int>();
+		enemiesKilled = new Map<String, Int>();
 	}
 	
 	private function applyActivePowerUps():Void {
