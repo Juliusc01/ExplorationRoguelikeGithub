@@ -55,6 +55,7 @@ class Room extends FlxGroup
 	public var myPowerUp:PowerUp;
 	public var isHome:Bool = false;
 	public var distFromHome:Int;
+	public var roomID:String;
 	
 	public var isKnown:Bool;
 	
@@ -76,7 +77,7 @@ class Room extends FlxGroup
 			this.isHome = true;
 		}
 		this.distFromHome = distanceFromHome;
-		
+		this.roomID = path.substring(path.lastIndexOf("roomf_"),path.lastIndexOf("."));
 		_map = new FlxOgmoLoader(path);
 		tilemap = _map.loadTilemap(AssetPaths.tiles__png, 16, 16, "walls");
 		tilemap.setTileProperties(1, FlxObject.NONE);
@@ -183,6 +184,8 @@ class Room extends FlxGroup
 				}
 			}
 			add(grpEnemies);
+		} else {
+			grpEnemies.clear();
 		}
 		
 		remove(grpObstacles);

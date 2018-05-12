@@ -21,9 +21,11 @@ class Projectile extends FlxSprite {
 	public var knockback:Int;
 	public var angleToShoot:Float;
 	public var myVector:FlxVector;
+	public var myEnemy:Enemy;
 	
-    public function new(X:Float = 0, Y:Float = 0, playerPos:FlxPoint, startPos:FlxPoint, damage:Int, speed:Int, knockback:Int) {
+    public function new(X:Float = 0, Y:Float = 0, playerPos:FlxPoint, startPos:FlxPoint, damage:Int, speed:Int, knockback:Int, myEnemy:Enemy) {
         super(X, Y);
+		this.myEnemy = myEnemy;
 		this.speed = speed;
 		this.damage = damage;
 		this.knockback = knockback;

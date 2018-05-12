@@ -47,16 +47,16 @@ class Enemy3 extends Enemy {
 			framesTillMovement--;
 		}
 		if (projectileTimer == 0) {
-			var P1:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P1:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed, this);
 			P1.angleToShoot = -90;
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P1);
-			var P2:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P2:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed, this);
 			P2.angleToShoot = 90;
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P2);
-			var P3:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P3:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed, this);
 			P3.angleToShoot = 0;
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P3);
-			var P4:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed);
+			var P4:Projectile = new Projectile(this.x+5, this.y+5, GameData.currentPlayState.player.getPosition(), this.getPosition(), arrowDamage, arrowSpeed, arrowSpeed, this);
 			P4.angleToShoot = 180;
 			GameData.currentPlayState._currentRoom.enemyShootProjectile(P4);
 			projectileTimer = 84;

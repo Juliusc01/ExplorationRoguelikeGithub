@@ -12,6 +12,7 @@ class LoggingActions {
 	public static var CLICK_START:Int = 5;
 	public static var POWERUP:Int = 6;
 	public static var RESTART_GAME:Int = 7;
+	public static var CHANGE_ROOM:Int = 8;
 	
 	public function new() {
 		
