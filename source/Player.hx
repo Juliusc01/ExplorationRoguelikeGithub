@@ -24,11 +24,13 @@ class Player extends FlxSprite {
 	public var framesTillMovement:Int = 0;
 	public var framesSwung:Int = 0;
 	public var hp:Int;
+	public var maxHp:Int;
 	public var damage:Int;
 	public var knockback:Int;
 	public var swingNumber:Int;
 	public var invulnFrames:Float;
 	public var kills:Int;
+	private var _framesTillHeal:Int;
 	private var _sword:Sword;
 	private var relativeSwordPosition:Array<Int> = [0, 0];
 	
@@ -39,7 +41,7 @@ class Player extends FlxSprite {
 	
 	public function new(?X:Float=0, ?Y:Float=0, S:Sword) {
 		super(X, Y);
-		hp = 100;
+		hp = maxHp = 100;
 		knockback = 200;
 		damage = 10;
 		invulnFrames = 80;
@@ -82,6 +84,19 @@ class Player extends FlxSprite {
 				animation.add("u", [6, 7, 6, 8], 6, false);
 				animation.add("d", [0, 1, 0, 2], 6, false);
 				isInSwing = false;
+			}
+		}
+		
+		// Heal once every second if we have the regen item
+		if (PowerUp.isActiveById("009")) {
+			if (_framesTillHeal > 0) {
+				_framesTillHeal--;
+			} else {
+				hp += 2;
+				if (hp > maxHp) {
+					hp = maxHp;
+				}
+				_framesTillHeal = 60;
 			}
 		}
 		
