@@ -13,13 +13,14 @@ class LevelData
 	public var levelNum:Int;
 	public var timeLimit:Float;
 	public var numRooms:Int;
+	public var isPrefab:Bool;
 	public var woodReq:Int;
 	public var foodReq:Int;
 	public var stoneReq:Int;
 	public var difficulty:Float;
 	public var hasCrafting:Bool;
 	
-	public function new(num:Int, time:Int, numRooms:Int, wood:Int, ?food:Int = 0, ?stone:Int = 0, ?difficulty:Float = 1.0, ?hasCrafting:Bool = true) {
+	public function new(num:Int, time:Int, numRooms:Int, isPrefab:Bool, wood:Int, ?food:Int = 0, ?stone:Int = 0, ?difficulty:Float = 1.0, ?hasCrafting:Bool = true) {
 		this.levelNum = num;
 		this.timeLimit = time;
 		this.numRooms = numRooms;
@@ -28,6 +29,7 @@ class LevelData
 		this.stoneReq = stone;
 		this.difficulty = difficulty;
 		this.hasCrafting = hasCrafting;
+		this.isPrefab = isPrefab;
 	}
 	
 }
