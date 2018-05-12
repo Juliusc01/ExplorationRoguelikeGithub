@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 using flixel.util.FlxSpriteUtil;
 
@@ -21,6 +22,7 @@ class Enemy extends FlxSprite {
 	public var seesPlayer:Bool = false;
 	public var playerPos(default, null):FlxPoint;
 	public var damage:Int;
+	public var arrowDamage:Int;
 	public var knockback:Int;
 	public var hp:Int;
 	public var maxHp:Int;
@@ -28,6 +30,7 @@ class Enemy extends FlxSprite {
 	public var framesTillMovement:Int;
 	public var healthbar:FlxBar;
 	public var healthbarDisabled:Bool;
+	public var drop:FlxSprite;
 	
     public function new(X:Float=0, Y:Float=0, EType:Int) {
         super(X, Y);
@@ -44,6 +47,7 @@ class Enemy extends FlxSprite {
 	
 	public function updateStats() {
 		this.damage = Std.int(this.damage * GameData.currentLevel.difficulty);
+		this.arrowDamage = Std.int(this.arrowDamage * GameData.currentLevel.difficulty);
 		this.hp = Std.int(this.hp * GameData.currentLevel.difficulty);
 		this.maxHp = Std.int(this.maxHp * GameData.currentLevel.difficulty);
 	}
@@ -101,11 +105,21 @@ class Enemy extends FlxSprite {
         }
         super.draw();
     }
+
 	
 	override public function kill():Void {
+		var ps:PlayState = GameData.currentPlayState;
 		this.healthbar.kill();
 		alive = false;
 		exists = false;
+		if (GameData.currentLevel.hasCrafting && FlxG.random.bool(35)) {
+			// Drop and animate the crafting supplies from the enemy
+			var drop = new FlxSprite(x, y, AssetPaths.craft__png);
+			GameData.currentPlayState.add(drop);
+			var uiPos:Position = ps.getResourceSpriteLocation(3);
+			FlxTween.tween(drop, { alpha: 0, x: uiPos.x, y: uiPos.y }, 0.75);
+			ps.addResource(3, 1, false);
+		}
 	}
 	
 	// Reserve all enemy types 100-199, inclusive, for obstacle enemies.

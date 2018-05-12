@@ -376,6 +376,9 @@ class PlayState extends FlxState {
 				amount = possiblyAddBonus(amount, "200");
 				currentStone += amount;
 				_HUD.flashStone(FlxColor.GREEN);
+			case 3: // Craft
+				GameData.currentCraft += amount;
+				_HUD.flashCraft(FlxColor.GREEN);
 		}
 	}
 	

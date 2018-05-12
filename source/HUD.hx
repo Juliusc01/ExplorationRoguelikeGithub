@@ -47,6 +47,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _sprBackgroundTop:FlxSprite;
 	private var _sprBackgroundBottom:FlxSprite;
 	
+	private var _borderDayNum:FlxSprite;
+	private var _bgDayNum:FlxSprite;
+	private var _txtDay:FlxText;
+	private var _txtDayNum:FlxText;
+	
 	private var _borderTimer:FlxSprite;
 	private var _bgTimer:FlxSprite;
 	private var _sprTimer:FlxSprite;
@@ -82,6 +87,12 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private var _stoneMax:Int;
 	private var _doneWithStone:Bool;
 	private var _inStoneFlash:Bool;
+	
+	private var _borderCraft:FlxSprite;
+	private var _bgCraft:FlxSprite;
+	private var _txtCraft:FlxText;
+	private var _sprCraft:FlxSprite;
+	private var _inCraftFlash:Bool;
 	
 	private var _toRemove:FlxSprite;
 	
@@ -123,6 +134,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		if (GameData.currentLevel.levelNum >= Const.FIRST_HP_LVL) {
 			hasHp = true;
 		}
+		var hasCrafting:Bool = GameData.currentLevel.hasCrafting;
 		
 		// Generate the background of the top UI bar.
 		_sprBackgroundTop = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);
@@ -143,11 +155,26 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		
 		var nextX = 0;
 		
+		_borderDayNum = makeWidgetBorder(nextX);
+		_bgDayNum = makeWidgetBackground(nextX);
+		_txtDay = new FlxText(nextX + 1, 1, WIDGET_WIDTH - 2, "Day");
+		_txtDay.setFormat(FONT, FONT_SIZE - 3, BORDER_COLOR, CENTER);
+		_txtDayNum = new FlxText(nextX + 1, 12, WIDGET_WIDTH - 2);
+		_txtDayNum.setFormat(FONT, FONT_SIZE +3, BORDER_COLOR, CENTER);
+		_txtDayNum.text = "" + (GameData.currentLevel.levelNum + 1);
+		add(_borderDayNum);
+		add(_bgDayNum);
+		add(_txtDay);
+		add(_txtDayNum);
+		nextX += WIDGET_WIDTH;
+		
 		// Add the time widget to the UI. This widget is present on every level,
 		// and will always be in the upper left corner.
+		_borderTimer = makeWidgetBorder(nextX);
 		_bgTimer = makeWidgetBackground(nextX);
 		_txtTimer = makeWidgetText(nextX, WIDGET_WIDTH - 2);
 		_sprTimer = makeWidgetSprite(nextX, AssetPaths.time__png);
+		add(_borderTimer);
 		add(_bgTimer);
 		add(_txtTimer);
 		add(_sprTimer);
@@ -213,6 +240,19 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			this._txtStone = null;
 		}
 		
+		// Add the crafting resource widget to the UI, if necessary.
+		if (hasCrafting) {
+			_borderCraft = makeWidgetBorder(nextX);
+			_bgCraft = makeWidgetBackground(nextX);
+			_txtCraft = makeWidgetText(nextX, WIDGET_WIDTH - 2);
+			_sprCraft = makeWidgetSprite(nextX, AssetPaths.craft__png);
+			add(_borderCraft);
+			add(_bgCraft);
+			add(_txtCraft);
+			add(_sprCraft);
+			nextX += WIDGET_WIDTH;
+		}
+		
 		// Add the powerup tooltip to the UI and make it invisible at first.
 		_bgPowerUp = new FlxSprite(POPUP_X, POPUP_Y).makeGraphic(POPUP_WIDTH, POPUP_HEIGHT, BORDER_COLOR);
 		_bgPowerUp.drawRect(1, 1, POPUP_WIDTH - 2, POPUP_HEIGHT - 2, BG_COLOR);
@@ -259,6 +299,9 @@ class HUD extends FlxTypedGroup<FlxSprite>
 				_barHealth.createFilledBar(FlxColor.GRAY, FlxColor.GREEN, true, BORDER_COLOR);
 			}
 			_txtHealth.text = _playerHealth + " / " + _maxHealth;
+		}
+		if (_txtCraft != null) {
+			_txtCraft.text = "" + GameData.currentCraft;
 		}
 	}
 	
@@ -307,6 +350,8 @@ class HUD extends FlxTypedGroup<FlxSprite>
 				return new Position(Std.int(_sprFood.x), Std.int(_sprFood.y));
 			case 2:
 				return new Position(Std.int(_sprStone.x), Std.int(_sprStone.y));
+			case 3:
+				return new Position(Std.int(_sprCraft.x), Std.int(_sprCraft.y));
 		}
 		return null;
 	}
@@ -386,6 +431,22 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	private function finishHealthFlash(_):Void {
 		_inHealthFlash = false;
 	}	
+	
+	public function flashCraft(toColor:FlxColor):Void {
+		if (!_inCraftFlash && _bgCraft != null) {
+			_inCraftFlash = true;
+			FlxTween.color(_bgCraft, FLASH_DURATION, BORDER_COLOR, toColor,
+						{type: FlxTween.PERSIST, onComplete: resetCraftColor});
+		}
+	}
+	
+	private function resetCraftColor(_):Void {
+		FlxTween.color(_bgCraft, FLASH_DURATION, _bgCraft.color, BORDER_COLOR, {onComplete: finishCraftFlash });
+	}
+	
+	private function finishCraftFlash(_):Void {
+		_inCraftFlash = false;
+	}
 	
 	private function makeWidgetBackground(widgetX:Int):FlxSprite {
 		var bg = new FlxSprite(widgetX + 1, 1).makeGraphic(WIDGET_WIDTH - 2, WIDGET_HEIGHT - 2, BG_COLOR);

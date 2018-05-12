@@ -8,6 +8,8 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
+import flixel.ui.FlxBar;
+import flixel.util.FlxColor;
 using flixel.util.FlxSpriteUtil;
 
 
@@ -53,6 +55,13 @@ class Enemy200 extends Enemy {
 				FlxVelocity.moveTowardsPoint(this, playerPos, -1 * Std.int(speed));
 			}
 		}
+	}
+	
+	override public function createHealthBar():Void {
+		healthbar = new FlxBar(0, 0, 16, 4);
+		healthbar.setParent(this, "hp", true, 0, -10);
+		healthbar.createColoredFilledBar(FlxColor.YELLOW, false, FlxColor.WHITE);
+		healthbar.killOnEmpty = true;
 	}
 	
 	override public function draw():Void {
