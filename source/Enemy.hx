@@ -116,7 +116,7 @@ class Enemy extends FlxSprite {
 		this.healthbar.kill();
 		alive = false;
 		exists = false;
-		if (GameData.currentLevel.hasCrafting && FlxG.random.bool(35)) {
+		if (GameData.currentLevel.hasCrafting && FlxG.random.bool(45)) {
 			// Drop and animate the crafting supplies from the enemy
 			var drop = new FlxSprite(x, y, AssetPaths.craft__png);
 			GameData.currentPlayState.add(drop);

@@ -599,6 +599,17 @@ class Layout
 				array[2] = [new Room(AssetPaths.level_5E__oel, 1), new Room(AssetPaths.level_5F__oel, 0)];
 				array[3] = [null, new Room(AssetPaths.level_5G__oel, 1)];
 				return array;
+			case 6:
+				_width = 4;
+				_height = 4;
+				_currentRoomRow = 2;
+				_currentRoomCol = 2;
+				array = new Array<Array<Room>>();
+				array[0] = [null, null, new Room(AssetPaths.level_6A__oel, 2)];
+				array[1] = [null, new Room(AssetPaths.level_6B__oel, 2), new Room(AssetPaths.level_6C__oel, 1), new Room(AssetPaths.level_6D__oel, 2)];
+				array[2] = [new Room(AssetPaths.level_6E__oel, 2), new Room(AssetPaths.level_6F__oel, 1), new Room(AssetPaths.level_6G__oel, 0)];
+				array[3] = [null, null, new Room(AssetPaths.level_6H__oel, 1), new Room(AssetPaths.level_6I__oel, 2)];
+				return array;
 		}
 		return null;
 	}

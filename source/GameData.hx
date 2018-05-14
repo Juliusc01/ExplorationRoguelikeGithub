@@ -30,7 +30,7 @@ class GameData
 	public static var level3 = new LevelData(3, 90, 5, true, 4, 1, 0, 1.0, false); // first food
 	public static var level4 = new LevelData(4, 90, 6, true, 6, 2, 0, 1.0, false); 
 	public static var level5 = new LevelData(5, 90, 7, true, 6, 3, 1, 1.2, false); // first stone
-	public static var level6 = new LevelData(6, 120, 8, false, 7, 3, 2, 1.4); // first crafting
+	public static var level6 = new LevelData(6, 120, 8, true, 7, 3, 2, 1.4); // first crafting
 	public static var level7 = new LevelData(7, 150, 10, false, 9, 4, 3, 1.6);
 	public static var level8 = new LevelData(8, 150, 12, false, 10, 5, 5, 1.8);
 	public static var level9 = new LevelData(9, 150, 14, false, 11, 6, 5, 2);
