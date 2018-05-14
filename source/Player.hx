@@ -88,7 +88,7 @@ class Player extends FlxSprite {
 			if (_framesTillHeal > 0) {
 				_framesTillHeal--;
 			} else {
-				hp += 2;
+				hp += 1;
 				if (hp > maxHp) {
 					hp = maxHp;
 				}
