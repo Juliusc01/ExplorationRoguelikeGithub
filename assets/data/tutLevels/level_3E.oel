@@ -23,5 +23,6 @@
     <w_door id="7" x="0" y="144" />
     <resource id="0" x="16" y="48" type="0" />
     <powerup id="1" x="208" y="144" itemID="100" />
+    <enemy id="2" x="112" y="144" Etype="0" isOptional="False" />
   </entities>
 </level>

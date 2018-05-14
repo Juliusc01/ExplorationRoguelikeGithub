@@ -26,5 +26,6 @@
     <enemy id="2" x="48" y="48" Etype="104" isOptional="False" />
     <enemy id="3" x="128" y="176" Etype="101" isOptional="False" />
     <powerup id="4" x="160" y="144" itemID="-1" />
+    <enemy id="6" x="192" y="224" Etype="3" isOptional="False" />
   </entities>
 </level>

@@ -23,5 +23,6 @@
     <s_door id="6" x="160" y="272" />
     <w_door id="7" x="0" y="144" />
     <resource id="0" x="192" y="80" type="0" />
+    <enemy id="1" x="192" y="144" Etype="0" isOptional="False" />
   </entities>
 </level>
