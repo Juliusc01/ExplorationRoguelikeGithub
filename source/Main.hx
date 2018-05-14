@@ -41,7 +41,7 @@ class Main extends Sprite {
 		GameData.powerUps.push(new PowerUp("005", "Sturdy Boots", "Knockback from projectiles reduced", "005_heavy_boots.png"));
 		GameData.powerUps.push(new PowerUp("006", "Fairy Wings", "Immunity to terrain effects", "006_wings.png"));
 		GameData.powerUps.push(new PowerUp("007", "Boots of Extreme Speed", "Speed increased", "007_boots.png"));
-		GameData.powerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase momvement speed", "008_speed.png"));
+		GameData.powerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase movement speed", "008_speed.png"));
 		GameData.powerUps.push(new PowerUp("009", "Gift of Life", "Health regenerates over time", "009_regen.png"));
 		GameData.powerUps.push(new PowerUp("010", "Amulet of Shielding", "Protects you for one hit each day", "010_amulet_shielding.png"));
 		
@@ -54,6 +54,8 @@ class Main extends Sprite {
 
 		
 		// Power ups with IDs starting with "3" can only be spwaned once crafting is introduced
+		GameData.powerUps.push(new PowerUp("300", "Ring of Extra Bling", "Chance of extra gems from enemies", "300_ring.png"));
+		GameData.powerUps.push(new PowerUp("301", "Gem Purse", "One extra gem each day", "301_purse.png"));
 
 		
 		GameData.activePowerUps = new Array<PowerUp>();

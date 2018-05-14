@@ -439,6 +439,7 @@ class PlayState extends FlxState {
 				currentStone += amount;
 				_HUD.flashStone(FlxColor.GREEN);
 			case 3: // Craft
+				amount = possiblyAddBonus(amount, "300");
 				GameData.currentCraft += amount;
 				_HUD.flashCraft(FlxColor.GREEN);
 		}
@@ -621,7 +622,10 @@ class PlayState extends FlxState {
 			case "101":
 				trace("applying 101: KNIFE");
 			case "300":
-				trace("applying 300: PICKAXE");
+				trace("applying 300: RING");
+			case "301":
+				trace("applying 301: PURSE");
+				GameData.currentCraft++;
 		}
 	}
 }
