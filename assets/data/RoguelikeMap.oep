@@ -16,7 +16,7 @@
     <Width>352</Width>
     <Height>320</Height>
   </LevelMaximumSize>
-  <Filename>C:\Users\Julius\Documents\ExplorationRoguelike\assets\data\RoguelikeMap.oep</Filename>
+  <Filename>C:\Users\Alex\Documents\Alex's UW Files\2018 Spring\Games\ExplorationRoguelike\assets\data\RoguelikeMap.oep</Filename>
   <AngleMode>Degrees</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -96,10 +96,10 @@
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>
-    <EntityDefinition Name="home" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
+    <EntityDefinition Name="home_placeholder" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>32</Width>
-        <Height>32</Height>
+        <Width>128</Width>
+        <Height>96</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -108,9 +108,7 @@
       <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
         <RectColor A="255" R="0" G="0" B="0" />
       </ImageDefinition>
-      <ValueDefinitions>
-        <ValueDefinition xsi:type="BoolValueDefinition" Name="isBuilt" Default="false" />
-      </ValueDefinitions>
+      <ValueDefinitions />
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>
     <EntityDefinition Name="e_door" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
@@ -203,7 +201,7 @@
         <RectColor A="255" R="255" G="0" B="128" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="IntValueDefinition" Name="Etype" Default="-1" Min="0" Max="300" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="Etype" Default="-1" Min="-1" Max="300" ShowSlider="false" />
         <ValueDefinition xsi:type="BoolValueDefinition" Name="isOptional" Default="false" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
