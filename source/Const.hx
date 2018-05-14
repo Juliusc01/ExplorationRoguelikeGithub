@@ -32,9 +32,9 @@ class Const
 	public static var FIRST_CRAFT_LVL(default, never):Int = 6;
 	
 	public static var CRAFT_COSTS(default, never):Array<Array<Array<Int>>> = 
-			[[[2, 2], [3, 3], [4, 4], [6, 5]],
-			[[2, 1], [3, 2], [4, 3], [6, 4]],
-			[[2, 1], [3, 2], [4, 3], [6, 4]]];
+			[[[2, 2], [3, 2], [4, 3], [6, 3]],
+			[[2, 1], [3, 1], [4, 2], [6, 2]],
+			[[2, 1], [3, 1], [4, 2], [6, 2]]];
 			
 	public static var CRAFT_DMG_UP(default, never):Int = 5;
 	public static var CRAFT_HP_UP(default, never):Int = 50;

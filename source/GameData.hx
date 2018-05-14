@@ -20,6 +20,7 @@ class GameData
 	public static var myLogger:CapstoneLogger;
 	public static var testingHome:Bool = false;
 	public static var roomToTest = AssetPaths.roomf_SN_1__oel;
+	public static var lostToHp = false;
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)

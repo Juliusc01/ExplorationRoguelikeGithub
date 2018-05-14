@@ -300,6 +300,7 @@ class PlayState extends FlxState {
 		GameData.currentCraft = _startingCraftAmt;
 		GameData.currentCraftLvls = _startingCraftLvls;
 		analyzeLevel(true);
+		GameData.lostToHp = player.hp <= 0;
 		FlxG.switchState(new LoseState());
 	}
 	
