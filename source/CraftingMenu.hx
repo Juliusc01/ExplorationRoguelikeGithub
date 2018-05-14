@@ -62,13 +62,13 @@ class CraftingMenu extends FlxSpriteGroup
 		add(_choices[3]);
 		
 		for (i in 0...3) {
-			add(new FlxSprite(MENU_X, MENU_Y + i * MENU_ITEM_HEIGHT + 1).makeGraphic(10, MENU_ITEM_HEIGHT - 2, HUD.BORDER_COLOR));
+			add(new FlxSprite(MENU_X, MENU_Y + i * MENU_ITEM_HEIGHT + 1).makeGraphic(15, MENU_ITEM_HEIGHT - 2, HUD.BORDER_COLOR));
 		}
 		_sprLevels = new Array<Array<FlxSprite>>();
 		for (i in 0...3) {
 			_sprLevels[i] = new Array<FlxSprite>();
 			for (j in 0...4) {
-				_sprLevels[i][j] = new FlxSprite(MENU_X + 1, 1 + MENU_Y + i * MENU_ITEM_HEIGHT + (3 - j) * LEVEL_BOX_Y_OFFSET).makeGraphic(8, 8, FlxColor.BLACK);
+				_sprLevels[i][j] = new FlxSprite(MENU_X + 1, 1 + MENU_Y + i * MENU_ITEM_HEIGHT + (3 - j) * LEVEL_BOX_Y_OFFSET).makeGraphic(13, 8, FlxColor.BLACK);
 				add(_sprLevels[i][j]);
 			}
 		}
@@ -176,7 +176,7 @@ class CraftingMenu extends FlxSpriteGroup
 		add(toSet);
 		
 		for (i in 0...currentLvl) {
-			_sprLevels[itemNum][i].makeGraphic(8, 8, FlxColor.GREEN);
+			_sprLevels[itemNum][i].makeGraphic(13, 8, FlxColor.GREEN);
 		}
 	}
 	
