@@ -13,6 +13,7 @@ class GameData
 	public static var currentPlayState:PlayState = null;
 	public static var currentMenuState:Int = 0;
 	public static var currentCraft:Int = 0;
+	public static var currentCraftLvls:Array<Int> = [0, 0, 0]; // Dmg, HP, Speed
 	public static var powerUps:Array<PowerUp> = null;
 	public static var activePowerUps:Array<PowerUp> = null;
 	public static var enemiesRandom:Array<Int> = [0, 1, 2, 3, 4];

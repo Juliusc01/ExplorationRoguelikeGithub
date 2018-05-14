@@ -21,17 +21,21 @@ class CraftingMenu extends FlxSpriteGroup
 	public static var ITEM_Y_OFFSET = 7;
 	public static var ITEM_X_OFFSET = 45;
 	public static var FONT_SIZE = 16;
+	public static var FONT_SIZE_SMALL = 13;
 	public static var LEVEL_BOX_Y_OFFSET = 9;
 	
 	private var _sprBg:FlxSprite;
 	private var _pointer:FlxSprite;
 	private var _selected:Int = 0;
 	private var _choices: Array<FlxText>;
-	private var _levels: Array<Array<FlxSprite>>;
+	private var _sprLevels: Array<Array<FlxSprite>>;
+	private var _sprCosts: Array<FlxSpriteGroup>;
 	
 	private var _up:Bool;
 	private var _down:Bool;
 	private var _fire:Bool;
+	
+	public var costs:Array<Array<Array<Int>>>;
 	
 	public function new(MaxSize:Int = 0) 
 	{
@@ -45,10 +49,10 @@ class CraftingMenu extends FlxSpriteGroup
 		add(_sprBg);
 		
 		_choices = new Array<FlxText>();
-		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET, "+ DAMAGE", FONT_SIZE));
-		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + MENU_ITEM_HEIGHT, "+ HEALTH", FONT_SIZE));
-		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + 2 * MENU_ITEM_HEIGHT, "+ SPEED", FONT_SIZE));
-		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + 3 * MENU_ITEM_HEIGHT, "EXIT MENU", FONT_SIZE));
+		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET, "+ Damage", FONT_SIZE));
+		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + MENU_ITEM_HEIGHT, "+ Max Health", FONT_SIZE));
+		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + 2 * MENU_ITEM_HEIGHT, "+ Speed", FONT_SIZE));
+		_choices.push(new FlxText(_sprBg.x + ITEM_X_OFFSET, _sprBg.y + ITEM_Y_OFFSET + 3 * MENU_ITEM_HEIGHT, "Exit Menu", FONT_SIZE));
 		for (i in 0..._choices.length) {
 			_choices[i].font = HUD.FONT;
 		}
@@ -60,20 +64,27 @@ class CraftingMenu extends FlxSpriteGroup
 		for (i in 0...3) {
 			add(new FlxSprite(MENU_X, MENU_Y + i * MENU_ITEM_HEIGHT + 1).makeGraphic(10, MENU_ITEM_HEIGHT - 2, HUD.BORDER_COLOR));
 		}
-		_levels = new Array<Array<FlxSprite>>();
+		_sprLevels = new Array<Array<FlxSprite>>();
 		for (i in 0...3) {
-			_levels[i] = new Array<FlxSprite>();
+			_sprLevels[i] = new Array<FlxSprite>();
 			for (j in 0...4) {
-				_levels[i].push(new FlxSprite(MENU_X + 1, 1 + MENU_Y + i * MENU_ITEM_HEIGHT + j * LEVEL_BOX_Y_OFFSET).makeGraphic(8, 8, FlxColor.BLACK));
-				add(_levels[i][j]);
-				// TODO: apply green by reading powerups from GameData
+				_sprLevels[i][j] = new FlxSprite(MENU_X + 1, 1 + MENU_Y + i * MENU_ITEM_HEIGHT + (3 - j) * LEVEL_BOX_Y_OFFSET).makeGraphic(8, 8, FlxColor.BLACK);
+				add(_sprLevels[i][j]);
 			}
 		}
 		
-		_pointer = new FlxSprite(MENU_X + 25, (MENU_ITEM_HEIGHT / 2) + 1).makeGraphic(16, 16, FlxColor.RED);
+		_pointer = new FlxSprite(MENU_X + 25, (MENU_ITEM_HEIGHT / 2) + 1, AssetPaths.pointer__png);
 		_selected = 0;
 		movePointer();
 		add(_pointer);
+		
+		// Init costs of each level-up
+		costs = Const.CRAFT_COSTS;
+		
+		_sprCosts = [new FlxSpriteGroup(), new FlxSpriteGroup(), new FlxSpriteGroup()];
+		setItemDisplay(0);
+		setItemDisplay(1);
+		setItemDisplay(2);
 		
 		active = false;
 		visible = false;
@@ -124,22 +135,62 @@ class CraftingMenu extends FlxSpriteGroup
 		_down = false;
 	}
 	
+	private function setItemDisplay(itemNum:Int):Void {
+		// Remove the old sprites for the cost of this item.
+		if (_sprCosts.length > itemNum) {
+			remove(_sprCosts[itemNum]);
+		}
+		
+		var toSet = new FlxSpriteGroup();
+		
+		// If skill is maxed out, simply show a text that says "MAX"
+		var currentLvl = GameData.currentCraftLvls[itemNum];
+		if (currentLvl >= 4) {
+			var maxText = new FlxText(MENU_X + MENU_WIDTH - 50, MENU_Y + itemNum * MENU_ITEM_HEIGHT + 8, 0, "MAX");
+			maxText.setFormat(HUD.FONT, FONT_SIZE, HUD.BORDER_COLOR);
+			toSet.add(maxText);
+		} else {
+			var sprCraft = new FlxSprite(MENU_X + MENU_WIDTH - 20, MENU_Y + itemNum * MENU_ITEM_HEIGHT + 1, AssetPaths.craft__png);
+			var sprResource = new FlxSprite(MENU_X + MENU_WIDTH - 20, MENU_Y + itemNum * MENU_ITEM_HEIGHT + 18);
+			switch(itemNum) {
+				case 0:
+					sprResource.loadGraphic(AssetPaths.wood__png);
+				case 1:
+					sprResource.loadGraphic(AssetPaths.food__png);
+				case 2:
+					sprResource.loadGraphic(AssetPaths.stone__png);
+			}
+			toSet.add(sprCraft);
+			toSet.add(sprResource);
+			// Determine cost values, set it for the texts
+			var textCraft = new FlxText(MENU_X + MENU_WIDTH - 36, MENU_Y + itemNum * MENU_ITEM_HEIGHT);
+			var textResource = new FlxText(MENU_X + MENU_WIDTH - 36, MENU_Y + itemNum * MENU_ITEM_HEIGHT + 16);
+			textCraft.setFormat(HUD.FONT, FONT_SIZE_SMALL, HUD.BORDER_COLOR, RIGHT);
+			textResource.setFormat(HUD.FONT, FONT_SIZE_SMALL, HUD.BORDER_COLOR, RIGHT);
+			textCraft.text = "" + costs[itemNum][currentLvl][0];
+			textResource.text = "" + costs[itemNum][currentLvl][1];
+			toSet.add(textCraft);
+			toSet.add(textResource);
+		}
+		_sprCosts[itemNum] = toSet;
+		add(toSet);
+		
+		for (i in 0...currentLvl) {
+			_sprLevels[itemNum][i].makeGraphic(8, 8, FlxColor.GREEN);
+		}
+	}
+	
 	private function movePointer():Void {
 		_pointer.y = _choices[_selected].y + (_choices[_selected].height / 2) - 8;
 	}
 	
 	private function selectChoice():Void {
-		switch(_selected) {
-			case 0: // Damage
-				
-			case 1: // Health
-				//GameData.currentPlayState.player.maxHp += 25;
-				//GameData.currentPlayState.player.hp += 25;
-			case 2: // Speed
-				
-			case 3:
-				GameData.currentPlayState.hideCraftingMenu();
+		// Set the selected values
+		if (_selected >= 3) {
+			GameData.currentPlayState.hideCraftingMenu();
+		} else {
+			GameData.currentPlayState.addCraftingLvl(_selected);
+			setItemDisplay(_selected);
 		}
 	}
-
 }

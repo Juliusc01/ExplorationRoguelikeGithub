@@ -30,4 +30,14 @@ class Const
 	public static var FIRST_FOOD_LVL(default, never):Int = 3;
 	public static var FIRST_STONE_LVL(default, never):Int = 5;
 	public static var FIRST_CRAFT_LVL(default, never):Int = 6;
+	
+	public static var CRAFT_COSTS(default, never):Array<Array<Array<Int>>> = 
+			[[[2, 2], [3, 3], [4, 4], [6, 5]],
+			[[2, 1], [3, 2], [4, 3], [6, 4]],
+			[[2, 1], [3, 2], [4, 3], [6, 4]]];
+			
+	public static var CRAFT_DMG_UP(default, never):Int = 5;
+	public static var CRAFT_HP_UP(default, never):Int = 50;
+	public static var CRAFT_SPEED_UP(default, never):Int = 30;
+
 }

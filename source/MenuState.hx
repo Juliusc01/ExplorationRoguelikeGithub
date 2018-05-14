@@ -96,7 +96,7 @@ class MenuState extends FlxState {
 		switch (levelNum) {
 			case 0:
 				_txtMid = new FlxText(0, 0, "Return home\nwith supplies before\nnight falls!");
-				_txtMid.setFormat(14, FlxColor.WHITE, CENTER);
+				_txtMid.setFormat(24, FlxColor.WHITE, CENTER);
 				_txtMid.screenCenter();
 				_txtMid.y = 120;
 				remove(_txtTop);

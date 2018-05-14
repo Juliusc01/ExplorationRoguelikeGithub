@@ -41,7 +41,10 @@ class PlayState extends FlxState {
 	public var hasEnoughStone:Bool;
 	public var hasShieldForNextHit:Bool;
 	
+	// Variables for resetting the level on loss
 	private var _gotPowerUp:Bool;
+	private var _startingCraftAmt:Int;
+	private var _startingCraftLvls:Array<Int>;
 	
 	//Logging variables
 	private var playerStartingHealth:Int;
@@ -57,12 +60,6 @@ class PlayState extends FlxState {
 	
 	private var _inCameraFade:Bool;
 	private var _cameraAlpha:Float;
-	
-	/*
-	public var currentCoins:Int;
-	public var currentGems:Int;
-	public var currentDust:Int;
-	*/
 	
 	override public function create():Void {
 		FlxG.mouse.visible = false;
@@ -96,10 +93,11 @@ class PlayState extends FlxState {
 		sword.kill();
 		add(player);
 		add(sword);
-		applyActivePowerUps();
 		
 		_craftingMenu = new CraftingMenu();
 		add(_craftingMenu);
+		applyStartingCraft();
+		applyActivePowerUps();
 		super.create();
 	}
 
@@ -107,7 +105,6 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		if (_inMenu) {
-			// TODO: menu logic goes here
 			return;
 		}
 		
@@ -222,6 +219,64 @@ class PlayState extends FlxState {
 		_craftingMenu.hide();
 	}
 	
+	private function applyStartingCraft():Void {
+		_startingCraftAmt = GameData.currentCraft;
+		_startingCraftLvls = new Array<Int>();
+		for (i in 0...GameData.currentCraftLvls.length) {
+			_startingCraftLvls.push(GameData.currentCraftLvls[i]);
+		}
+	
+		player.damage += (Const.CRAFT_DMG_UP * GameData.currentCraftLvls[0]);
+		player.hp += (Const.CRAFT_HP_UP * GameData.currentCraftLvls[1]);
+		player.maxHp += (Const.CRAFT_HP_UP * GameData.currentCraftLvls[1]);
+		player.speed += (Const.CRAFT_SPEED_UP * GameData.currentCraftLvls[2]);
+	}
+	
+	public function addCraftingLvl(which:Int):Void {
+		var currLvl = GameData.currentCraftLvls[which];
+		var costs = Const.CRAFT_COSTS[which][currLvl]; // idx 0 is craft, 1 is resource cost
+		if (currLvl < 4) {
+			if (GameData.currentCraft >= costs[0]) {
+				switch (which) {
+					case 0:
+						if (currentWood >= costs[1]) {
+							// LEVEL UP WITH WOOD
+							currentWood -= costs[1];
+							if (currentWood < GameData.currentLevel.woodReq) {
+								_HUD.forceWoodColorReset();
+							}
+							GameData.currentCraft -= costs[0];
+							GameData.currentCraftLvls[0]++;
+							player.damage += Const.CRAFT_DMG_UP;
+						}
+					case 1:
+						if (currentFood >= costs[1]) {
+							// LEVEL UP WITH FOOD
+							currentFood -= costs[1];
+							if (currentFood < GameData.currentLevel.foodReq) {
+								_HUD.forceFoodColorReset();
+							}
+							GameData.currentCraft -= costs[0];
+							GameData.currentCraftLvls[1]++;
+							player.maxHp += Const.CRAFT_HP_UP;
+							player.hp += Const.CRAFT_HP_UP;
+						}
+					case 2:
+						if (currentStone >= costs[1]) {
+							// LEVEL UP WITH STONE
+							currentStone -= costs[1];
+							if (currentStone < GameData.currentLevel.stoneReq) {
+								_HUD.forceStoneColorReset();
+							}
+							GameData.currentCraft -= costs[0];
+							GameData.currentCraftLvls[2]++;
+							player.speed += Const.CRAFT_SPEED_UP;
+						}
+				}
+			}
+		}
+	}
+	
 	//Test end level function
 
 	private function loseLevel():Void {
@@ -238,6 +293,8 @@ class PlayState extends FlxState {
 			trace(GameData.powerUps[0].alive);
 			trace(GameData.powerUps[0]);
 		}
+		GameData.currentCraft = _startingCraftAmt;
+		GameData.currentCraftLvls = _startingCraftLvls;
 		analyzeLevel(true);
 		FlxG.switchState(new LoseState());
 	}
@@ -445,7 +502,7 @@ class PlayState extends FlxState {
 	private function analyzeLevel(lost:Bool):Void {
 		var enemyMapIteratorKeys = enemyIDsToDamageDoneTotal.keys();
 		var stringOfMap:String = "";
-		//Gets enemy damage map into printable form
+		// Gets enemy damage map into printable form
 		while (enemyMapIteratorKeys.hasNext()) {
 			var currEnemyMapKey = enemyMapIteratorKeys.next();
 			stringOfMap += currEnemyMapKey.toString() + ": ";

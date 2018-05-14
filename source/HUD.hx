@@ -364,6 +364,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 	}
 	
+	public function forceWoodColorReset():Void {
+		_doneWithWood = false;
+		_bgWood.color = BORDER_COLOR;
+	}
+	
 	private function resetWoodColor(_):Void {
 		if (_ps.hasEnoughWood) {
 			_doneWithWood = true;
@@ -384,6 +389,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		}
 	}
 	
+	public function forceFoodColorReset():Void {
+		_doneWithFood = false;
+		_bgFood.color = BORDER_COLOR;
+	}
+	
 	private function resetFoodColor(_):Void {
 		if (_ps.hasEnoughFood) {
 			_doneWithFood = true;
@@ -402,6 +412,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			FlxTween.color(_bgStone, FLASH_DURATION, BORDER_COLOR, toColor,
 						{type: FlxTween.PERSIST, onComplete: resetStoneColor});
 		}
+	}
+	
+	public function forceStoneColorReset():Void {
+		_doneWithStone = false;
+		_bgStone.color = BORDER_COLOR;
 	}
 	
 	private function resetStoneColor(_):Void {
