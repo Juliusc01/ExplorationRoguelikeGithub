@@ -18,7 +18,8 @@ class MenuState extends FlxState {
 	
 	private var _txtPlay:FlxText;
 	private var _btnPlay:FlxText;
-	private var _winText:FlxText;
+	private var _txtTop:FlxText;
+	private var _txtMid:FlxText;
 	private var _btnRestart:FlxButton;
 	private var _canContinue:Bool;
 	
@@ -27,22 +28,22 @@ class MenuState extends FlxState {
 		if (GameData.currentMenuState == 0) {
 			FlxG.mouse.visible = false;
 			_canContinue = true;
-			var titleText = new FlxText(0, 0, "Forest Floor");
-			titleText.setFormat(40, FlxColor.WHITE, CENTER);
-			titleText.screenCenter();
-			titleText.y = TOP_Y;
-			add(titleText);
+			_txtTop = new FlxText(0, 0, "Forest Floor");
+			_txtTop.setFormat(40, FlxColor.WHITE, CENTER);
+			_txtTop.screenCenter();
+			_txtTop.y = TOP_Y;
+			add(_txtTop);
 			_txtPlay = new FlxText(0, 0, "Press [space] to start");
 			_txtPlay.setFormat(14, FlxColor.WHITE, CENTER);
 			_txtPlay.screenCenter();
 			_txtPlay.y = BOT_Y;
 			add(_txtPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_winText = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
-			_winText.setFormat(20, FlxColor.WHITE, CENTER);
-			_winText.screenCenter();
-			_winText.y = TOP_Y;
-			add(_winText);
+			_txtTop = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
+			_txtTop.setFormat(20, FlxColor.WHITE, CENTER);
+			_txtTop.screenCenter();
+			_txtTop.y = TOP_Y;
+			add(_txtTop);
 			_txtPlay = new FlxText(0, 0, "Press [space] to start day " + Std.string(GameData.currentLevel.levelNum + 2));
 			_txtPlay.setFormat(14, FlxColor.WHITE, CENTER);
 			_txtPlay.screenCenter();
@@ -50,11 +51,11 @@ class MenuState extends FlxState {
 			new FlxTimer().start(0.5, displayContinueText, 1);
 		} else if (GameData.currentMenuState == 2) {
 			FlxG.mouse.visible = true;
-			_winText = new FlxText(0, 0, 0, "Congratulations, you won!\n\nPlay again?");
-			_winText.setFormat(14, FlxColor.WHITE, CENTER);
-			_winText.screenCenter();
-			_winText.y = TOP_Y;
-			add(_winText);
+			_txtTop = new FlxText(0, 0, 0, "Congratulations, you won!\n\nPlay again?");
+			_txtTop.setFormat(14, FlxColor.WHITE, CENTER);
+			_txtTop.screenCenter();
+			_txtTop.y = TOP_Y;
+			add(_txtTop);
 			_btnRestart = new FlxButton(0, 0, "Play Again", clickRestart);
 			_btnRestart.screenCenter();
 			_btnRestart.y = BOT_Y;
@@ -68,7 +69,10 @@ class MenuState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		if (FlxG.keys.anyJustPressed([SPACE]) && _canContinue) {
-			if (GameData.currentMenuState == 0 || GameData.currentMenuState == 1) {
+			if (GameData.currentMenuState == 0) {
+				setExplanationText(0);
+				GameData.currentMenuState = 1;
+			} else if (GameData.currentMenuState == 1) {
 				clickPlay();
 			} else if (GameData.currentMenuState == 2) {
 				clickRestart();
@@ -86,6 +90,22 @@ class MenuState extends FlxState {
 		}
 		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:false});
 		FlxG.switchState(new PlayState());
+	}
+	
+	private function setExplanationText(levelNum:Int):Void {
+		switch (levelNum) {
+			case 0:
+				_txtMid = new FlxText(0, 0, "Return home\nwith supplies before\nnight falls!");
+				_txtMid.setFormat(14, FlxColor.WHITE, CENTER);
+				_txtMid.screenCenter();
+				_txtMid.y = 120;
+				remove(_txtTop);
+				add(_txtMid);
+				_txtPlay.text = "Press [space] to begin day 1";
+				_txtPlay.screenCenter();
+				_txtPlay.y = BOT_Y;
+		}
+		
 	}
 	
 	private function clickRestart():Void {

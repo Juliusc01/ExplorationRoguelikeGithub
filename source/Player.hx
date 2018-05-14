@@ -20,7 +20,7 @@ class Player extends FlxSprite {
 	public var isInSwamp:Bool = false;
 	public var isAffectedByTerrain:Bool = true;
 	public var isInSwing:Bool = false;
-	public var isActive:Bool = true;
+	//public var isActive:Bool = true;
 	public var framesTillMovement:Int = 0;
 	public var framesSwung:Int = 0;
 	public var hp:Int;
@@ -60,10 +60,6 @@ class Player extends FlxSprite {
 	}
 	
 	override public function update(elapsed:Float):Void {
-		if (!isActive) {
-			super.update(elapsed);
-			return;
-		}
 		_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
 		if (framesTillMovement > 0) {
 			framesTillMovement--;

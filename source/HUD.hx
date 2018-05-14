@@ -189,7 +189,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			_playerHealth = _ps.player.hp;
 			_maxHealth = _ps.player.maxHp;
 			_barHealth.value = 100;
-			_txtHealth = makeWidgetText(nextX, HP_WIDGET_WIDTH - 2);
+			_txtHealth = makeWidgetText(nextX - 1, HP_WIDGET_WIDTH);
 			add(borderHealth);
 			add(_bgHealth);
 			add(_barHealth);

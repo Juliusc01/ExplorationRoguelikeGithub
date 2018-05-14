@@ -52,8 +52,8 @@ class PlayState extends FlxState {
 	public var grpEnemiesTotal:FlxTypedGroup<Enemy>;
 	private var startTimer:Float;
 	
-	private var _inStart:Bool;
-	private var _levelStartScreen:LevelStartScreen;
+	private var _inMenu:Bool;
+	private var _craftingMenu:CraftingMenu;
 	
 	private var _inCameraFade:Bool;
 	private var _cameraAlpha:Float;
@@ -96,20 +96,18 @@ class PlayState extends FlxState {
 		sword.kill();
 		add(player);
 		add(sword);
-		if (GameData.currentLevel.levelNum == 0) {
-			addLevelStartScreen();
-		}
 		applyActivePowerUps();
+		
+		_craftingMenu = new CraftingMenu();
+		add(_craftingMenu);
 		super.create();
 	}
 
 	
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		if (_inStart) {
-			if (FlxG.keys.justPressed.SPACE) {
-				removeLevelStartScreen();
-			}
+		if (_inMenu) {
+			// TODO: menu logic goes here
 			return;
 		}
 		
@@ -205,17 +203,23 @@ class PlayState extends FlxState {
 		}
 	}
 	
-	private function addLevelStartScreen():Void {
-		_levelStartScreen = new LevelStartScreen();
-		_inStart = true;
-		player.isActive = false;
-		add(_levelStartScreen);
+	public function showCraftingMenu():Void {
+		trace("showing it now!");
+		_inMenu = true;
+		player.active = false;
+		_currentRoom.grpEnemies.active = false;
+		_currentRoom.grpObstacles.active = false;
+		_currentRoom.grpAnimals.active = false;
+		_craftingMenu.show();
 	}
 	
-	private function removeLevelStartScreen():Void {
-		_inStart = false;
-		player.isActive = true;
-		_levelStartScreen.kill();
+	public function hideCraftingMenu():Void {
+		_inMenu = false;
+		player.active = true;
+		_currentRoom.grpEnemies.active = true;
+		_currentRoom.grpObstacles.active = true;
+		_currentRoom.grpAnimals.active = true;
+		_craftingMenu.hide();
 	}
 	
 	//Test end level function
