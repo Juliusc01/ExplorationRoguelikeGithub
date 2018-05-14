@@ -248,6 +248,7 @@ class PlayState extends FlxState {
 							GameData.currentCraft -= costs[0];
 							GameData.currentCraftLvls[0]++;
 							player.damage += Const.CRAFT_DMG_UP;
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
 						}
 					case 1:
 						if (currentFood >= costs[1]) {
@@ -260,6 +261,8 @@ class PlayState extends FlxState {
 							GameData.currentCraftLvls[1]++;
 							player.maxHp += Const.CRAFT_HP_UP;
 							player.hp += Const.CRAFT_HP_UP;
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+
 						}
 					case 2:
 						if (currentStone >= costs[1]) {
@@ -271,6 +274,7 @@ class PlayState extends FlxState {
 							GameData.currentCraft -= costs[0];
 							GameData.currentCraftLvls[2]++;
 							player.speed += Const.CRAFT_SPEED_UP;
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
 						}
 				}
 			}
