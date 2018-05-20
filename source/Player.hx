@@ -74,11 +74,11 @@ class Player extends FlxSprite {
 			framesSwung--;
 			if (framesSwung <= 0) {
 				_sword.kill();
-				loadGraphic(AssetPaths.player__png, true, 16, 16);
-				setSize(WIDTH, HEIGHT);
-				animation.add("lr", [3, 4, 3, 5], 6, false);
-				animation.add("u", [6, 7, 6, 8], 6, false);
-				animation.add("d", [0, 1, 0, 2], 6, false);
+				//loadGraphic(AssetPaths.player__png, true, 16, 16);
+				//setSize(WIDTH, HEIGHT);
+				//animation.add("lr", [3, 4, 3, 5], 6, false);
+				//animation.add("u", [6, 7, 6, 8], 6, false);
+				//animation.add("d", [0, 1, 0, 2], 6, false);
 				isInSwing = false;
 			}
 		}
