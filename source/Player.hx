@@ -164,31 +164,32 @@ class Player extends FlxSprite {
 			this.isInSwing = true;
 			switch (facing) {
 				case FlxObject.LEFT:
-					relativeSwordPosition = [ -16, -2];
-					_sword.setSize(16, 18);
+					relativeSwordPosition = [ -20, -2];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_l__png, true, 16, 16);
 					_sword.animation.add("lsword", [2,1,0], 8, false);
 					_sword.animation.play("lsword");
 				case FlxObject.RIGHT:
-					relativeSwordPosition = [Std.int(WIDTH), -2];
-					_sword.setSize(16, 18);
+					relativeSwordPosition = [Std.int(WIDTH)+Std.int(X_OFF), -2];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_r__png, true, 16, 16);
 					_sword.animation.add("rsword", [2,1,0], 8, false);
 					_sword.animation.play("rsword");
 				case FlxObject.UP:
-					relativeSwordPosition = [ -2, -16];
-					_sword.setSize(18, 16);
+					relativeSwordPosition = [ -2, -20];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_u__png, true, 16, 16);
 					_sword.animation.add("usword", [2,1,0], 8, false);
 					_sword.animation.play("usword");
 				case FlxObject.DOWN:
-					relativeSwordPosition = [ -2, Std.int(HEIGHT)];
-					_sword.setSize(18, 16);
+					relativeSwordPosition = [ -2, Std.int(HEIGHT)+Std.int(Y_OFF)];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_d__png, true, 16, 16);
 					_sword.animation.add("dsword", [0,1,2], 8, false);
 					_sword.animation.play("dsword");
 			}
 			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
+			trace(this.x, this.y, _sword.x, _sword.y);
 			_sword.revive();
 		}
 		return _space;
