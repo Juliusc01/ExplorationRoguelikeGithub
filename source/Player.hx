@@ -68,9 +68,10 @@ class Player extends FlxSprite {
 			isInSwing = swing();
 			swingNumber++;
 			if (!isInSwing && framesTillMovement == 0) {
-				movement();
+				movement(true);
 			}
 		} else {
+			movement(false);
 			framesSwung--;
 			if (framesSwung <= 0) {
 				_sword.kill();
@@ -193,7 +194,7 @@ class Player extends FlxSprite {
 		return _space;
 	}
 	
-	private function movement():Void {
+	private function movement(canMove:Bool):Void {
 		var _up:Bool = false;
 		var _down:Bool = false;
 		var _left:Bool = false;
@@ -235,13 +236,16 @@ class Player extends FlxSprite {
 				mA = 0;
 				facing = FlxObject.RIGHT;
 			}
-			if (isInSwamp && isAffectedByTerrain) {
+			if (canMove) {
+				if (isInSwamp && isAffectedByTerrain) {
 				velocity.set(speed / 2, 0);
-			} else {
-				velocity.set(speed, 0);
+				} else {
+					velocity.set(speed, 0);
+				}
+				velocity.rotate(FlxPoint.weak(0, 0), mA);
 			}
-			velocity.rotate(FlxPoint.weak(0, 0), mA);
-			if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
+			
+			//if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
 				switch (facing) {
 					case FlxObject.LEFT, FlxObject.RIGHT:
 						animation.play("lr");
@@ -250,7 +254,7 @@ class Player extends FlxSprite {
 					case FlxObject.DOWN:
 						animation.play("d");
 				}
-			}
+			//}
 		}
 	}
 }
