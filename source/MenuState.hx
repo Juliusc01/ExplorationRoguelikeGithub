@@ -112,23 +112,23 @@ class MenuState extends FlxState {
 			case 2:
 				_txtMid.text = "Tip:\nAny items you pick up\nwill be active for the\nrest of the game.";
 			case 3:
-				_txtMid.text = "Tip:\nUse your sword to break\nincoming projectiles!";
-			case 4:
 				_txtMid.text = "Tip:\nUse the gems dropped by\nenemies to craft upgrades!";
+			case 4:
+				_txtMid.text = "Tip:\nUse your sword to block\nincoming projectiles!";
 			case 5:
 				_txtMid.text = "Tip:\nThis forest can get confusing.\nMake sure you remember\nyour way home!";
 			case 6:
 				_txtMid.text = "Tip:\nGems carry over to the next day,\nbut other resources don't.";
 			case 7:
-				_txtMid.text = "Tip:\nCharging enemies take a break\nafter they finish charging. That's\nthe best time to hit them!";
+				_txtMid.text = "Tip:\nEnemies have more health and\ndeal more damage in later levels.";
 			case 8:
-				_txtMid.text = "Tip:\n";
+				_txtMid.text = "Tip:\nIf you have time, explore each\nlevel fully to find useful items!";
 			case 9:
-				_txtMid.text = "Tip:\n";
+				_txtMid.text = "Tip:\nFrogs will charge at you when\nyou get too close.";
 			case 10:
-				_txtMid.text = "Tip:\n";
+				_txtMid.text = "Tip:\nCharging enemies take a break\nafter they finish charging. That's\nthe best time to hit them!";
 			case 11:
-				_txtMid.text = "Tip:\nLAST TIP";
+				_txtMid.text = "You've almost done it!\nJust one day to go!";
 		}
 		
 		_txtMid.setFormat(14, FlxColor.WHITE, CENTER);
