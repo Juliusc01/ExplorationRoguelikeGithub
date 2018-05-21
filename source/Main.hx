@@ -15,7 +15,7 @@ class Main extends Sprite {
 	
 	public function new() {
 		super();
-		GameData.myLogger = new CapstoneLogger(1802, "explorerogue", "bbe6affcdec9c0192930c77f9cc45788", 8, false);
+		GameData.myLogger = new CapstoneLogger(1802, "explorerogue", "bbe6affcdec9c0192930c77f9cc45788", 9, false);
 		//Just generate ID for now, eventually also grab ID (once we get save data)
 		var userID:String = GameData.myLogger.getSavedUserId();
 		if (userID == null) {
