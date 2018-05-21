@@ -39,7 +39,7 @@ class MenuState extends FlxState {
 			_txtPlay.y = BOT_Y;
 			add(_txtPlay);
 		} else if (GameData.currentMenuState == 1) {
-			_txtTop = new FlxText(0, 0, 0, "Victory!\n\nThe forest grows harsher...");
+			_txtTop = new FlxText(0, 0, 0, "Victory!");
 			_txtTop.setFormat(20, FlxColor.WHITE, CENTER);
 			_txtTop.screenCenter();
 			_txtTop.y = TOP_Y;
@@ -108,7 +108,7 @@ class MenuState extends FlxState {
 				add(_txtMid);
 				return;
 			case 1: 
-				_txtMid.text = "Tip:\nThe forest will change\nshape every night.";
+				_txtMid.text = "Tip:\nThe forest will change\nshape and get more difficult\nevery night.";
 			case 2:
 				_txtMid.text = "Tip:\nAny items you pick up\nwill be active for the\nrest of the game.";
 			case 3:
@@ -133,7 +133,7 @@ class MenuState extends FlxState {
 		
 		_txtMid.setFormat(14, FlxColor.WHITE, CENTER);
 		_txtMid.screenCenter();
-		_txtMid.y = 180;
+		_txtMid.y = 150;
 		add(_txtMid);
 		
 	}

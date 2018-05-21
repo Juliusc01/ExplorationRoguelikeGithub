@@ -69,8 +69,8 @@ class Main extends Sprite {
 	
 	private function initRoomOptions() {
 		GameData.roomOptions.set("E", 1);
-		GameData.roomOptions.set("ES", 1);
-		GameData.roomOptions.set("ESW", 1);
+		GameData.roomOptions.set("ES", 2);
+		GameData.roomOptions.set("ESW", 2);
 		GameData.roomOptions.set("ESWN", 2);
 		GameData.roomOptions.set("ESN", 1);
 		GameData.roomOptions.set("EW", 1);
@@ -82,7 +82,7 @@ class Main extends Sprite {
 		GameData.roomOptions.set("SN", 1);
 		GameData.roomOptions.set("W", 0);
 		GameData.roomOptions.set("WN", 1);
-		GameData.roomOptions.set("N", 0);
+		GameData.roomOptions.set("N", 1);
 		
 		GameData.powerUpRoomOptions.set("E", 0);
 		GameData.powerUpRoomOptions.set("S", 0);
