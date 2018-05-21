@@ -37,7 +37,7 @@ class GameData
 	public static var level8 = new LevelData(8, 180, 14, false, 11, 6, 5, 2);
 	public static var level9 = new LevelData(9, 210, 16, false, 13, 6, 6, 2.2);
 	public static var level10 = new LevelData(10, 210, 18, false, 14, 7, 7, 2.4);
-	public static var level11 = new LevelData(11, 240, 20, false, 15, 10, 5, 2.6);
+	public static var level11 = new LevelData(11, 210, 20, false, 15, 10, 5, 2.6);
 	//Uncomment to test out a specific room:
 	//public static var levels:Array<LevelData> = [testRooms];
 	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11];

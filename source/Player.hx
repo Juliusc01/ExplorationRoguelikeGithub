@@ -191,7 +191,6 @@ class Player extends FlxSprite {
 					_sword.animation.play("dsword");
 			}
 			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
-			trace(this.x, this.y, _sword.x, _sword.y);
 			_sword.revive();
 		}
 		return _space;
