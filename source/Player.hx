@@ -93,7 +93,7 @@ class Player extends FlxSprite {
 				if (hp > maxHp) {
 					hp = maxHp;
 				}
-				_framesTillHeal = 60;
+				_framesTillHeal = 180;
 			}
 		}
 		
@@ -241,7 +241,7 @@ class Player extends FlxSprite {
 			}
 			if (canMove) {
 				if (isInSwamp && isAffectedByTerrain) {
-				velocity.set(speed / 2, 0);
+				velocity.set(speed / 1.666, 0);
 				} else {
 					velocity.set(speed, 0);
 				}
