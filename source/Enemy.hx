@@ -116,15 +116,13 @@ class Enemy extends FlxSprite {
 		this.healthbar.kill();
 		alive = false;
 		exists = false;
-		if (GameData.currentLevel.hasCrafting) {
-			if ((GameData.currentLevel.levelNum == 6 && FlxG.random.bool(75)) || FlxG.random.bool(45)) {
-				// Drop and animate the crafting supplies from the enemy
-				var drop = new FlxSprite(x, y, AssetPaths.craft__png);
-				GameData.currentPlayState.add(drop);
-				var uiPos:Position = ps.getResourceSpriteLocation(3);
-				FlxTween.tween(drop, { alpha: 0, x: uiPos.x, y: uiPos.y }, 0.75);
-				ps.addResource(3, 1, false);
-			}
+		if (FlxG.random.bool(45) || GameData.currentLevel.levelNum == 1) {
+			// Drop and animate the crafting supplies from the enemy
+			var drop = new FlxSprite(x, y, AssetPaths.craft__png);
+			GameData.currentPlayState.add(drop);
+			var uiPos:Position = ps.getResourceSpriteLocation(3);
+			FlxTween.tween(drop, { alpha: 0, x: uiPos.x, y: uiPos.y }, 0.75);
+			ps.addResource(3, 1, false);
 		}
 	}
 	

@@ -67,7 +67,7 @@ class PlayState extends FlxState {
 		grpEnemiesTotal = new FlxTypedGroup<Enemy>();
 		sword = new Sword(0, 0);
 		_doorX = Const.DOOR_X_WITH_ANVIL;
-		if (GameData.currentLevel.levelNum < Const.FIRST_CRAFT_LVL) {
+		if (!GameData.currentLevel.hasCrafting) {
 			_doorX = Const.DOOR_X_NO_ANVIL;
 		}
 		var playerX = _doorX - 9;
@@ -112,10 +112,10 @@ class PlayState extends FlxState {
 		timer -= elapsed;
 		
 		
-		/*//TODO: remove this after testing health loss
+		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
-		}
+		}/*
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
@@ -489,6 +489,7 @@ class PlayState extends FlxState {
 			case Direction.NORTH: // up
 				player.y = FlxG.height - 3 * Const.TILE_WIDTH;
 		}
+		trace("switched to new room position");
 		_currentRoom = _layout.changeRoom(outgoingDir);
 		add(_currentRoom);
 		

@@ -49,10 +49,6 @@ class Projectile extends FlxSprite {
 		}
 		var knockbackSpeed:Float = -1 * this.knockback;
 		var knockbackFrames:Float = 20;
-		if (PowerUp.isActiveById("005")) { // check for heavy boots
-			knockbackSpeed = knockbackSpeed / 2;
-			knockbackFrames = knockbackFrames / 2;
-		}
 		if (PowerUp.isActiveById("003")) { // check for reflective shield
 			myEnemy.hp -= Std.int(this.damage / 4);
 			if (myEnemy.hp <= 0) {

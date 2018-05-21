@@ -38,7 +38,7 @@ class Main extends Sprite {
 		GameData.powerUps.push(new PowerUp("002", "Lucky Axe", "Chance of extra wood from trees", "002_axe.png"));
 		GameData.powerUps.push(new PowerUp("003", "Reflective Shield", "Reflect some damage back to enemies", "003_shield.png"));
 		GameData.powerUps.push(new PowerUp("004", "Little Light of Mine", "Time until night extended", "004_candle.png"));
-		GameData.powerUps.push(new PowerUp("005", "Sturdy Boots", "Knockback from projectiles reduced", "005_heavy_boots.png"));
+		//GameData.powerUps.push(new PowerUp("005", "Sturdy Boots", "Knockback from projectiles reduced", "005_heavy_boots.png"));
 		GameData.powerUps.push(new PowerUp("006", "Fairy Wings", "Immunity to terrain effects", "006_wings.png"));
 		GameData.powerUps.push(new PowerUp("007", "Boots of Extreme Speed", "Speed increased", "007_boots.png"));
 		GameData.powerUps.push(new PowerUp("008", "Adrenaline Rush", "Kills increase movement speed", "008_speed.png"));

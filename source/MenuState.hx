@@ -48,6 +48,7 @@ class MenuState extends FlxState {
 			_txtPlay.setFormat(14, FlxColor.WHITE, CENTER);
 			_txtPlay.screenCenter();
 			_txtPlay.y = BOT_Y;
+			setExplanationText(GameData.currentLevel.levelNum + 1);
 			new FlxTimer().start(0.5, displayContinueText, 1);
 		} else if (GameData.currentMenuState == 2) {
 			FlxG.mouse.visible = true;
@@ -93,18 +94,47 @@ class MenuState extends FlxState {
 	}
 	
 	private function setExplanationText(levelNum:Int):Void {
+		_txtMid = new FlxText(0, 0);
 		switch (levelNum) {
 			case 0:
-				_txtMid = new FlxText(0, 0, "Return home\nwith supplies before\nnight falls!");
-				_txtMid.setFormat(24, FlxColor.WHITE, CENTER);
-				_txtMid.screenCenter();
-				_txtMid.y = 120;
+				_txtMid.text = "Return home\nwith supplies before\nnight falls!";
 				remove(_txtTop);
-				add(_txtMid);
 				_txtPlay.text = "Press [space] to begin day 1";
 				_txtPlay.screenCenter();
 				_txtPlay.y = BOT_Y;
+				_txtMid.setFormat(24, FlxColor.WHITE, CENTER);
+				_txtMid.screenCenter();
+				_txtMid.y = 120;
+				add(_txtMid);
+				return;
+			case 1: 
+				_txtMid.text = "Tip:\nThe forest will change\nshape every night.";
+			case 2:
+				_txtMid.text = "Tip:\nAny items you pick up\nwill be active for the\nrest of the game.";
+			case 3:
+				_txtMid.text = "Tip:\nUse your sword to break\nincoming projectiles!";
+			case 4:
+				_txtMid.text = "Tip:\nUse the gems dropped by\nenemies to craft upgrades!";
+			case 5:
+				_txtMid.text = "Tip:\nThis forest can get confusing.\nMake sure you remember\nyour way home!";
+			case 6:
+				_txtMid.text = "Tip:\nGems carry over to the next day,\nbut other resources don't.";
+			case 7:
+				_txtMid.text = "Tip:\nCharging enemies take a break\nafter they finish charging. That's\nthe best time to hit them!";
+			case 8:
+				_txtMid.text = "Tip:\n";
+			case 9:
+				_txtMid.text = "Tip:\n";
+			case 10:
+				_txtMid.text = "Tip:\n";
+			case 11:
+				_txtMid.text = "Tip:\nLAST TIP";
 		}
+		
+		_txtMid.setFormat(14, FlxColor.WHITE, CENTER);
+		_txtMid.screenCenter();
+		_txtMid.y = 180;
+		add(_txtMid);
 		
 	}
 	

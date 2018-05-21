@@ -19,28 +19,28 @@ class GameData
 	public static var enemiesRandom:Array<Int> = [0, 1, 2, 3, 4];
 	public static var myLogger:CapstoneLogger;
 	public static var testingHome:Bool = false;
-	public static var roomToTest = AssetPaths.roomf_SN_1__oel;
+	public static var roomToTest = AssetPaths.level_3E__oel;
 	public static var lostToHp = false;
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)
 	public static var testRooms = new LevelData(-1, 180, -1, true, 1, 1, 0, 1, false);
 	public static var level0 = new LevelData(0, 60, 1, true, 1, 0, 0, 1.0, false);
+	//public static var level1 = new LevelData(1, 60, 2, true, 1, 0, 0, 1.0, false);
 	public static var level1 = new LevelData(1, 60, 2, true, 1, 0, 0, 1.0, false);
-	public static var level2 = new LevelData(2, 60, 2, true, 1, 0, 0, 1.0, false);
-	public static var level3 = new LevelData(3, 90, 5, true, 4, 1, 0, 1.0, false); // first food
-	public static var level4 = new LevelData(4, 90, 6, true, 6, 2, 0, 1.0, false); 
-	public static var level5 = new LevelData(5, 90, 7, true, 6, 3, 1, 1.2, false); // first stone
-	public static var level6 = new LevelData(6, 120, 8, true, 7, 3, 2, 1.4); // first crafting
-	public static var level7 = new LevelData(7, 150, 10, false, 9, 4, 3, 1.6);
-	public static var level8 = new LevelData(8, 150, 12, false, 10, 5, 5, 1.8);
-	public static var level9 = new LevelData(9, 150, 14, false, 11, 6, 5, 2);
-	public static var level10 = new LevelData(10, 180, 16, false, 13, 6, 6, 2.2);
-	public static var level11 = new LevelData(11, 180, 18, false, 14, 7, 7, 2.4);
-	public static var level12 = new LevelData(12, 180, 20, false, 15, 10, 5, 2.6);
+	public static var level2 = new LevelData(2, 90, 5, true, 4, 1, 0, 1.0, false); // first food
+	public static var level3 = new LevelData(3, 90, 6, true, 6, 2, 1, 1.0); // first stone, first crafting
+	public static var level4 = new LevelData(4, 90, 7, true, 6, 3, 1, 1.2); 
+	public static var level5 = new LevelData(5, 120, 8, true, 7, 3, 2, 1.4); 
+	public static var level6 = new LevelData(6, 150, 10, false, 9, 4, 3, 1.6);
+	public static var level7 = new LevelData(7, 150, 12, false, 10, 5, 5, 1.8);
+	public static var level8 = new LevelData(8, 150, 14, false, 11, 6, 5, 2);
+	public static var level9 = new LevelData(9, 180, 16, false, 13, 6, 6, 2.2);
+	public static var level10 = new LevelData(10, 180, 18, false, 14, 7, 7, 2.4);
+	public static var level11 = new LevelData(11, 180, 20, false, 15, 10, 5, 2.6);
 	//Uncomment to test out a specific room:
 	//public static var levels:Array<LevelData> = [testRooms];
-	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11, level12];
+	public static var levels:Array<LevelData> = [level0, level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, level11];
 
 	// Map storing room shape to max template number.
 	// Gives the maximum number to append to the file

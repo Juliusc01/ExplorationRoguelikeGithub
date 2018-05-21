@@ -269,9 +269,9 @@ class Layout
 			neighborX = x + 1;
 			neighborY = y;
 			neighbor = _map.get(new Position(neighborX, neighborY).toString());
-			// If the neighbor tile exists, connect it with 25% chance.
+			// If the neighbor tile exists, connect it with 20% chance.
 			if (neighbor != null) {
-				if (FlxG.random.bool(25)) {
+				if (FlxG.random.bool(20)) {
 					newTile.hasE = true;
 					neighbor.hasW = true;
 				}
@@ -282,9 +282,9 @@ class Layout
 			neighborX = x - 1;
 			neighborY = y;
 			neighbor = _map.get(new Position(neighborX, neighborY).toString());
-			// If the neighbor tile exists, connect it with 25% chance.
+			// If the neighbor tile exists, connect it with 20% chance.
 			if (neighbor != null) {
-				if (FlxG.random.bool(25)) {
+				if (FlxG.random.bool(20)) {
 					newTile.hasW = true;
 					neighbor.hasE = true;
 				}
@@ -295,9 +295,9 @@ class Layout
 			neighborX = x;
 			neighborY = y + 1;
 			neighbor = _map.get(new Position(neighborX, neighborY).toString());
-			// If the neighbor tile exists, connect it with 25% chance.
+			// If the neighbor tile exists, connect it with 20% chance.
 			if (neighbor != null) {
-				if (FlxG.random.bool(25)) {
+				if (FlxG.random.bool(20)) {
 					newTile.hasS = true;
 					neighbor.hasN = true;
 				}
@@ -308,9 +308,9 @@ class Layout
 			neighborX = x;
 			neighborY = y - 1;
 			neighbor = _map.get(new Position(neighborX, neighborY).toString());
-			// If the neighbor tile exists, connect it with 25% chance.
+			// If the neighbor tile exists, connect it with 20% chance.
 			if (neighbor != null) {
-				if (FlxG.random.bool(25)) {
+				if (FlxG.random.bool(20)) {
 					newTile.hasN = true;
 					neighbor.hasS = true;
 				}
@@ -551,15 +551,6 @@ class Layout
 				numRooms = 1;
 				return array;
 			case 1:
-				_width = 1;
-				_height = 2;
-				_currentRoomRow = _currentRoomCol = 0;
-				array = new Array<Array<Room>>();
-				array[0] = [new Room(AssetPaths.level_1A__oel, 0)];
-				array[1] = [new Room(AssetPaths.level_1B__oel, 1)];
-				numRooms = 2;
-				return array;
-			case 2:
 				_width = 2;
 				_height = 1;
 				numRooms = 2;
@@ -567,7 +558,7 @@ class Layout
 				array = new Array<Array<Room>>();
 				array[0] = [new Room(AssetPaths.level_2A__oel, 0), new Room(AssetPaths.level_2B__oel, 1)];
 				return array;
-			case 3:
+			case 2:
 				_width = 3;
 				_height = 2;
 				numRooms = 5;
@@ -577,7 +568,7 @@ class Layout
 				array[0] = [new Room(AssetPaths.level_3A__oel, 1), new Room(AssetPaths.level_3B__oel, 2)];
 				array[1] = [new Room(AssetPaths.level_3C__oel, 0), new Room(AssetPaths.level_3D__oel, 1), new Room(AssetPaths.level_3E__oel, 2)];
 				return array;
-			case 4:
+			case 3:
 				_width = 3;
 				_height = 3;
 				numRooms = 6;
@@ -588,7 +579,7 @@ class Layout
 				array[1] = [null, new Room(AssetPaths.level_4B__oel, 0), new Room(AssetPaths.level_4C__oel, 1)];
 				array[2] = [new Room(AssetPaths.level_4D__oel, 2), new Room(AssetPaths.level_4E__oel, 1), new Room(AssetPaths.level_4F__oel, 2)];
 				return array;
-			case 5:
+			case 4:
 				_width = 3;
 				_height = 4;
 				_currentRoomRow = 2;
@@ -599,7 +590,7 @@ class Layout
 				array[2] = [new Room(AssetPaths.level_5E__oel, 1), new Room(AssetPaths.level_5F__oel, 0)];
 				array[3] = [null, new Room(AssetPaths.level_5G__oel, 1)];
 				return array;
-			case 6:
+			case 5:
 				_width = 4;
 				_height = 4;
 				_currentRoomRow = 2;

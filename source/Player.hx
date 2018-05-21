@@ -122,8 +122,10 @@ class Player extends FlxSprite {
 		}
 		
 		if (y < 0) {
+			trace("setting y min");
 			y = 0;
 		} else if (y > FlxG.height - height - 2 * Const.TILE_HEIGHT) {
+			trace("setting y max");
 			y = FlxG.height - height - 2 * Const.TILE_HEIGHT;
 		}
 	}
@@ -152,7 +154,7 @@ class Player extends FlxSprite {
 	public function increaseKills():Void {
 		kills++;
 		if (PowerUp.isActiveById("008")) {
-			speed += 7;
+			speed += 3;
 		}
 	}
 	

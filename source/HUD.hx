@@ -131,10 +131,11 @@ class HUD extends FlxTypedGroup<FlxSprite>
 			hasStone = true;
 		}
 		var hasHp:Bool = false;
+		var hasCrafting:Bool = false;
 		if (GameData.currentLevel.levelNum >= Const.FIRST_HP_LVL) {
 			hasHp = true;
+			hasCrafting = true;
 		}
-		var hasCrafting:Bool = GameData.currentLevel.hasCrafting;
 		
 		// Generate the background of the top UI bar.
 		_sprBackgroundTop = new FlxSprite().makeGraphic(FlxG.width, WIDGET_HEIGHT, BORDER_COLOR);

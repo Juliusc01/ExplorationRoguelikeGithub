@@ -116,7 +116,7 @@ class Room extends FlxGroup
 		if (isHome) {
 			var houseX = Const.HOUSE_X_NO_ANVIL;
 			// If in a crafting level, offset the house and add anvil.
-			if (GameData.currentLevel.levelNum >= Const.FIRST_CRAFT_LVL) {
+			if (GameData.currentLevel.hasCrafting) {
 				var myAnvil = new Anvil(Const.ANVIL_X, Const.ANVIL_Y);
 				grpFeatures.add(myAnvil);
 				houseX = Const.HOUSE_X_WITH_ANVIL;
