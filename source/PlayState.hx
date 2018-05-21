@@ -115,7 +115,7 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
-		}
+		}/*
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
