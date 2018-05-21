@@ -119,7 +119,7 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
-		}*/
+		}
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();

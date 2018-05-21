@@ -69,11 +69,11 @@ class Enemy1 extends Enemy {
 	public function wander():Void {
 		var newPos:FlxPoint = new FlxPoint(this.x + FlxG.random.float(-50, 50), this.y + FlxG.random.float(-50, 50));
 		FlxVelocity.moveTowardsPoint(this, newPos, Std.int(speed / 4));
-		idleTimer = 50;
+		idleTimer = 100;
 	}
 
 	public function chase():Void {
-		if (!seesPlayer) {
+		if (!seesPlayer || idleTimer > 0 ) {
 			_brain.activeState = idle;
 		} else {
 			willCharge = true;
@@ -87,7 +87,7 @@ class Enemy1 extends Enemy {
 			if (willCharge) {
 				var angleToShoot = FlxAngle.angleBetweenPoint(this, playerPos, true);
 				if (framesTillCharge == 0) {
-					framesTillCharge = 150;
+					framesTillCharge = 100;
 				} else if (framesTillCharge == 1) {
 					this.velocity.set(speed, 0);
 					velocity.rotate(FlxPoint.weak(0, 0), angleToShoot);
@@ -96,9 +96,13 @@ class Enemy1 extends Enemy {
 				if (framesTillCharge > 0) {
 					framesTillCharge--;
 				}
-				idleTimer = 50;
+				idleTimer = 150;
+			}
+			if (idleTimer == 50) {
+				this.velocity.set(0, 0);
 			}
 			if (idleTimer > 0) {
+				
 				idleTimer--;
 			}
 		}

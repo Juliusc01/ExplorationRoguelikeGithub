@@ -68,17 +68,18 @@ class Player extends FlxSprite {
 			isInSwing = swing();
 			swingNumber++;
 			if (!isInSwing && framesTillMovement == 0) {
-				movement();
+				movement(true);
 			}
 		} else {
+			movement(false);
 			framesSwung--;
 			if (framesSwung <= 0) {
 				_sword.kill();
-				loadGraphic(AssetPaths.player__png, true, 16, 16);
-				setSize(WIDTH, HEIGHT);
-				animation.add("lr", [3, 4, 3, 5], 6, false);
-				animation.add("u", [6, 7, 6, 8], 6, false);
-				animation.add("d", [0, 1, 0, 2], 6, false);
+				//loadGraphic(AssetPaths.player__png, true, 16, 16);
+				//setSize(WIDTH, HEIGHT);
+				//animation.add("lr", [3, 4, 3, 5], 6, false);
+				//animation.add("u", [6, 7, 6, 8], 6, false);
+				//animation.add("d", [0, 1, 0, 2], 6, false);
 				isInSwing = false;
 			}
 		}
@@ -165,37 +166,38 @@ class Player extends FlxSprite {
 			this.isInSwing = true;
 			switch (facing) {
 				case FlxObject.LEFT:
-					relativeSwordPosition = [ -16, -2];
-					_sword.setSize(16, 18);
+					relativeSwordPosition = [ -20, -2];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_l__png, true, 16, 16);
 					_sword.animation.add("lsword", [2,1,0], 8, false);
 					_sword.animation.play("lsword");
 				case FlxObject.RIGHT:
-					relativeSwordPosition = [Std.int(WIDTH), -2];
-					_sword.setSize(16, 18);
+					relativeSwordPosition = [Std.int(WIDTH)+Std.int(X_OFF), -2];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_r__png, true, 16, 16);
 					_sword.animation.add("rsword", [2,1,0], 8, false);
 					_sword.animation.play("rsword");
 				case FlxObject.UP:
-					relativeSwordPosition = [ -2, -16];
-					_sword.setSize(18, 16);
+					relativeSwordPosition = [ -2, -20];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_u__png, true, 16, 16);
 					_sword.animation.add("usword", [2,1,0], 8, false);
 					_sword.animation.play("usword");
 				case FlxObject.DOWN:
-					relativeSwordPosition = [ -2, Std.int(HEIGHT)];
-					_sword.setSize(18, 16);
+					relativeSwordPosition = [ -2, Std.int(HEIGHT)+Std.int(Y_OFF)];
+					_sword.setSize(20, 20);
 					_sword.loadGraphic(AssetPaths.sword_d__png, true, 16, 16);
 					_sword.animation.add("dsword", [0,1,2], 8, false);
 					_sword.animation.play("dsword");
 			}
 			_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
+			trace(this.x, this.y, _sword.x, _sword.y);
 			_sword.revive();
 		}
 		return _space;
 	}
 	
-	private function movement():Void {
+	private function movement(canMove:Bool):Void {
 		var _up:Bool = false;
 		var _down:Bool = false;
 		var _left:Bool = false;
@@ -237,13 +239,16 @@ class Player extends FlxSprite {
 				mA = 0;
 				facing = FlxObject.RIGHT;
 			}
-			if (isInSwamp && isAffectedByTerrain) {
+			if (canMove) {
+				if (isInSwamp && isAffectedByTerrain) {
 				velocity.set(speed / 2, 0);
-			} else {
-				velocity.set(speed, 0);
+				} else {
+					velocity.set(speed, 0);
+				}
+				velocity.rotate(FlxPoint.weak(0, 0), mA);
 			}
-			velocity.rotate(FlxPoint.weak(0, 0), mA);
-			if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
+			
+			//if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
 				switch (facing) {
 					case FlxObject.LEFT, FlxObject.RIGHT:
 						animation.play("lr");
@@ -252,7 +257,7 @@ class Player extends FlxSprite {
 					case FlxObject.DOWN:
 						animation.play("d");
 				}
-			}
+			//}
 		}
 	}
 }
