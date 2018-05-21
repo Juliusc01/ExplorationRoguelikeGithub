@@ -29,7 +29,7 @@ class Const
 	public static var LAST_INSTRUCTION_LVL(default, never):Int = 1;
 	
 	public static var CRAFT_COSTS(default, never):Array<Array<Array<Int>>> = 
-			[[[2, 2], [4, 2], [6, 3], [9, 3]],
+			[[[2, 1], [4, 1], [6, 2], [9, 2]],
 			[[2, 1], [4, 1], [6, 2], [9, 2]],
 			[[2, 1], [4, 1], [6, 2], [9, 2]]];
 			
