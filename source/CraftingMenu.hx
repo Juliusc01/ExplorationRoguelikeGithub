@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 using flixel.util.FlxSpriteUtil;
 
@@ -38,6 +39,7 @@ class CraftingMenu extends FlxSpriteGroup
 	
 	private var _txtCraft:FlxText;
 	
+	private var _inFlash:Bool;
 	private var _up:Bool;
 	private var _down:Bool;
 	private var _fire:Bool;
@@ -163,6 +165,21 @@ class CraftingMenu extends FlxSpriteGroup
 		_fire = false;
 		_up = false;
 		_down = false;
+	}
+	
+	public function flashAvailable(itemNum:Int):Void {
+		if (!_inFlash && _headerSections.length > itemNum) {
+			_inFlash = true;
+			FlxTween.color(_headerSections[itemNum], 0.5, HUD.BG_COLOR, FlxColor.RED,
+						{onComplete: resetColor});
+		}
+	}
+	
+	private function resetColor(_):Void {
+		for (i in 0..._headerSections.length) {
+			_headerSections[i].color = HUD.BORDER_COLOR;
+		}
+		_inFlash = false;
 	}
 	
 	private function setItemDisplay(itemNum:Int):Void {
