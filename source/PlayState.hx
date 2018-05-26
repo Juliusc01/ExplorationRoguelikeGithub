@@ -69,7 +69,7 @@ class PlayState extends FlxState {
 		} else if (GameData.isBadAtGame && GameData.currentLevel.levelNum > 2 && !GameData.inControlGroup) {
 			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
 			trace("Making game easier");
-		} else {
+		} else if (GameData.inControlGroup) {
 			trace("In control group");
 		}
 		FlxG.mouse.visible = false;
@@ -126,8 +126,12 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
+			GameData.inControlGroup = false;
 		}
 		//TODO: remove this after testing health loss
+		if (FlxG.keys.pressed.Z) {
+			GameData.isBadAtGame = true;
+		}
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
 		}
@@ -328,7 +332,7 @@ class PlayState extends FlxState {
 		if (GameData.currentLevel.levelNum == 2) {
 			if (!GameData.isBadAtGame && GameData.totalDamageTaken <= 20 && GameData.totalTimeLeft >= 155) {
 				GameData.isGoodAtGame = true;
-			} else if (GameData.totalDamageTaken >= 40 || GameData.totalTimeLeft <= 125) {
+			} else if (GameData.totalDamageTaken >= 40 || GameData.totalTimeLeft <= 130) {
 				GameData.isBadAtGame = true;
 			}
 			trace("time extra: " + GameData.totalTimeLeft);

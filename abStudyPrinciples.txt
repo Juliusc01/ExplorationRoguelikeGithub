@@ -4,7 +4,7 @@ On first three levels:
 		AND They beat all 3 levels with 155 or more amount of time left total
 	They are bad if:
 		They lose 40hp or more (4 enemies, 2 projectiles and 1 enemy, etc.)
-		OR They beat all 3 levels with 125 or less amount of time left total
+		OR They beat all 3 levels with 135 or less amount of time left total
 		OR They die at all in those levels
 	Else they are a regular player
 Rest of game:
