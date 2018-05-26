@@ -1,4 +1,5 @@
 package;
+import flixel.math.FlxRandom;
 
 /**
  * Global object which holds values that other components
@@ -20,7 +21,13 @@ class GameData
 	public static var myLogger:CapstoneLogger;
 	public static var testingHome:Bool = false;
 	public static var roomToTest = AssetPaths.level_3E__oel;
-	public static var lostToHp = false;
+	public static var lostToHp:Bool = false;
+	public static var inControlGroup:Bool = (new FlxRandom()).bool();
+	public static var isGoodAtGame:Bool = false;
+	public static var isBadAtGame:Bool = false;
+	public static var difficultyModifier:Float = 1.25;
+	public static var totalDamageTaken:Int = 0;
+	public static var totalTimeLeft:Float = 0;
 	
 	
 	// LevelData(levelNum, time, rooms, wood, food, stone)

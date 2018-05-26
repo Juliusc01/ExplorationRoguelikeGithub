@@ -31,7 +31,7 @@ class Enemy1 extends Enemy {
         offset.x = 4;
         offset.y = 2;
 		speed = 100;
-		damage = 20;
+		damage = 15;
 		knockback = 400;
 		hp = maxHp = 20;
 		idleTimer = 0;

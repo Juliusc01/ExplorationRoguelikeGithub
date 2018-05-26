@@ -1,0 +1,16 @@
+On first three levels:
+	They are good if:
+		They lose 20hp or less (1 projectile, or 2 enemies)
+		AND They beat all 3 levels with 155 or more amount of time left total
+	They are bad if:
+		They lose 40hp or more (4 enemies, 2 projectiles and 1 enemy, etc.)
+		OR They beat all 3 levels with 125 or less amount of time left total
+		OR They die at all in those levels
+	Else they are a regular player
+Rest of game:
+	If they are good:
+		Multiply difficulty of levels by 1.2
+	If they are bad:
+		Divide difficulty of levels by 1.2
+	Else:
+		Keep difficulty the same

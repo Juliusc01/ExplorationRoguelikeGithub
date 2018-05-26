@@ -39,6 +39,7 @@ class PlayState extends FlxState {
 	public var hasEnoughWood:Bool;
 	public var hasEnoughFood:Bool;
 	public var hasEnoughStone:Bool;
+	public var winning:Bool;
 	public var hasShieldForNextHit:Bool;
 	
 	// Variables for resetting the level on loss
@@ -62,6 +63,13 @@ class PlayState extends FlxState {
 	private var _cameraAlpha:Float;
 	
 	override public function create():Void {
+		if (GameData.isGoodAtGame && GameData.currentLevel.levelNum > 2) {
+			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
+			trace("Making game harder");
+		} else if (GameData.isBadAtGame && GameData.currentLevel.levelNum > 2) {
+			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
+			trace("Making game easier");
+		}
 		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
 		grpEnemiesTotal = new FlxTypedGroup<Enemy>();
@@ -78,6 +86,7 @@ class PlayState extends FlxState {
 		currentWood = 0;
 		currentFood = 0;
 		currentStone = 0;
+		winning = true;
 		
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
@@ -111,15 +120,15 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
-		/*
+		
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
-		}/*
+		}
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
-		}*/
+		}
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
@@ -184,8 +193,9 @@ class PlayState extends FlxState {
 	}
 	
 	public function checkForWin():Void {
-		var canWin = hasEnoughWood && hasEnoughFood && hasEnoughStone;
-		if ( canWin) {
+		var canWin = hasEnoughWood && hasEnoughFood && hasEnoughStone && winning;
+		if (canWin) {
+			winning = false;
 			winLevel();
 		} else {
 			if (!hasEnoughWood) {
@@ -287,6 +297,10 @@ class PlayState extends FlxState {
 		// If they got a powerup this level, then they lose it when they lose the level.
 		// It will always be the last one in the array.
 		trace("losing level");
+		if (GameData.currentLevel.levelNum < 3) {
+			GameData.isBadAtGame = true;
+			GameData.isGoodAtGame = false;
+		}
 		if (_gotPowerUp) {
 			trace("losing powerup now");
 			trace("before: " + GameData.activePowerUps.length);
@@ -305,6 +319,21 @@ class PlayState extends FlxState {
 	}
 	
 	private function winLevel():Void {
+		if (GameData.currentLevel.levelNum < 3) {
+			GameData.totalDamageTaken += (100 - player.hp);
+			GameData.totalTimeLeft += timer;
+		}
+		if (GameData.currentLevel.levelNum == 2) {
+			if (!GameData.isBadAtGame && GameData.totalDamageTaken <= 20 && GameData.totalTimeLeft >= 155) {
+				GameData.isGoodAtGame = true;
+			} else if (GameData.totalDamageTaken >= 40 || GameData.totalTimeLeft <= 125) {
+				GameData.isBadAtGame = true;
+			}
+			trace("time extra: " + GameData.totalTimeLeft);
+			trace("damage taken: " + GameData.totalDamageTaken);
+			trace("isGood?: " + GameData.isGoodAtGame);
+			trace("isBad?: " + GameData.isBadAtGame);
+		}
 		GameData.currentMenuState = 1;
 		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
 			GameData.currentMenuState = 2;
