@@ -244,8 +244,8 @@ class PlayState extends FlxState {
 	
 	public function addCraftingLvl(which:Int):Void {
 		var currLvl = GameData.currentCraftLvls[which];
-		var costs = Const.CRAFT_COSTS[which][currLvl]; // idx 0 is craft, 1 is resource cost
-		if (currLvl < 4) {
+		var costs = Const.CRAFT_COSTS[currLvl]; // idx 0 is craft, 1 is resource cost
+		if (currLvl < Const.CRAFT_COSTS.length) {
 			if (GameData.currentCraft >= costs[0]) {
 				switch (which) {
 					case 0:
