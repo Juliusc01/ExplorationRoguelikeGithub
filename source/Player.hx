@@ -60,6 +60,9 @@ class Player extends FlxSprite {
 	}
 	
 	override public function update(elapsed:Float):Void {
+		if (this.speed > 200) {
+			this.speed = 200;
+		}
 		_sword.setPosition(this.x + relativeSwordPosition[0], this.y + relativeSwordPosition[1]);
 		if (framesTillMovement > 0) {
 			framesTillMovement--;
@@ -133,7 +136,7 @@ class Player extends FlxSprite {
 	
 	public function hurtByEnemy(E:Enemy) {
 		if(!isFlickering() && Enemy.hurtsOnContactByType(E.etype)) {
-			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype});
+			GameData.myLogger.logLevelAction(LoggingActions.PLAYER_HURT, {enemyType: E.etype, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame});
 			if(!GameData.currentPlayState.hasShieldForNextHit) {
 				GameData.currentPlayState.flashHealth();
 			}
@@ -155,7 +158,7 @@ class Player extends FlxSprite {
 	public function increaseKills():Void {
 		kills++;
 		if (PowerUp.isActiveById("008")) {
-			speed += 3;
+			speed += 2;
 		}
 	}
 	

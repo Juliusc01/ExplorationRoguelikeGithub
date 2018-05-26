@@ -53,7 +53,7 @@ class Projectile extends FlxSprite {
 			myEnemy.hp -= Std.int(this.damage / 4);
 			if (myEnemy.hp <= 0) {
 				myEnemy.kill();
-				GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: myEnemy.etype});
+				GameData.myLogger.logLevelAction(LoggingActions.PLAYER_KILL_ENEMEY, {enemyType: myEnemy.etype, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame});
 			}
 		}
 		FlxVelocity.moveTowardsPoint(P, this.getMidpoint(), knockbackSpeed);

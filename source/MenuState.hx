@@ -89,7 +89,7 @@ class MenuState extends FlxState {
 		} else {
 			GameData.currentLevel = GameData.levels[GameData.currentLevel.levelNum+1];
 		}
-		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:false});
+		GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:false, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame});
 		FlxG.switchState(new PlayState());
 	}
 	

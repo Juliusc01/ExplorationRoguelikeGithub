@@ -25,7 +25,7 @@ class GameData
 	public static var inControlGroup:Bool = (new FlxRandom()).bool();
 	public static var isGoodAtGame:Bool = false;
 	public static var isBadAtGame:Bool = false;
-	public static var difficultyModifier:Float = 1.25;
+	public static var difficultyModifier:Float = 1.2;
 	public static var totalDamageTaken:Int = 0;
 	public static var totalTimeLeft:Float = 0;
 	
