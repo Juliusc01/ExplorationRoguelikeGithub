@@ -255,7 +255,7 @@ class PlayState extends FlxState {
 			if (GameData.currentCraft >= costs[0]) {
 				switch (which) {
 					case 0:
-						if (currentWood >= costs[1]) {
+						if (currentWood - GameData.currentLevel.woodReq >= costs[1]) {
 							// LEVEL UP WITH WOOD
 							currentWood -= costs[1];
 							if (currentWood < GameData.currentLevel.woodReq) {
@@ -265,9 +265,11 @@ class PlayState extends FlxState {
 							GameData.currentCraftLvls[0]++;
 							player.damage += Const.CRAFT_DMG_UP;
 							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+						} else {
+							_craftingMenu.flashAvailable(which + 1);
 						}
 					case 1:
-						if (currentFood >= costs[1]) {
+						if (currentFood - GameData.currentLevel.foodReq >= costs[1]) {
 							// LEVEL UP WITH FOOD
 							currentFood -= costs[1];
 							if (currentFood < GameData.currentLevel.foodReq) {
@@ -278,10 +280,11 @@ class PlayState extends FlxState {
 							player.maxHp += Const.CRAFT_HP_UP;
 							player.hp += Const.CRAFT_HP_UP;
 							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
-
+						} else {
+							_craftingMenu.flashAvailable(which + 1);
 						}
 					case 2:
-						if (currentStone >= costs[1]) {
+						if (currentStone - GameData.currentLevel.stoneReq >= costs[1]) {
 							// LEVEL UP WITH STONE
 							currentStone -= costs[1];
 							if (currentStone < GameData.currentLevel.stoneReq) {
@@ -291,8 +294,12 @@ class PlayState extends FlxState {
 							GameData.currentCraftLvls[2]++;
 							player.speed += Const.CRAFT_SPEED_UP;
 							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+						} else {
+							_craftingMenu.flashAvailable(which + 1);
 						}
 				}
+			} else {
+				_craftingMenu.flashAvailable(0);
 			}
 		}
 	}
