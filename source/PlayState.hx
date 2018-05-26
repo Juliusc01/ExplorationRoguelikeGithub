@@ -126,11 +126,11 @@ class PlayState extends FlxState {
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
-			GameData.inControlGroup = false;
 		}
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.Z) {
-			GameData.isBadAtGame = true;
+			player.speed += .1;
+			trace("speed: " + player.speed);
 		}
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
@@ -264,7 +264,7 @@ class PlayState extends FlxState {
 							GameData.currentCraft -= costs[0];
 							GameData.currentCraftLvls[0]++;
 							player.damage += Const.CRAFT_DMG_UP;
-							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame });
 						} else {
 							_craftingMenu.flashAvailable(which + 1);
 						}
@@ -279,7 +279,7 @@ class PlayState extends FlxState {
 							GameData.currentCraftLvls[1]++;
 							player.maxHp += Const.CRAFT_HP_UP;
 							player.hp += Const.CRAFT_HP_UP;
-							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame });
 						} else {
 							_craftingMenu.flashAvailable(which + 1);
 						}
@@ -293,7 +293,7 @@ class PlayState extends FlxState {
 							GameData.currentCraft -= costs[0];
 							GameData.currentCraftLvls[2]++;
 							player.speed += Const.CRAFT_SPEED_UP;
-							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1 });
+							GameData.myLogger.logLevelAction(LoggingActions.USE_CRAFTING, { skill: which, toLevel: currLvl + 1, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame });
 						} else {
 							_craftingMenu.flashAvailable(which + 1);
 						}
@@ -364,7 +364,7 @@ class PlayState extends FlxState {
 					GameData.activePowerUps.push(PU);
 					applyPowerUp(PU);
 					_gotPowerUp = true;
-					GameData.myLogger.logLevelAction(LoggingActions.POWERUP, { pu: currPowerUp.powerUpID });
+					GameData.myLogger.logLevelAction(LoggingActions.POWERUP, { pu: currPowerUp.powerUpID, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame });
 				}
 			}
 			PU.kill();
@@ -573,7 +573,8 @@ class PlayState extends FlxState {
 		stringOfMapKilled = stringOfMapKilled.substring(0, stringOfMapKilled.length - 2);
 		GameData.myLogger.logLevelEnd({won: !lost, hp: player.hp, time: this.timer, visited: _layout.getNumKnownRooms(),
 										rooms: _layout.numRooms, powerups:PowerUp.powerUpIDS(), enemiesHurtingPlayer:stringOfMap,
-										enemiesKilledByPlayer:stringOfMapKilled});
+										enemiesKilledByPlayer:stringOfMapKilled, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, 
+										isBad: GameData.isBadAtGame});
 		enemyIDsToDamageDoneTotal = new Map<String,Int>();
 		enemiesKilledTotal = new Map<String, Int>();
 	}
@@ -619,7 +620,8 @@ class PlayState extends FlxState {
 		GameData.myLogger.logLevelAction(LoggingActions.CHANGE_ROOM, 
 											{roomID: _currentRoom.roomID, hpLost: playerStartingHealth - player.hp, 
 											playerEndHealth: player.hp, timeElapsed:startTimer-timer , timeLeft:timer,
-											enemiesHurtingPlayer:stringOfMap, enemiesKilledByPlayer:stringOfMapKilled});
+											enemiesHurtingPlayer:stringOfMap, enemiesKilledByPlayer:stringOfMapKilled, 
+											inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame});
 		//Resets logging fields
 		playerStartingHealth = player.hp;
 		startTimer = timer;
@@ -657,7 +659,7 @@ class PlayState extends FlxState {
 				player.isAffectedByTerrain = false;
 			case "007":
 				trace("applying 007: SPEED BOOTS");
-				player.speed *= 1.25;
+				player.speed *= 1.15;
 			case "008":
 				trace("applying 008: SPEED STACKING");
 			case "009":

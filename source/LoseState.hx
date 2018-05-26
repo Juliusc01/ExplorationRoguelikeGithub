@@ -53,7 +53,7 @@ class LoseState extends FlxState {
 	
 	private function clickRestart():Void {
 		if (_canContinue)  {
-			GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:true});
+			GameData.myLogger.logLevelStart(GameData.currentLevel.levelNum, {restart:true, inControlGroup:GameData.inControlGroup, isGood: GameData.isGoodAtGame, isBad: GameData.isBadAtGame});
 			FlxG.switchState(new PlayState());
 		}
 	}
