@@ -75,9 +75,9 @@ class PlayState extends FlxState {
 		playerStartingHealth = player.hp;
 		timer = GameData.currentLevel.timeLimit;
 		startTimer = timer;
-		currentWood = 0;
-		currentFood = 0;
-		currentStone = 0;
+		currentWood = 30;
+		currentFood = 30;
+		currentStone = 30;
 		
 		_layout = new Layout(GameData.currentLevel.numRooms);		
 		_currentRoom = _layout.getCurrentRoom();
@@ -111,7 +111,7 @@ class PlayState extends FlxState {
 		FlxG.collide(player, _currentRoom.tilemap);
 		timer -= elapsed;
 		
-		/*
+		
 		//TODO: remove this after testing health loss
 		if (FlxG.keys.pressed.X) {
 			winLevel();
@@ -234,8 +234,8 @@ class PlayState extends FlxState {
 	
 	public function addCraftingLvl(which:Int):Void {
 		var currLvl = GameData.currentCraftLvls[which];
-		var costs = Const.CRAFT_COSTS[which][currLvl]; // idx 0 is craft, 1 is resource cost
-		if (currLvl < 4) {
+		var costs = Const.CRAFT_COSTS[currLvl]; // idx 0 is craft, 1 is resource cost
+		if (currLvl < Const.CRAFT_COSTS.length) {
 			if (GameData.currentCraft >= costs[0]) {
 				switch (which) {
 					case 0:

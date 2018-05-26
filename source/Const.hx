@@ -28,13 +28,12 @@ class Const
 	public static var FIRST_HP_LVL(default, never):Int = 1;
 	public static var LAST_INSTRUCTION_LVL(default, never):Int = 1;
 	
-	public static var CRAFT_COSTS(default, never):Array<Array<Array<Int>>> = 
-			[[[2, 1], [4, 1], [6, 2], [9, 2]],
-			[[2, 1], [4, 1], [6, 2], [9, 2]],
-			[[2, 1], [4, 1], [6, 2], [9, 2]]];
-			
-	public static var CRAFT_DMG_UP(default, never):Int = 5;
-	public static var CRAFT_HP_UP(default, never):Int = 50;
-	public static var CRAFT_SPEED_UP(default, never):Int = 12;
+	// Old(4 levels): public static var CRAFT_COSTS(default, never):Array<Array<Int>> = [[2, 1], [4, 1], [6, 2], [9, 2]];
+	// Equivalent costs if there were only 4 levels: 									[2, 2], [4,2], [7, 2], [11,4]
+	public static var CRAFT_COSTS(default, never):Array<Array<Int>> = [[1, 1], [1, 1], [2, 1], [2, 1], [3, 1], [4, 1], [5, 2], [6, 2]];
+	
+	public static var CRAFT_DMG_UP(default, never):Int = 3;
+	public static var CRAFT_HP_UP(default, never):Int = 25;
+	public static var CRAFT_SPEED_UP(default, never):Int = 6;
 
 }
