@@ -128,6 +128,10 @@ class MenuState extends FlxState {
 			case 10:
 				_txtMid.text = "Tip:\nCharging enemies take a break\nafter they finish charging. That's\nthe best time to hit them!";
 			case 11:
+				_txtMid.text = "Tip:\nKeep an eye on enemy attack\npatterns and timing to\nget the edge in combat!";
+			case 12:
+				_txtMid.text = "Tip:\nYou can change the direction\n your character is facing while\nyou are swinging your sword!";
+			case 13:
 				_txtMid.text = "You've almost done it!\nJust one day to go!";
 		}
 		

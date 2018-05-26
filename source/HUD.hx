@@ -162,7 +162,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_txtDay.setFormat(FONT, FONT_SIZE - 3, BORDER_COLOR, CENTER);
 		_txtDayNum = new FlxText(nextX + 1, 13, WIDGET_WIDTH - 2);
 		_txtDayNum.setFormat(FONT, FONT_SIZE, BORDER_COLOR, CENTER);
-		_txtDayNum.text = "" + (GameData.currentLevel.levelNum + 1) + " / 12";
+		_txtDayNum.text = "" + (GameData.currentLevel.levelNum + 1) + " / 14";
 		add(_borderDayNum);
 		add(_bgDayNum);
 		add(_txtDay);
