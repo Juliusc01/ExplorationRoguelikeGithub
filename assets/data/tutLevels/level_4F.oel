@@ -25,5 +25,6 @@
     <resource id="0" x="48" y="208" type="0" />
     <resource id="1" x="272" y="80" type="0" />
     <enemy id="2" x="288" y="144" Etype="2" isOptional="False" />
+    <resource id="3" x="96" y="80" type="0" />
   </entities>
 </level>
