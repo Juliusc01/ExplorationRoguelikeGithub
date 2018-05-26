@@ -63,12 +63,14 @@ class PlayState extends FlxState {
 	private var _cameraAlpha:Float;
 	
 	override public function create():Void {
-		if (GameData.isGoodAtGame && GameData.currentLevel.levelNum > 2) {
+		if (GameData.isGoodAtGame && GameData.currentLevel.levelNum > 2 && !GameData.inControlGroup) {
 			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
 			trace("Making game harder");
-		} else if (GameData.isBadAtGame && GameData.currentLevel.levelNum > 2) {
+		} else if (GameData.isBadAtGame && GameData.currentLevel.levelNum > 2 && !GameData.inControlGroup) {
 			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
 			trace("Making game easier");
+		} else {
+			trace("In control group");
 		}
 		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
