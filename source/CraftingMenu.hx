@@ -61,7 +61,7 @@ class CraftingMenu extends FlxSpriteGroup
 			add(section);
 		}
 		
-		var headerText = new FlxText(_sprHeaderBg.x + 2, MENU_Y - HEADER_HEIGHT, "Available:");
+		var headerText = new FlxText(_sprHeaderBg.x + 2, MENU_Y - HEADER_HEIGHT, "Extra:");
 		headerText.setFormat(HUD.FONT, FONT_SIZE_SMALL, LEFT);
 		add(headerText);
 		
@@ -125,6 +125,9 @@ class CraftingMenu extends FlxSpriteGroup
 	public function show():Void {
 		_selected = 0;
 		movePointer();
+		setItemDisplay(0);
+		setItemDisplay(1);
+		setItemDisplay(2);
 		visible = true;
 		active = true;
 	}

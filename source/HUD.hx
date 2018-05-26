@@ -148,7 +148,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		_sprBackgroundBottom.drawRect(1, BOTTOM_BAR_Y + 1, FlxG.width - 2, WIDGET_HEIGHT - 2, BG_COLOR);
 		add(_sprBackgroundBottom);
 		
-		_nextPowerUpX = 8;
+		_nextPowerUpX = 6;
 		_nextPowerUpY = BOTTOM_BAR_Y + 8;
 		for (i in 0...GameData.activePowerUps.length) {
 			addPowerUpToHUD(GameData.activePowerUps[i]);
@@ -340,7 +340,7 @@ class HUD extends FlxTypedGroup<FlxSprite>
 		spr.loadGraphic(pu.imagePath);
 		spr.scale.set(1.5, 1.5);
 		add(spr);
-		_nextPowerUpX += 32;
+		_nextPowerUpX += 27;
 	}
 	
 	public function getResourceSpriteLocation(type:Int):Position {
