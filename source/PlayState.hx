@@ -65,12 +65,12 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		if (GameData.isGoodAtGame && GameData.currentLevel.levelNum > 2 && !GameData.inControlGroup) {
 			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
-			trace("Making game harder");
+			//trace("Making game harder");
 		} else if (GameData.isBadAtGame && GameData.currentLevel.levelNum > 2 && !GameData.inControlGroup) {
 			GameData.currentLevel.difficulty *= GameData.difficultyModifier;
-			trace("Making game easier");
+			//trace("Making game easier");
 		} else if (GameData.inControlGroup) {
-			trace("In control group");
+			//trace("In control group");
 		}
 		FlxG.mouse.visible = false;
 		GameData.currentPlayState = this;
@@ -124,7 +124,7 @@ class PlayState extends FlxState {
 		
 		
 		//TODO: remove this after testing health loss
-		if (FlxG.keys.pressed.X) {
+		/*if (FlxG.keys.pressed.X) {
 			winLevel();
 		}
 		//TODO: remove this after testing health loss
@@ -134,7 +134,7 @@ class PlayState extends FlxState {
 		}
 		if (FlxG.keys.pressed.C) {
 			player.hp --;
-		}
+		}*/
 		
 		if (timer <= 0 || player.hp <= 0) {
 			loseLevel();
@@ -342,10 +342,6 @@ class PlayState extends FlxState {
 			} else if (GameData.totalDamageTaken >= 40 || GameData.totalTimeLeft <= 130) {
 				GameData.isBadAtGame = true;
 			}
-			trace("time extra: " + GameData.totalTimeLeft);
-			trace("damage taken: " + GameData.totalDamageTaken);
-			trace("isGood?: " + GameData.isGoodAtGame);
-			trace("isBad?: " + GameData.isBadAtGame);
 		}
 		GameData.currentMenuState = 1;
 		if (GameData.currentLevel == GameData.levels[GameData.levels.length - 1]) {
