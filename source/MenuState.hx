@@ -52,15 +52,15 @@ class MenuState extends FlxState {
 			new FlxTimer().start(0.5, displayContinueText, 1);
 		} else if (GameData.currentMenuState == 2) {
 			FlxG.mouse.visible = true;
-			_txtTop = new FlxText(0, 0, 0, "Congratulations, you won!\n\nPlay again?");
+			_txtTop = new FlxText(0, 0, 0, "Congratulations, you won!\n\nThanks for playing!");
 			_txtTop.setFormat(14, FlxColor.WHITE, CENTER);
 			_txtTop.screenCenter();
 			_txtTop.y = TOP_Y;
 			add(_txtTop);
-			_btnRestart = new FlxButton(0, 0, "Play Again", clickRestart);
-			_btnRestart.screenCenter();
-			_btnRestart.y = BOT_Y;
-			add(_btnRestart);
+			//_btnRestart = new FlxButton(0, 0, "Play Again", clickRestart);
+			//_btnRestart.screenCenter();
+			//_btnRestart.y = BOT_Y;
+			//add(_btnRestart);
 		}
 		
 		super.create();
